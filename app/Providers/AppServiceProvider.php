@@ -2,13 +2,14 @@
 
 namespace App\Providers;
 
+use App\Policies\RolePolicy;
 use Carbon\CarbonImmutable;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,20 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
 
-        Table::configureUsing(function (Table $table) {
-            $table
-                ->pushColumns([
-                    TextColumn::make('created_at')
-                        ->label('Created')
-                        ->sortable()
-                        ->toggleable(isToggledHiddenByDefault: true),
-
-                    TextColumn::make('updated_at')
-                        ->label('Updated')
-                        ->sortable()
-                        ->toggleable(isToggledHiddenByDefault: true),
-                ]);
-        });
+        Gate::policy(Role::class, RolePolicy::class);
     }
 
     protected function configureDefaults(): void
