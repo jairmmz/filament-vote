@@ -22,7 +22,7 @@ class CandidateResource extends Resource
 
     protected static ?int $navigationSort = 40;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUser;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::UserGroup;
 
     protected static string|\UnitEnum|null $navigationGroup = 'Sistema Electoral';
 

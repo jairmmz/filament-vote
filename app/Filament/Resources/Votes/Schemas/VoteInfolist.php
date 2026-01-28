@@ -29,12 +29,12 @@ class VoteInfolist
                             ->label('Tipo de voto')
                             ->badge()
                             ->color(fn($state) => match ($state) {
-                                'candidato' => 'success',
+                                'válido' => 'success',
                                 'blanco' => 'info',
                                 'nulo' => 'danger',
                             })
                             ->formatStateUsing(fn($state) => match ($state) {
-                                'candidato' => 'Válido',
+                                'válido' => 'Válido',
                                 'blanco' => 'Blanco',
                                 'nulo' => 'Nulo',
                             })
@@ -48,7 +48,7 @@ class VoteInfolist
                             ->label('Candidato')
                             ->placeholder('—')
                             ->columnSpanFull()
-                            ->visible(fn($record) => $record->vote_type === 'candidato'),
+                            ->visible(fn($record) => $record->vote_type === 'válido'),
                     ]),
 
                 Section::make('Información del votante')

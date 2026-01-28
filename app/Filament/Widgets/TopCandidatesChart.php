@@ -13,7 +13,7 @@ class TopCandidatesChart extends ChartWidget
 
     protected function getData(): array
     {
-        $topCandidates = Vote::where('vote_type', 'candidate')
+        $topCandidates = Vote::where('vote_type', 'válido')
             ->selectRaw('candidate_id, COUNT(*) as votes')
             ->groupBy('candidate_id')
             ->orderByDesc('votes')
