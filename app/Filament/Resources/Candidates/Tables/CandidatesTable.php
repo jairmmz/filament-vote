@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Candidates\Tables;
 
+use App\Filament\Exports\CandidateExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
@@ -63,6 +65,9 @@ class CandidatesTable
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(CandidateExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

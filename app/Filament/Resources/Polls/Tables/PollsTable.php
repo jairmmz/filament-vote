@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Polls\Tables;
 
+use App\Filament\Exports\PollExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
@@ -80,6 +82,9 @@ class PollsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(PollExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

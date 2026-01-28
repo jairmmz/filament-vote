@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\PoliticalParties\Tables;
 
+use App\Filament\Exports\PoliticalPartyExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -53,6 +55,9 @@ class PoliticalPartiesTable
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(PoliticalPartyExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
