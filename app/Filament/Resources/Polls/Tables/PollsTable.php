@@ -61,12 +61,14 @@ class PollsTable
                 TextColumn::make('starts_at')
                     ->label('Inicio')
                     ->date('d/m/Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make('ends_at')
                     ->label('Fin')
                     ->date('d/m/Y')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 TrashedFilter::make(),

@@ -80,8 +80,8 @@ class RolePolicy
         return $authUser->can('Reorder:Role');
     }
 
-    public function before(AuthUser $authUser, string $ability): bool|null
-    {
-        return null;
-    }
+    // public function before(AuthUser $authUser, string $ability): bool|null
+    // {
+    //     return null;
+    // }
 }

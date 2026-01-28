@@ -52,6 +52,18 @@ class CandidatesTable
                 IconColumn::make('is_active')
                     ->label('Estado')
                     ->boolean(),
+
+                TextColumn::make('created_at')
+                    ->label('Creado El')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('updated_at')
+                    ->label('Actualizado El')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('is_active')

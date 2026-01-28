@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\PoliticalParties\Tables;
+namespace App\Filament\Resources\Users\Tables;
 
-use App\Filament\Exports\PoliticalPartyExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class PoliticalPartiesTable
+class UsersTable
 {
     public static function configure(Table $table): Table
     {
@@ -22,25 +18,31 @@ class PoliticalPartiesTable
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 TextColumn::make('name')
                     ->label('Nombre')
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('slug')
-                    ->label('Slug'),
-
-                ImageColumn::make('logo')
-                    ->disk('logos')
-                    ->circular(),
-
-                TextColumn::make('is_active')
-                    ->label('Estado')
+                TextColumn::make('roles.name')
+                    ->label('Roles')
                     ->badge()
-                    ->formatStateUsing(fn(bool $state): string => $state ? 'Activo' : 'Inactivo')
-                    ->color(fn(bool $state): string => $state ? 'success' : 'danger'),
+                    ->separator(',')
+                    ->placeholder('Sin asignar')
+                    ->searchable(),
+
+                TextColumn::make('email')
+                    ->label('Correo Electrónico')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('email_verified_at')
+                    ->label('Correo Verificado')
+                    ->dateTime()
+                    ->sortable()
+                    ->placeholder('Sin verificar'),
 
                 TextColumn::make('created_at')
                     ->label('Creado El')
@@ -55,20 +57,12 @@ class PoliticalPartiesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('is_active')
-                    ->label('Activos')
-                    ->options([
-                        1 => 'Activo',
-                        0 => 'Inactivo',
-                    ])
+                //
             ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
-            ])
-            ->headerActions([
-                ExportAction::make()->exporter(PoliticalPartyExporter::class),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
