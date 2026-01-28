@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Categories\Schemas;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -39,9 +40,10 @@ class CategoryForm
                     ->maxLength('65535')
                     ->columnSpanFull(),
 
-                Checkbox::make('is_active')
+                Toggle::make('is_active')
                     ->label('¿Está activo?')
-                    ->default(true),
+                    ->default(true)
+                    ->belowContent('Si esta habilitado, la categoría podrá ser visible'),
             ]);
     }
 }

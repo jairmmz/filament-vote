@@ -7,6 +7,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
 class UserForm
@@ -54,6 +55,11 @@ class UserForm
                     ->searchable()
                     ->label('Roles')
                     ->required(),
+
+                Toggle::make('status')
+                    ->label('¿Está activo?')
+                    ->default(true)
+                    ->belowContent('Si esta activo, el usuario podrá acceder al panel administrador'),
             ]);
     }
 }

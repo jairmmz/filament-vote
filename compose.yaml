@@ -23,6 +23,8 @@ services:
             - sail
         depends_on:
             - mysql
+            - mailpit
+
     mysql:
         image: 'mysql:8.4'
         ports:
@@ -48,6 +50,28 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: sail_phpmyadmin
+        restart: unless-stopped
+        ports:
+            - "8080:80"
+        environment:
+            PMA_HOST: mysql
+        networks:
+            - sail
+        depends_on:
+            - mysql
+
+    mailpit:
+        image: axllent/mailpit
+        ports:
+            - "${FORWARD_MAILPIT_PORT:-1025}:1025"
+            - "${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025"
+        networks:
+            - sail
+
 networks:
     sail:
         driver: bridge

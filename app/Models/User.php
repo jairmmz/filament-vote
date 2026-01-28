@@ -29,6 +29,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'status',
         'password',
     ];
 
@@ -52,6 +53,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     protected function casts(): array
     {
         return [
+            'status' => 'boolean',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
@@ -86,6 +88,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     public function canAccessPanel(Panel $panel): bool
     {
+        if (!$this->status) {
+            return false;
+        }
+
         if ($this->hasRole(static::ROLE_SUPER_ADMIN)) {
             return true;
         }

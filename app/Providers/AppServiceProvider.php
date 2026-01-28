@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
 
-        // Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(Role::class, RolePolicy::class);
     }
 
     protected function configureDefaults(): void

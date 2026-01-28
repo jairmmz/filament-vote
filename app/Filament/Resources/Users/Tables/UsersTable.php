@@ -38,6 +38,12 @@ class UsersTable
                     ->sortable()
                     ->searchable(),
 
+                TextColumn::make('status')
+                    ->label('Estado')
+                    ->badge()
+                    ->formatStateUsing(fn (bool $state): string => $state ? 'Activo' : 'Inactivo')
+                    ->color(fn (bool $state): string => $state ? 'success' : 'danger'),
+
                 TextColumn::make('email_verified_at')
                     ->label('Correo Verificado')
                     ->dateTime()
