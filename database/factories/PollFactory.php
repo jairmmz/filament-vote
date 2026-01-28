@@ -29,9 +29,9 @@ class PollFactory extends Factory
             'description' => fake()->paragraphs(3, true),
             'image' => 'https://picsum.photos/seed/' . fake()->numberBetween(1, 1000) . '/200/200',
             'location' => fake()->randomElement(['Lima', 'Arequipa', 'Cusco', 'Piura', 'Nacional']),
-            'status' => fake()->randomElement(['borrador', 'activo', 'cerrado', 'archivado']),
-            'allow_blank_vote' => fake()->boolean(80),
-            'allow_null_vote' => fake()->boolean(80),
+            'status' => 'activo',
+            'allow_blank_vote' => true,
+            'allow_null_vote' => true,
             'starts_at' => fake()->dateTimeBetween('-1 month', 'now'),
             'ends_at' => fake()->dateTimeBetween('now', '+4 months'),
         ];

@@ -31,8 +31,13 @@ class Category extends Model
         return $this->hasMany(Poll::class);
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
     public function activePolls()
     {
-        return $this->hasMany(Poll::class)->where('status', 'active');
+        return $this->hasMany(Poll::class)->whereIn('status', ['activo', 'cerrado']);
     }
 }

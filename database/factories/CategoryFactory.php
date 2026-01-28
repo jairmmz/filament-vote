@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
             'description' => fake()->sentence(12),
-            'is_active' => fake()->boolean(),
+            'is_active' => true,
         ];
     }
 

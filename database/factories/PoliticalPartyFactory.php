@@ -28,7 +28,7 @@ class PoliticalPartyFactory extends Factory
             'color' => fake()->hexColor(),
             'description' => fake()->sentence(15),
             'website' => fake()->url(),
-            'is_active' => fake()->boolean(90),
+            'is_active' => true,
         ];
     }
 

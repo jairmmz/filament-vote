@@ -31,7 +31,7 @@ class CandidateFactory extends Factory
                 fake()->sentence(10),
             ],
             'number' => fake()->numberBetween(1, 20),
-            'is_active' => fake()->boolean(),
+            'is_active' => true,
         ];
     }
 }
