@@ -1,3 +1,92 @@
+<?php
+
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
+
+new class extends Component {
+    #[Validate('required|string|email')]
+    public string $email = '';
+
+    #[Validate('required|string')]
+    public string $password = '';
+
+    public bool $remember = false;
+
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function login(): void
+    {
+        dd('login');
+        $this->validate();
+
+        $this->ensureIsNotRateLimited();
+
+        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => __('auth.failed'),
+            ]);
+        }
+
+        RateLimiter::clear($this->throttleKey());
+
+        $user = Auth::user();
+
+        if (!$user->status) {
+            Auth::logout();
+            session()->invalidate();
+            session()->regenerateToken();
+
+            throw ValidationException::withMessages([
+                'email' => __('Your account is not active. Please contact support.'),
+            ]);
+        }
+
+        Session::regenerate();
+
+        $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+    }
+
+    /**
+     * Ensure the authentication request is not rate limited.
+     */
+    protected function ensureIsNotRateLimited(): void
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+            return;
+        }
+
+        event(new Lockout(request()));
+
+        $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'email' => __('auth.throttle', [
+                'seconds' => $seconds,
+                'minutes' => ceil($seconds / 60),
+            ]),
+        ]);
+    }
+
+    /**
+     * Get the authentication rate limiting throttle key.
+     */
+    protected function throttleKey(): string
+    {
+        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+    }
+}; ?>
+
 <x-layouts::auth>
     <div class="flex flex-col gap-6">
         <flux:heading class="text-center" size="xl">{{ __('Log in to your account') }}</flux:heading>
@@ -21,11 +110,10 @@
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
 
-        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
-            @csrf
-
+        <form wire:submit.prevent="login" class="flex flex-col gap-6">
             <!-- Email Address -->
             <flux:input
+                wire:model="email"
                 name="email"
                 size="sm"
                 :label="__('Email address')"
@@ -39,6 +127,7 @@
             <!-- Password -->
             <div class="relative">
                 <flux:input
+                    wire:model="password"
                     name="password"
                     size="sm"
                     :label="__('Password')"

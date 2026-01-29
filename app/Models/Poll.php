@@ -55,4 +55,9 @@ class Poll extends Model
     {
         return $this->hasMany(Vote::class);
     }
+
+    public function scopeActives($query)
+    {
+        return $query->whereIn('status', ['activo', 'cerrado']);
+    }
 }

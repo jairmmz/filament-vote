@@ -1,4 +1,4 @@
-<section class="py-12 bg-muted/30">
+<section class="mx-auto max-w-7xl py-12 bg-muted/30">
     <div class="container-peru">
         <div class="text-center mb-8 animate-fade-in">
             <h2 class="text-2xl lg:text-3xl font-bold text-foreground mb-2">

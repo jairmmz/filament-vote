@@ -8,11 +8,10 @@
         <flux:spacer />
 
         <flux:navbar class="-mb-px max-lg:hidden">
-            <flux:navbar.item href="{{ route('categories') }}" wire:navigate>Categorías</flux:navbar.item>
-            <flux:navbar.item href="{{ route('polls') }}" wire:navigate>Encuestas</flux:navbar.item>
-            <flux:navbar.item href="{{ route('parties') }}" wire:navigate>Partidos</flux:navbar.item>
-            <flux:navbar.item href="{{ route('candidates') }}" wire:navigate>Candidatos</flux:navbar.item>
-            <flux:navbar.item href="{{ route('contact') }}" wire:navigate>Contacto</flux:navbar.item>
+            <flux:navbar.item href="{{ route('categories') }}" :current="request()->routeIs('categories', 'categories.*')" wire:navigate>Categorías</flux:navbar.item>
+            <flux:navbar.item href="{{ route('polls') }}" :current="request()->routeIs('polls', 'polls.*')" wire:navigate>Encuestas</flux:navbar.item>
+            <flux:navbar.item href="{{ route('parties') }}" :current="request()->routeIs('parties', 'parties.*')" wire:navigate>Partidos Políticos</flux:navbar.item>
+            <flux:navbar.item href="{{ route('contact') }}" :current="request()->routeIs('contact')" wire:navigate>Contacto</flux:navbar.item>
         </flux:navbar>
 
         <flux:spacer />
@@ -84,23 +83,19 @@
 
         <flux:sidebar.nav variant="outline">
             <flux:sidebar.group>
-                <flux:sidebar.item href="{{ route('categories') }}" wire:navigate>
+                <flux:sidebar.item href="{{ route('categories') }}" :current="request()->routeIs('categories', 'categories.*')" wire:navigate>
                     Categorías
                 </flux:sidebar.item>
 
-                <flux:sidebar.item href="{{ route('polls') }}" wire:navigate>
+                <flux:sidebar.item href="{{ route('polls') }}" :current="request()->routeIs('polls', 'polls.*')" wire:navigate>
                     Encuestas
                 </flux:sidebar.item>
 
-                <flux:sidebar.item href="{{ route('parties') }}" wire:navigate>
-                    Partidos
+                <flux:sidebar.item href="{{ route('parties') }}" :current="request()->routeIs('parties', 'parties.*')" wire:navigate>
+                    Partidos Políticos
                 </flux:sidebar.item>
 
-                <flux:sidebar.item href="{{ route('candidates') }}" wire:navigate>
-                    Candidatos
-                </flux:sidebar.item>
-
-                <flux:sidebar.item href="{{ route('contact') }}" wire:navigate>
+                <flux:sidebar.item href="{{ route('contact') }}" :current="request()->routeIs('contact')" wire:navigate>
                     Contacto
                 </flux:sidebar.item>
             </flux:sidebar.group>

@@ -14,6 +14,7 @@ class Candidate extends Model
         'poll_id',
         'political_party_id',
         'name',
+        'slug',
         'photo',
         'biography',
         'proposals',

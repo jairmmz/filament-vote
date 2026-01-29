@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('poll_id')->constrained()->onDelete('cascade');
             $table->foreignId('political_party_id')->nullable()->constrained()->onDelete('set null');
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('photo')->nullable();
             $table->text('biography')->nullable();
             $table->json('proposals')->nullable();

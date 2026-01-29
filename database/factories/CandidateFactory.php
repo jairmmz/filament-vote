@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\PoliticalParty;
 use App\Models\Poll;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Candidate>
@@ -18,10 +19,13 @@ class CandidateFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->words(3, true);
+
         return [
             'poll_id' => Poll::inRandomOrder()->first()->id,
             'political_party_id' => PoliticalParty::inRandomOrder()->first()->id,
-            'name' => fake()->name(),
+            'name' => ucwords($name),
+            'slug' => Str::slug($name),
             'photo' => 'https://picsum.photos/seed/' . fake()->numberBetween(1, 1000) . '/200/200',
             'biography' => fake()->paragraphs(3, true),
             'proposals' => [

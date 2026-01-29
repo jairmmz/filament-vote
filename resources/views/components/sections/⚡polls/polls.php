@@ -13,7 +13,7 @@ new class extends Component
         $this->polls = Poll::where('status', 'activo')
             ->whereHas('candidates')
             ->withCount('votes')
-            ->with(['category', 'candidates.politicalParty'])
+            ->with(['category'])
             ->orderBy('votes_count', 'desc')
             ->latest()
             ->take(4)
