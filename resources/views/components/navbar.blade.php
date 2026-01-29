@@ -27,9 +27,7 @@
             @auth
                 <flux:dropdown position="top" align="end">
                     <flux:profile
-                        class="cursor-pointer"
-                        :name="auth()->user()->name"
-                        :initials="auth()->user()->initials()"
+                        :avatar="auth()->user()->avatar"
                     />
 
                     <flux:menu>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 Route::livewire('/', 'home')->name('home');
@@ -10,6 +11,9 @@ Route::livewire('/encuestas/{poll:slug}', 'polls.show')->name('polls.show');
 Route::livewire('/partidos-politicos', 'parties')->name('parties');
 Route::livewire('/candidatos', 'candidates')->name('candidates');
 Route::livewire('/contacto', 'contact')->name('contact');
+
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
