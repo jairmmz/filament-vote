@@ -12,7 +12,11 @@ class GoogleController extends Controller
 {
     public function redirect()
     {
-        session()->put('url.intended', url()->previous());
+        $previus = url()->previous();
+
+        if (!str_contains($previus, route('login'))) {
+            session()->put('url.intended', $previus);
+        }
 
         return Socialite::driver('google')->redirect();
     }
@@ -41,7 +45,7 @@ class GoogleController extends Controller
                     'avatar' => $googleUser->getAvatar(),
                     'email_verified_at' => now(),
                     'status' => true,
-                    'password' => '',
+                    'password' => null,
                 ]);
 
                 $user->assignRole('Usuario');
@@ -49,7 +53,13 @@ class GoogleController extends Controller
 
             Auth::login($user);
 
-            return redirect()->intended(route('home'));
+            $intended = session()->pull('url.intended');
+
+            if (!$intended || str_contains($intended, route('login'))) {
+                $intended = route('home');
+            }
+
+            return redirect($intended);
         } catch (\Exception $e) {
             return redirect()->route('login')
                 ->with('error', 'Error al iniciar sesión con Google. Por favor intenta nuevamente.');

@@ -4,6 +4,7 @@ use App\Models\Poll;
 use App\Models\Vote;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Livewire\Component;
 
 new class extends Component
@@ -104,5 +105,11 @@ new class extends Component
     public function getValidVotesProperty(): int
     {
         return $this->poll->votes()->where('vote_type', 'válido')->count();
+    }
+
+    public function render(): View
+    {
+        return $this->view()
+            ->title($this->poll->title . ' - ' . config('app.name'));
     }
 };

@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 use Livewire\Attributes\Rule;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Title('Contacto - Sistema Encuestas Electorales 2026')] class extends Component
+new class extends Component
 {
     #[Rule('required|string|max:100')]
     public string $name = '';
@@ -38,5 +38,11 @@ new #[Title('Contacto - Sistema Encuestas Electorales 2026')] class extends Comp
         $this->isSendMail = true;
 
         $this->reset(['name', 'email', 'subject', 'message']);
+    }
+
+    public function render(): View
+    {
+        return $this->view()
+            ->title('Contacto' . ' - ' . config('app.name'));
     }
 };

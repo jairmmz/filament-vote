@@ -19,18 +19,7 @@ new class extends Component
             ->whereHas('activePolls')
             ->withCount('activePolls')
             ->orderBy('id', 'asc')
+            ->take(12)
             ->get();
-
-        $this->stats = [
-            'total_polls' => $this->categories->sum('active_polls_count'),
-            'total_votes' => Vote::count(),
-            'total_candidates' => Candidate::where('is_active', true)->count(),
-            'active_users' => User::where('status', true)->count(),
-        ];
-    }
-
-    public function selectedCategory(int $category_id)
-    {
-        dd($category_id);
     }
 };

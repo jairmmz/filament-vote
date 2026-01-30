@@ -51,7 +51,7 @@
 
                         <flux:menu.separator />
 
-                        <form method="POST" action="{{ route('logout') }}" class="w-full">
+                        <form method="POST" action="{{ route('logout.frontend') }}" class="w-full">
                             @csrf
                             <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" data-test="logout-button" class="w-full">
                                 Cerrar Sesión

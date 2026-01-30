@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
@@ -25,5 +26,11 @@ new class extends Component
             ->orderBy('votes_count', 'desc')
             ->latest()
             ->paginate(5);
+    }
+
+    public function render(): View
+    {
+        return $this->view()
+            ->title($this->category->name . ' - ' . config('app.name'));
     }
 };
