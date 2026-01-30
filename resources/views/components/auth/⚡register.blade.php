@@ -11,51 +11,50 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
-new #[Layout('layouts::auth', ['title' => 'Iniciar Sesión'])] class extends Component {
-    #[Validate('required|string|email')]
+new #[Layout('layouts::auth', ['title' => 'Registro'])] class extends Component {
+    #[Validate('required|string|max:255')]
+    public string $name = '';
+
+    #[Validate('required|string|email|unique:users,email')]
     public string $email = '';
 
-    #[Validate('required|string')]
+    #[Validate('required|string|confirmed|min:8')]
     public string $password = '';
 
-    public bool $remember = false;
+    #[Validate('required|string|min:8')]
+    public string $password_confirmation = '';
 
     /**
      * Handle an incoming authentication request.
      */
 
-    public function login(): void
+    public function register(): void
     {
         $this->validate();
 
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
-
         RateLimiter::clear($this->throttleKey());
 
-        $user = Auth::user();
+        $user = User::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+            'status' => true,
+        ]);
 
-        if (!$user->status) {
-            Auth::logout();
-            session()->invalidate();
-            session()->regenerateToken();
+        $user->assignRole(User::ROLE_USER);
 
-            throw ValidationException::withMessages([
-                'email' => __('Your account is not active. Please contact support.'),
-            ]);
-        }
+        $user->sendEmailVerificationNotification();
+
+        Auth::login($user);
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('verify-email', absolute: false), navigate: true);
     }
 
     /**
@@ -90,7 +89,7 @@ new #[Layout('layouts::auth', ['title' => 'Iniciar Sesión'])] class extends Com
 ?>
 
 <div class="flex flex-col gap-6">
-    <flux:heading class="text-center" size="xl">{{ __('Log in to your account') }}</flux:heading>
+    <flux:heading class="text-center" size="xl">Crear cuenta</flux:heading>
 
     <div class="space-y-4">
         <flux:button class="w-full" href="{{ route('auth.google.redirect') }}">
@@ -119,32 +118,66 @@ new #[Layout('layouts::auth', ['title' => 'Iniciar Sesión'])] class extends Com
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
-    <form wire:submit="login" class="flex flex-col gap-6">
+    <form wire:submit="register" class="flex flex-col gap-6">
         <!-- Email Address -->
-        <flux:input wire:model="email" name="email" size="sm" :label="__('Email address')" type="email"
-            required autofocus autocomplete="email" placeholder="email@example.com" />
+        <flux:input
+            wire:model="name"
+            name="name"
+            size="sm"
+            :label="__('Nombres y Apellidos')"
+            required
+            autofocus
+            autocomplete="name"
+            placeholder="Nombres y Apellidos"
+        />
+
+        <!-- Email Address -->
+        <flux:input
+            wire:model="email"
+            name="email"
+            size="sm"
+            :label="__('Email address')"
+            type="email"
+            required
+            autofocus
+            autocomplete="email"
+            placeholder="email@example.com"
+        />
 
         <!-- Password -->
-        <div class="relative">
-            <flux:input wire:model="password" name="password" size="sm" :label="__('Password')" type="password"
-                required autocomplete="current-password" :placeholder="__('Password')" viewable />
+        <flux:input
+            type="password"
+            wire:model="password"
+            name="password"
+            size="sm"
+            :label="__('Password')"
+            required
+            autocomplete="current-password"
+            :placeholder="__('Password')"
+            viewable
+        />
 
-            <flux:link class="absolute top-0 text-sm end-0" :href="route('forgot-password')" wire:navigate>
-                {{ __('Forgot your password?') }}
-            </flux:link>
-        </div>
-
-        <!-- Remember Me -->
-        <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
+        <!-- Password  confirmation -->
+        <flux:input
+            type="password"
+            wire:model="password_confirmation"
+            name="password_confirmation"
+            size="sm"
+            :label="__('Password confirmation')"
+            required
+            autocomplete="current-password"
+            :placeholder="__('Password confirmation')"
+            viewable
+        />
 
         <div class="flex items-center justify-end">
-            <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
-                {{ __('Log in') }}
+            <flux:button variant="primary" type="submit" class="w-full" data-test="register-button">
+                {{ __('Register') }}
             </flux:button>
         </div>
 
         <flux:subheading class="text-center">
-            ¿No tienes una cuenta? <flux:link href="{{ route('register') }}" wire:navigate>Registrarse</flux:link>
+            Ya tienes una cuenta? <flux:link href="{{ route('login') }}" wire:navigate>Iniciar sesión</flux:link>
         </flux:subheading>
     </form>
 </div>

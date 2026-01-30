@@ -13,6 +13,8 @@ new class extends Component
 
     public ?Category $category;
 
+    public string $search = '';
+
     public function mount(Category $category)
     {
         $this->category = $category;
@@ -22,6 +24,9 @@ new class extends Component
     public function polls()
     {
         return $this->category->activePolls()
+            ->when($this->search, function ($query) {
+                $query->where('title', 'like', "%{$this->search}%");
+            })
             ->withCount(['votes', 'candidates'])
             ->orderBy('votes_count', 'desc')
             ->latest()

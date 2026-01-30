@@ -11,6 +11,10 @@
             </p>
         </div>
 
+        <div class="mb-8">
+            <flux:input icon="magnifying-glass" wire:model.live.300ms="search" placeholder="Ingrese el título de la encuesta a buscar" clearable />
+        </div>
+
         {{-- Grid encuestas --}}
         <div class="grid gap-6 grid-cols-1">
             @forelse ($this->polls as $poll)

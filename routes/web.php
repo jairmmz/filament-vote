@@ -16,6 +16,7 @@ Route::livewire('/contacto', 'contact')->name('contact');
 
 Route::middleware('guest')->group(function () {
     Route::livewire('/login', 'auth.login')->name('login');
+    Route::livewire('/register', 'auth.register')->name('register');
     Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google.redirect');
     Route::livewire('/forgot-password', 'auth.forgot-password')->name('forgot-password');
     Route::livewire('/reset-password', 'auth.reset-password')->name('reset-password');

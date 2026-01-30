@@ -28,7 +28,7 @@ new #[Layout('layouts::auth', ['title' => 'Verificar correo electrónico'])] cla
             </flux:button>
         </form>
 
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('logout.frontend') }}">
             @csrf
             <flux:button variant="ghost" type="submit" class="text-sm cursor-pointer" data-test="logout-button">
                 {{ __('Log out') }}
