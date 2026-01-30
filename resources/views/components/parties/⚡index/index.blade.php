@@ -10,52 +10,62 @@
             </p>
         </div>
 
+        <div class="mb-8">
+            <flux:input icon="magnifying-glass" wire:model.live.300ms="search" placeholder="Ingrese el nombre del partido político a buscar" clearable />
+        </div>
+
         <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
-            @foreach ($this->politicalParties as $party)
-                <a wire:key="{{ $party->id }}" href="{{ route('parties.show', $party) }}"
-                   class="group relative bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-300 backdrop-blur"
-                   wire:navigate>
+            @if ($this->politicalParties->isEmpty())
+                <p class="text-center text-gray-600 dark:text-gray-300 col-span-full">
+                    No se encontraron partidos políticos.
+                </p>
+            @else
+                @foreach ($this->politicalParties as $party)
+                    <a wire:key="{{ $party->id }}" href="{{ route('parties.show', $party) }}"
+                        class="group relative bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-300 backdrop-blur"
+                        wire:navigate>
 
-                    <div class="flex items-start gap-5">
+                        <div class="flex items-start gap-5">
 
-                        {{-- Logo --}}
-                        <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
-                            @if($party->logo)
-                                <img src="{{ asset('storage/'.$party->logo) }}" alt="{{ $party->name }}" class="w-full h-full object-cover">
-                            @else
-                                <div class="text-xl font-bold text-gray-400">
-                                    {{ Str::substr($party->acronym ?? $party->name, 0, 2) }}
-                                </div>
-                            @endif
-                        </div>
+                            {{-- Logo --}}
+                            <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+                                @if($party->logo)
+                                    <img src="{{ asset('storage/'.$party->logo) }}" alt="{{ $party->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="text-xl font-bold text-gray-400">
+                                        {{ Str::substr($party->acronym ?? $party->name, 0, 2) }}
+                                    </div>
+                                @endif
+                            </div>
 
-                        <div class="flex-1">
-                            <h2 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition">
-                                {{ $party->name }}
-                            </h2>
+                            <div class="flex-1">
+                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition">
+                                    {{ $party->name }}
+                                </h2>
 
-                            @if($party->acronym)
-                                <p class="text-sm font-medium mt-1" style="color: {{ $party->color ?? '#6B7280' }}">
-                                    {{ $party->acronym }}
+                                @if($party->acronym)
+                                    <p class="text-sm font-medium mt-1" style="color: {{ $party->color ?? '#6B7280' }}">
+                                        {{ $party->acronym }}
+                                    </p>
+                                @endif
+
+                                <p class="mt-3 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
+                                    {{ Str::limit($party->description, 140) }}
                                 </p>
-                            @endif
 
-                            <p class="mt-3 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
-                                {{ Str::limit($party->description, 140) }}
-                            </p>
-
-                            <div class="mt-5 flex items-center text-sm font-medium text-primary">
-                                Ver más detalles
-                                <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-                                </svg>
+                                <div class="mt-5 flex items-center text-sm font-medium text-primary">
+                                    Ver más detalles
+                                    <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="absolute inset-0 rounded-2xl ring-1 ring-transparent group-hover:ring-primary/30 transition"></div>
-                </a>
-            @endforeach
+                        <div class="absolute inset-0 rounded-2xl ring-1 ring-transparent group-hover:ring-primary/30 transition"></div>
+                    </a>
+                @endforeach
+            @endif
         </div>
 
         {{-- Paginación --}}

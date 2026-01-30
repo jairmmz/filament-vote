@@ -1,5 +1,5 @@
-<footer class="w-full border-t bg-background transition-colors duration-100">
-    <div class="mx-auto w-full max-w-7xl px-6 py-12 lg:px-8">
+<footer class="w-full border-t border-gray-200 dark:border-gray-700 transition-colors duration-100">
+    <div class="mx-auto w-full max-w-7xl px-6 pt-12 lg:px-8">
 
         <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
 
@@ -61,10 +61,10 @@
         </div>
 
         {{-- Divider --}}
-        <div class="border-t my-12"></div>
+        <div class="border-t border-gray-200 dark:border-gray-700 my-5"></div>
 
         {{-- Bottom --}}
-        <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div class="mb-5 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
 
             <p class="text-sm text-muted-foreground text-center sm:text-left">
                 © {{ \Carbon\Carbon::now()->format('Y') }} {{ config('app.name') }}. Todos los derechos reservados.

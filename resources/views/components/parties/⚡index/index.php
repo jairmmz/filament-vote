@@ -11,10 +11,15 @@ new #[Title('Partidos Políticos - Sistema Encuestas Electorales 2026')] class e
 {
     use WithPagination, WithoutUrlPagination;
 
+    public string $search = '';
+
     #[Computed]
     public function politicalParties()
     {
         return PoliticalParty::active()
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', "%{$this->search}%");
+            })
             ->orderBy('name')
             ->paginate(6);
     }

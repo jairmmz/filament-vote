@@ -2,6 +2,7 @@
 
 use App\Models\Poll;
 use App\Models\Vote;
+use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -9,8 +10,9 @@ new class extends Component
 {
     public ?Poll $poll;
     public ?int $selectedCandidate = null;
-    public ?string $specialVote = null;
+    public ?string $vote_type = null;
     public bool $hasVoted = false;
+    public bool $isUserNotAuth = false;
 
     public function mount(Poll $poll): void
     {
@@ -28,27 +30,25 @@ new class extends Component
         }
     }
 
-    public function updatedSelectedCandidate($value)
+    public function selectedVote(string|int $candidate): void
     {
-        if ($value) {
-            $this->specialVote = null;
-        }
-    }
-
-    public function updatedSpecialVote($value)
-    {
-        if ($value) {
+        if ($candidate === 'blanco' || $candidate === 'nulo') {
             $this->selectedCandidate = null;
+            $this->vote_type = $candidate;
+        } else {
+            $this->selectedCandidate = $candidate;
+            $this->vote_type = 'válido';
         }
+
+        if (!Auth::check()) {
+            $this->isUserNotAuth = true;
+        }
+
+        Flux::modal('modal-vote')->show();
     }
 
     public function vote()
     {
-        if (!Auth::check()) {
-            $this->addError('auth', 'Debes iniciar sesión para votar.');
-            return;
-        }
-
         if ($this->hasVoted) {
             $this->addError('vote', 'Ya has votado en esta encuesta.');
             return;
@@ -56,34 +56,30 @@ new class extends Component
 
         $this->validate([
             'selectedCandidate' => 'nullable|exists:candidates,id',
-            'specialVote' => 'nullable|in:blanco,nulo',
+            'vote_type' => 'nullable|in:blanco,nulo',
         ]);
 
-        if (!$this->selectedCandidate && !$this->specialVote) {
+        if (!$this->selectedCandidate && !$this->vote_type) {
             $this->addError('vote', 'Debes seleccionar una opción para votar.');
             return;
-        }
-
-        $voteType = 'válido';
-        $candidateId = $this->selectedCandidate;
-
-        if ($this->specialVote) {
-            $voteType = $this->specialVote;
-            $candidateId = null;
         }
 
         Vote::create([
             'poll_id' => $this->poll->id,
             'user_id' => Auth::id(),
-            'candidate_id' => $candidateId,
-            'vote_type' => $voteType,
+            'candidate_id' => $this->selectedCandidate,
+            'vote_type' => $this->vote_type,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
 
         $this->hasVoted = true;
         $this->selectedCandidate = null;
-        $this->specialVote = null;
+        $this->vote_type = null;
+        $this->isUserNotAuth = false;
+
+        Flux::modal('modal-vote')->close();
+        $this->reset(['selectedCandidate', 'vote_type']);
 
         $this->poll->refresh();
 

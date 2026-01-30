@@ -88,6 +88,7 @@
                             <flux:button
                                 class="w-full"
                                 href="{{ route('parties.candidate', [$politicalParty, $candidate]) }}"
+                                wire:navigate
                             >
                                 Ver perfil
                             </flux:button>

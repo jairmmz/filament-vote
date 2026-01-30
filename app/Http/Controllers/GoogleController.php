@@ -12,6 +12,8 @@ class GoogleController extends Controller
 {
     public function redirect()
     {
+        session()->put('url.intended', url()->previous());
+
         return Socialite::driver('google')->redirect();
     }
 
@@ -47,7 +49,7 @@ class GoogleController extends Controller
 
             Auth::login($user);
 
-            return redirect()->route('home');
+            return redirect()->intended(route('home'));
         } catch (\Exception $e) {
             return redirect()->route('login')
                 ->with('error', 'Error al iniciar sesión con Google. Por favor intenta nuevamente.');

@@ -68,7 +68,7 @@
     {{-- Mobile sidebar --}}
     <flux:sidebar collapsible="mobile" sticky class="lg:hidden border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
-            <flux:sidebar.brand href="#" name="Podium">
+            <flux:sidebar.brand href="{{ route('home') }}" name="{{ config('app.name') }}" wire:navigate>
                 <div class="flex aspect-square items-center justify-center rounded-md bg-accent text-accent-foreground p-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic-vocal">
                         <path d="m11 7.601-5.994 8.19a1 1 0 0 0 .1 1.298l.817.818a1 1 0 0 0 1.314.087L15.09 12"/>

@@ -16,8 +16,4 @@ Route::livewire('/contacto', 'contact')->name('contact');
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
-
 require __DIR__.'/settings.php';
