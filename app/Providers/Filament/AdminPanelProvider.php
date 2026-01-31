@@ -45,6 +45,8 @@ class AdminPanelProvider extends PanelProvider
                 // AccountWidget::class,
                 // FilamentInfoWidget::class,
             ])
+            ->sidebarWidth('16rem')
+            ->maxContentWidth('8xl')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

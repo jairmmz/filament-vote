@@ -8,7 +8,7 @@
                 {{-- Foto --}}
                 <div class="w-40 h-40 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/10 shrink-0 flex items-center justify-center">
                     @if($candidate->photo)
-                        <img src="{{ asset('storage/'.$candidate->photo) }}" alt="{{ $candidate->name }}" class="w-full h-full object-cover">
+                        <img src="{{ Storage::disk('candidates_photos')->url($candidate->photo) }}" alt="{{ $candidate->name }}" class="w-full h-full object-cover">
                     @else
                         <span class="text-gray-400 text-sm">Sin foto</span>
                     @endif
@@ -69,31 +69,10 @@
                 <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
                     Biografía
                 </h2>
-                <p class="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                    {{ $candidate->biography }}
+                <p class="prose dark:prose-invert max-w-none">
+                    {!! $candidate->biography !!}
                 </p>
             </div>
         @endif
-
-        {{-- Propuestas --}}
-        @if(!empty($candidate->proposals))
-            <div class="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm">
-                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                    Propuestas
-                </h2>
-
-                <ul class="space-y-4">
-                    @foreach($candidate->proposals as $proposal)
-                        <li class="flex gap-3">
-                            <div class="mt-1 w-2.5 h-2.5 rounded-full bg-primary shrink-0"></div>
-                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                                {{ $proposal }}
-                            </p>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
     </div>
 </div>

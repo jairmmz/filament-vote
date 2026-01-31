@@ -29,6 +29,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
-// Route::livewire('/two-factor-challenge', 'auth.two-factor-challenge')->name('two-factor-challenge');
 
 require __DIR__.'/settings.php';

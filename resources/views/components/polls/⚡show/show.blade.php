@@ -8,9 +8,9 @@
                         <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-3">
                             {{ $poll->title }}
                         </h1>
-                        <p class="text-gray-800 dark:text-gray-100">
-                            {{ $poll->description }}
-                        </p>
+                        <div class="text-sm prose dark:prose-invert max-w-none">
+                            {!! $poll->description !!}
+                        </div>
                     </div>
                 </div>
 
@@ -154,7 +154,7 @@
                                     <td class="px-4 py-3 text-center">
                                         <div class="flex justify-center">
                                             <img
-                                                src="{{ $candidate->photo }}"
+                                                src="{{ Storage::disk('candidates_photos')->url($candidate->photo) }}"
                                                 alt="{{ $candidate->name }}"
                                                 class="w-12 h-12 object-cover ring-gray-200 dark:ring-gray-600"
                                             >

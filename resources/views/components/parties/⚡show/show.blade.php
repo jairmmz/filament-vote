@@ -42,8 +42,8 @@
             </div>
 
             @if($politicalParty->description)
-                <div class="mt-6 text-gray-600 dark:text-gray-300 leading-relaxed">
-                    {{ $politicalParty->description }}
+                <div class="mt-6 prose dark:prose-invert max-w-none">
+                    {!! $politicalParty->description !!}
                 </div>
             @endif
 
@@ -62,7 +62,7 @@
                         {{-- Foto --}}
                         <div class="w-full h-44 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/10 mb-4 flex items-center justify-center">
                             @if($candidate->photo)
-                                <img src="{{ asset('storage/'.$candidate->photo) }}" alt="{{ $candidate->name }}" class="w-full h-full object-cover">
+                                <img src="{{ Storage::disk('candidates_photos')->url($candidate->photo) }}" alt="{{ $candidate->name }}" class="w-full h-full object-cover">
                             @else
                                 <span class="text-gray-400 text-sm">Sin foto</span>
                             @endif
@@ -75,12 +75,6 @@
                         @if($candidate->number)
                             <p class="text-sm text-gray-500 dark:text-gray-400">
                                 Nº {{ $candidate->number }}
-                            </p>
-                        @endif
-
-                        @if($candidate->biography)
-                            <p class="mt-3 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
-                                {{ Str::limit($candidate->biography, 120) }}
                             </p>
                         @endif
 

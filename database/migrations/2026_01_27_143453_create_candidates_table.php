@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('photo')->nullable();
             $table->text('biography')->nullable();
-            $table->json('proposals')->nullable();
             $table->integer('number')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();

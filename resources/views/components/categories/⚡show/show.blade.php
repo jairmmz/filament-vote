@@ -29,7 +29,7 @@
                         {{-- Imagen --}}
                         @if ($poll->image)
                             <div class="md:w-64 h-48 md:h-auto shrink-0 overflow-hidden">
-                                <img src="{{ Storage::url($poll->image) }}" alt="{{ $poll->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <img src="{{ Storage::disk('polls')->url($poll->image) }}" alt="{{ $poll->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                             </div>
                         @endif
 
@@ -45,10 +45,6 @@
                                     {{ ucfirst($poll->status) }}
                                 </span>
                             </div>
-
-                            <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
-                                {{ $poll->description }}
-                            </p>
 
                             {{-- Meta info --}}
                             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-gray-500 dark:text-gray-400 mb-6">

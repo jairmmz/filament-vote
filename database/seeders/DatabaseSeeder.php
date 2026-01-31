@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RolesPermissionSeeder::class,
+            CategorySeeder::class,
+            PoliticalPartySeeder::class,
         ]);
 
-        Category::factory(30)->create();
-        PoliticalParty::factory(30)->create();
-        Poll::factory(30)->create();
-        Candidate::factory(15)->create();
-        Vote::factory(3)->create();
+        // Poll::factory(30)->create();
+        // Candidate::factory(15)->create();
+        // Vote::factory(3)->create();
     }
 }

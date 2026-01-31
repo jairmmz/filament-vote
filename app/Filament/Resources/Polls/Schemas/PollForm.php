@@ -44,7 +44,6 @@ class PollForm
                             ->string()
                             ->minLength(2)
                             ->maxLength(255)
-                            ->autofocus()
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(callable $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
                             ->columnSpan(6),
@@ -71,7 +70,13 @@ class PollForm
 
                         RichEditor::make('description')
                             ->label('Descripción')
-                            ->fileAttachmentsDisk('polls')
+                            ->toolbarButtons(([
+                                ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
+                                ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
+                                ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                                ['table'],
+                                ['undo', 'redo'],
+                            ]))
                             ->columnSpanFull()
                             ->belowContent('Proporcione una descripción detallada de la encuesta.'),
                     ]),
@@ -115,11 +120,13 @@ class PollForm
 
                         Toggle::make('allow_blank_vote')
                             ->label('Permitir voto en blanco')
+                            ->default(true)
                             ->columnSpan(6)
                             ->belowContent('Si está habilitado, los votantes podrán enviar un voto en blanco sin seleccionar ninguna opción.'),
 
                         Toggle::make('allow_null_vote')
                             ->label('Permitir voto nulo')
+                            ->default(true)
                             ->columnSpan(6)
                             ->belowContent('Si está habilitado, los votantes podrán enviar un voto nulo que no contará para ninguna opción.'),
                     ]),

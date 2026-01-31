@@ -17,7 +17,6 @@ class Candidate extends Model
         'slug',
         'photo',
         'biography',
-        'proposals',
         'number',
         'is_active',
     ];
@@ -25,7 +24,6 @@ class Candidate extends Model
     protected function casts(): array
     {
         return [
-            'proposals' => 'array',
             'is_active' => 'boolean',
         ];
     }

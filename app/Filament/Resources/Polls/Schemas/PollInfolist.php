@@ -25,11 +25,10 @@ class PollInfolist
                 TextEntry::make('description')
                     ->label('Descripción')
                     ->html()
-                    ->prose()
-                    ->placeholder('-')
                     ->columnSpanFull(),
 
                 ImageEntry::make('image')
+                    ->disk('polls')
                     ->label('Imágen')
                     ->placeholder('-'),
 
@@ -72,7 +71,7 @@ class PollInfolist
                 TextEntry::make('deleted_at')
                     ->label('Eliminado el')
                     ->dateTime('d/m/Y H:i')
-                    ->visible(fn (Poll $record): bool => $record->trashed()),
+                    ->visible(fn(Poll $record): bool => $record->trashed()),
             ]);
     }
 }

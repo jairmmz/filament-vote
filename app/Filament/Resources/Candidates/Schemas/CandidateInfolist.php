@@ -33,6 +33,7 @@ class CandidateInfolist
 
                 TextEntry::make('biography')
                     ->label('Biografía')
+                    ->html()
                     ->placeholder('-')
                     ->columnSpanFull(),
 
@@ -41,10 +42,6 @@ class CandidateInfolist
                     ->numeric()
                     ->placeholder('-'),
 
-                TextEntry::make('proposals')
-                    ->label('Propuestas')
-                    ->bulleted()
-                    ->columnSpanFull(),
 
                 IconEntry::make('is_active')
                     ->label('Estado')

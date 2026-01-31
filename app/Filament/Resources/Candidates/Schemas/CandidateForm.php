@@ -13,6 +13,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class CandidateForm
 {
@@ -42,7 +43,26 @@ class CandidateForm
                         TextInput::make('name')
                             ->label('Nombres y Apellidos')
                             ->required()
-                            ->columnSpan(8),
+                            ->string()
+                            ->minLength(2)
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn(callable $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
+                            ->columnSpan(6),
+
+                        TextInput::make('slug')
+                            ->label('Slug')
+                            ->required()
+                            ->minLength(2)
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->dehydrated()
+                            ->regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')
+                            ->validationMessages([
+                                'regex' => 'El formato del slug debe ser minúsculas, números y guiones (ej: mi-categoria-1).',
+                            ])
+                            ->disabled(fn($record) => $record !== null)
+                            ->columnSpan(6),
 
                         TextInput::make('number')
                             ->label('Número de candidato')
@@ -72,22 +92,6 @@ class CandidateForm
                             ])
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
                             ->maxSize(2048)
-                            ->columnSpanFull(),
-                    ]),
-
-                Section::make('Propuestas')
-                    ->columnSpanFull()
-                    ->schema([
-                        Repeater::make('proposals')
-                            ->label('Listado de propuestas')
-                            ->schema([
-                                Textarea::make('proposal')
-                                    ->label('Propuesta')
-                                    ->required()
-                                    ->rows(2)
-                                    ->columnSpanFull(),
-                            ])
-                            ->addActionLabel('Añadir propuesta')
                             ->columnSpanFull(),
                     ]),
 

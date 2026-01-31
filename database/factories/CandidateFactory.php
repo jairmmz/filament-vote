@@ -28,12 +28,6 @@ class CandidateFactory extends Factory
             'slug' => Str::slug($name),
             'photo' => 'https://picsum.photos/seed/' . fake()->numberBetween(1, 1000) . '/200/200',
             'biography' => fake()->paragraphs(3, true),
-            'proposals' => [
-                fake()->sentence(10),
-                fake()->sentence(10),
-                fake()->sentence(10),
-                fake()->sentence(10),
-            ],
             'number' => fake()->numberBetween(1, 20),
             'is_active' => true,
         ];
