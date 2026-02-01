@@ -11,6 +11,8 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class ElectoralStatsOverview extends BaseWidget
 {
+    protected ?string $heading = 'Estadísticas Electorales';
+
     protected static ?int $sort = 1;
 
     protected function getStats(): array

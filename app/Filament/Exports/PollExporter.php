@@ -27,8 +27,10 @@ class PollExporter extends Exporter
                 ->label('Estado'),
             ExportColumn::make('allow_blank_vote')
                 ->label('Permitir voto en blanco'),
-            ExportColumn::make('allow_null_vote')
-                ->label('Permitir votos nulo'),
+            ExportColumn::make('allow_know_vote')
+                ->label('Permitir votos "No sabe / No opina"'),
+            ExportColumn::make('allow_none_vote')
+                ->label('Permitir voto "Ninguno de los anteriores"'),
             ExportColumn::make('starts_at')
                 ->label('Empieza en'),
             ExportColumn::make('ends_at')

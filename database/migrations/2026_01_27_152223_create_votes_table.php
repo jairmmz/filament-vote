@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('poll_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('candidate_id')->nullable()->constrained()->onDelete('cascade');
-            $table->enum('vote_type', ['válido', 'blanco', 'nulo'])->default('válido');
+            $table->enum('vote_type', ['válido', 'blanco', 'no sabe', 'ninguno'])->default('válido');
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
             $table->timestamps();

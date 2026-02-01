@@ -50,14 +50,6 @@ class PollsTable
                         'danger' => 'archivado',
                     ]),
 
-                IconColumn::make('allow_blank_vote')
-                    ->label('Voto blanco')
-                    ->boolean(),
-
-                IconColumn::make('allow_null_vote')
-                    ->label('Voto nulo')
-                    ->boolean(),
-
                 TextColumn::make('starts_at')
                     ->label('Inicio')
                     ->date('d/m/Y')

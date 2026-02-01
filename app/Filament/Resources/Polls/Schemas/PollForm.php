@@ -124,28 +124,33 @@ class PollForm
                             ->columnSpan(6)
                             ->belowContent('Si está habilitado, los votantes podrán enviar un voto en blanco sin seleccionar ninguna opción.'),
 
-                        Toggle::make('allow_null_vote')
-                            ->label('Permitir voto nulo')
+                        Toggle::make('allow_know_vote')
+                            ->label('Permitir voto (No sabe / No opina)')
                             ->default(true)
                             ->columnSpan(6)
-                            ->belowContent('Si está habilitado, los votantes podrán enviar un voto nulo que no contará para ninguna opción.'),
+                            ->belowContent('Si está habilitado, los votantes podrán enviar un voto indicando que no saben o no opinan.'),
+
+                        Toggle::make('allow_none_vote')
+                            ->label('Permitir voto (Ninguno / No votaría)')
+                            ->default(true)
+                            ->columnSpan(6)
+                            ->belowContent('Si está habilitado, los votantes podrán enviar un voto indicando que ninguno de las opciones les representa o que no votarían.'),
                     ]),
 
                 Section::make('Programación')
-                    ->columns(12)
                     ->columnSpan(6)
                     ->schema([
                         DateTimePicker::make('starts_at')
                             ->label('Fecha de inicio')
                             ->required()
                             ->seconds(false)
-                            ->columnSpan(6),
+                            ->columnSpanFull(),
 
                         DateTimePicker::make('ends_at')
                             ->label('Fecha de finalización')
                             ->required()
                             ->seconds(false)
-                            ->columnSpan(6),
+                            ->columnSpanFull(),
                     ])->belowContent('Establezca las fechas de inicio y finalización de la encuesta.'),
             ]);
     }

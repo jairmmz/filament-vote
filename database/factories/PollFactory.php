@@ -31,7 +31,8 @@ class PollFactory extends Factory
             'location' => fake()->randomElement(['Lima', 'Arequipa', 'Cusco', 'Piura', 'Nacional']),
             'status' => 'activo',
             'allow_blank_vote' => true,
-            'allow_null_vote' => true,
+            'allow_know_vote' => true,
+            'allow_none_vote' => true,
             'starts_at' => fake()->dateTimeBetween('-1 month', 'now'),
             'ends_at' => fake()->dateTimeBetween('now', '+4 months'),
         ];

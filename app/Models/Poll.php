@@ -21,7 +21,8 @@ class Poll extends Model
         'location',
         'status',
         'allow_blank_vote',
-        'allow_null_vote',
+        'allow_know_vote',
+        'allow_none_vote',
         'starts_at',
         'ends_at',
     ];
@@ -30,7 +31,8 @@ class Poll extends Model
     {
         return [
             'allow_blank_vote' => 'boolean',
-            'allow_null_vote' => 'boolean',
+            'allow_know_vote' => 'boolean',
+            'allow_none_vote' => 'boolean',
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
         ];

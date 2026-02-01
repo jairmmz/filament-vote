@@ -46,10 +46,6 @@
                         {{ $poll->title }}
                     </h3>
 
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2">
-                        {{ $poll->description }}
-                    </p>
-
                     <div class="flex flex-wrap gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
                         <div class="flex items-center gap-1">
                             <flux:icon.map-pin class="w-6 h-6" />
