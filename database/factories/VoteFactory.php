@@ -19,7 +19,7 @@ class VoteFactory extends Factory
      */
     public function definition(): array
     {
-        $type = fake()->randomElement(['válido', 'blanco', 'nulo']);
+        $type = fake()->randomElement(['válido', 'no sabe', 'ninguno']);
 
         return [
             'code' => strtoupper(fake()->unique()->bothify('????-#####')),
@@ -32,21 +32,5 @@ class VoteFactory extends Factory
             'ip_address' => fake()->ipv4(),
             'user_agent' => fake()->userAgent(),
         ];
-    }
-
-    public function blank()
-    {
-        return $this->state(fn(array $attributes) => [
-            'candidate_id' => null,
-            'vote_type' => 'blanco',
-        ]);
-    }
-
-    public function null()
-    {
-        return $this->state(fn(array $attributes) => [
-            'candidate_id' => null,
-            'vote_type' => 'nulo',
-        ]);
     }
 }

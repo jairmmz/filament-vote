@@ -20,25 +20,40 @@
         @else
             @foreach($this->polls as $poll)
                 <div class="group rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg flex flex-col">
+                    <div class="h-40 relative overflow-hidden">
 
-                    <div class="h-32 relative bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700">
-                        <div class="absolute top-4 left-4 flex flex-wrap gap-2">
-                            <span class="px-3 py-1 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur text-xs font-semibold text-slate-800 dark:text-white">
+                        @if($poll->image)
+                            <img src="{{ Storage::disk('polls')->url($poll->image) }}"
+                                alt="{{ $poll->title }}"
+                                class="absolute inset-0 w-full h-full object-cover">
+
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
+                        @else
+                            <div class="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"></div>
+                        @endif
+
+                        <div class="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
+                            <span class="px-3 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-semibold text-slate-800 dark:text-white">
                                 {{ $poll->category->name }}
                             </span>
 
                             @if($poll->status === 'activo')
-                                <span class="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">Activa</span>
+                                <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold shadow">
+                                    Activa
+                                </span>
                             @else
-                                <span class="px-3 py-1 rounded-full bg-slate-500/15 text-slate-600 dark:text-slate-300 text-xs font-semibold">Cerrada</span>
+                                <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
+                                    Cerrada
+                                </span>
                             @endif
                         </div>
 
-                        <div class="absolute top-4 right-4">
-                            <span class="px-2 py-1 rounded bg-white/80 dark:bg-slate-900/80 backdrop-blur text-xs text-slate-600 dark:text-slate-300">
+                        <div class="absolute top-4 right-4 z-10">
+                            <span class="px-3 py-1 rounded-full bg-black/60 text-white text-xs font-semibold backdrop-blur">
                                 {{ number_format($poll->votes_count) }} {{ \Illuminate\Support\Str::plural('voto', $poll->votes_count) }}
                             </span>
                         </div>
+
                     </div>
 
                     <div class="p-6 flex flex-col flex-1">

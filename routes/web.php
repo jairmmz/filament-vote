@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
-
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 Route::livewire('/', 'home')->name('home');
 Route::livewire('/categorias', 'categories.index')->name('categories');
@@ -29,5 +30,38 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+Route::view('/politicas-de-privacidad', 'policies.privacy-policy')->name('privacy-policy');
+Route::view('/terminos-y-condiciones', 'policies.consent-terms')->name('consent-terms');
+
+Route::get('/sitemap.xml', function () {
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/'))
+        ->add(Url::create('/categorias'))
+        ->add(Url::create('/encuestas'))
+        ->add(Url::create('/partidos-politicos'));
+
+    foreach (App\Models\Category::all() as $category) {
+        $sitemap->add(Url::create(route('categories.show', $category))
+            ->setLastModificationDate($category->updated_at));
+    }
+
+    foreach (App\Models\Poll::all() as $poll) {
+        $sitemap->add(Url::create(route('polls.show', $poll))
+            ->setLastModificationDate($poll->updated_at));
+    }
+
+    foreach (App\Models\PoliticalParty::all() as $party) {
+        $sitemap->add(Url::create(route('parties.show', $party))
+            ->setLastModificationDate($party->updated_at));
+
+        foreach ($party->candidates as $candidate) {
+            $sitemap->add(Url::create(route('parties.candidate', ['politicalParty' => $party, 'candidate' => $candidate]))
+                ->setLastModificationDate($candidate->updated_at));
+        }
+    }
+
+    return $sitemap;
+});
 
 require __DIR__.'/settings.php';

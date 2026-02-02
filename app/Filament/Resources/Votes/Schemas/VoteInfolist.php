@@ -30,13 +30,13 @@ class VoteInfolist
                             ->badge()
                             ->color(fn($state) => match ($state) {
                                 'válido' => 'success',
-                                'blanco' => 'info',
-                                'nulo' => 'danger',
+                                'no sabe' => 'info',
+                                'ninguno' => 'danger',
                             })
                             ->formatStateUsing(fn($state) => match ($state) {
                                 'válido' => 'Válido',
-                                'blanco' => 'Blanco',
-                                'nulo' => 'Nulo',
+                                'no sabe' => 'No sabe / No opina',
+                                'ninguno' => 'Ninguno de los anteriores',
                             })
                             ->columnSpan(6),
 

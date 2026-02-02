@@ -19,8 +19,8 @@ class VoteTypeChart extends ChartWidget
 
         $labels = [
             'válido' => 'Voto por Candidato',
-            'blanco' => 'Voto en Blanco',
-            'nulo' => 'Voto nulo',
+            'no sabe' => 'Voto indeciso',
+            'ninguno' => 'Voto ninguno',
         ];
 
         $data = [];

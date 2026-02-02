@@ -5,7 +5,7 @@
 
             {{-- Brand --}}
             <div class="lg:col-span-2">
-                <a href="/" class="inline-flex items-center gap-2 mb-6 hover:scale-105 transition-transform">
+                <a href="/" class="inline-flex items-center gap-2 mb-6">
                     <span class="font-bold text-lg text-foreground">{{ config('app.name') }}</span>
                 </a>
 

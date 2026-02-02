@@ -74,7 +74,6 @@ class PollForm
                                 ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
                                 ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
                                 ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
-                                ['table'],
                                 ['undo', 'redo'],
                             ]))
                             ->columnSpanFull()
@@ -117,12 +116,6 @@ class PollForm
                             ->required()
                             ->columnSpan(6)
                             ->belowContent('Seleccione el estado actual de la encuesta.'),
-
-                        Toggle::make('allow_blank_vote')
-                            ->label('Permitir voto en blanco')
-                            ->default(true)
-                            ->columnSpan(6)
-                            ->belowContent('Si está habilitado, los votantes podrán enviar un voto en blanco sin seleccionar ninguna opción.'),
 
                         Toggle::make('allow_know_vote')
                             ->label('Permitir voto (No sabe / No opina)')

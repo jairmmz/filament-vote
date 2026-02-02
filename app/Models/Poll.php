@@ -20,7 +20,6 @@ class Poll extends Model
         'image',
         'location',
         'status',
-        'allow_blank_vote',
         'allow_know_vote',
         'allow_none_vote',
         'starts_at',
@@ -30,7 +29,6 @@ class Poll extends Model
     protected function casts(): array
     {
         return [
-            'allow_blank_vote' => 'boolean',
             'allow_know_vote' => 'boolean',
             'allow_none_vote' => 'boolean',
             'starts_at' => 'datetime',

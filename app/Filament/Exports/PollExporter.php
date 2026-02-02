@@ -25,8 +25,6 @@ class PollExporter extends Exporter
                 ->label('Ubicación'),
             ExportColumn::make('status')
                 ->label('Estado'),
-            ExportColumn::make('allow_blank_vote')
-                ->label('Permitir voto en blanco'),
             ExportColumn::make('allow_know_vote')
                 ->label('Permitir votos "No sabe / No opina"'),
             ExportColumn::make('allow_none_vote')

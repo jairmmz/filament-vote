@@ -2,60 +2,54 @@
     <div class="container mx-auto max-w-7xl">
 
         <div class="dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
-            <div class="bg-gradient-to-r px-8 py-10">
-                {{-- Imagen --}}
+            <div class="w-full shadow-lg overflow-hidden bg-white dark:bg-slate-900">
                 @if ($poll->image)
-                    <div class="">
-                        <img src="{{ Storage::disk('polls')->url($poll->image) }}" alt="{{ $poll->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[420px]">
+                        <img src="{{ Storage::disk('polls')->url($poll->image) }}"
+                            alt="{{ $poll->title }}"
+                            class="w-full h-full object-cover">
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
                     </div>
                 @endif
 
-                <div class="flex items-start justify-between">
-                    <div class="w-full">
-                        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-3">
+                <div class="px-6 md:px-10 py-8">
+                    <div class="max-w-6xl mx-auto">
+
+                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                             {{ $poll->title }}
                         </h1>
-                        <div class="text-sm prose dark:prose-invert max-w-none">
+
+                        <div class="prose dark:prose-invert max-w-none text-sm md:text-base mb-8">
                             {!! $poll->description !!}
                         </div>
-                    </div>
-                </div>
 
-                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-gray-200/30 dark:bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                            <div>
-                                <p class="text-sm font-semibold text-gray-800 dark:text-blue-200">Ubicación</p>
-                                <p class="text-sm font-medium text-gray-800 dark:text-gray-100">{{ $poll->location }}</p>
-                            </div>
-                        </div>
-                    </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                    <div class="bg-gray-200/30 dark:bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <div>
-                                <p class="text-sm font-semibold text-gray-800 dark:text-gray-100">Fecha de finalización</p>
-                                <p class="text-sm font-medium text-gray-800 dark:text-gray-100">{{ $poll->ends_at->format('d/m/Y') }}</p>
+                            <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 rounded-xl px-4 py-3">
+                                <flux:icon.map-pin />
+                                <div>
+                                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Ubicación</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $poll->location }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="bg-gray-200/30 dark:bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                            </svg>
-                            <div>
-                                <p class="text-sm font-semibold text-gray-800 dark:text-gray-100">Total votos emitidos</p>
-                                <p class="text-sm font-bold text-gray-800 dark:text-gray-100">{{ $this->totalVotes }}</p>
+                            <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 rounded-xl px-4 py-3">
+                                <flux:icon.clock-8 />
+                                <div>
+                                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Finaliza</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $poll->ends_at->format('d/m/Y') }}</p>
+                                </div>
                             </div>
+
+                            <div class="flex items-center gap-3 bg-slate-100 dark:bg-white/5 rounded-xl px-4 py-3 sm:col-span-2 lg:col-span-1">
+                                <flux:icon.clipboard-plus />
+                                <div>
+                                    <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Votos emitidos</p>
+                                    <p class="text-sm font-bold text-gray-900 dark:text-white">{{ $this->totalVotes }}</p>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -67,9 +61,7 @@
                 <div class="flex items-center gap-4">
                     <div class="flex-shrink-0">
                         <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                            </svg>
+                            <flux:icon.thumbs-up />
                         </div>
                     </div>
                     <div>
@@ -84,9 +76,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                 <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
+                        <flux:icon.file-text />
                         Lista de candidatos
                     </h2>
                 </div>
@@ -197,46 +187,6 @@
                                 </tr>
                             @endforeach
 
-                            @if($poll->allow_blank_vote)
-                                <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
-                                    <td class="px-4 py-3">
-                                        @unless($hasVoted)
-                                            <flux:button type="button" icon="x" wire:click="selectedVote('blanco')" class="cursor-pointer">
-                                                Marcar
-                                            </flux:button>
-                                        @else
-                                            <flux:button type="button" icon="vote" disabled>
-                                                Marcado
-                                            </flux:button>
-                                        @endunless
-                                    </td>
-                                    <td colspan="5" class="px-4 py-3">
-                                        <label for="vote-blank" class="cursor-pointer">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Voto en blanco</p>
-                                                    <p class="text-sm text-gray-600 dark:text-gray-400">No selecciono ningún candidato</p>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">
-                                        <span class="font-bold text-gray-600 dark:text-gray-300">
-                                            {{ $this->blankVotes }}
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">
-                                        @if($this->totalVotes > 0)
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                                {{ round(($this->blankVotes / $this->totalVotes) * 100, 1) }}%
-                                            </span>
-                                        @else
-                                            <span class="text-gray-400 dark:text-gray-500">0%</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endif
-
                             @if($poll->allow_know_vote)
                                 <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
                                     <td class="px-4 py-3">
@@ -254,7 +204,7 @@
                                         <label for="vote-null" class="cursor-pointer">
                                             <div class="flex items-center gap-3">
                                                 <div>
-                                                    <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">Voto no sabe / no opina</p>
+                                                    <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">No sabe / No opina</p>
                                                     <p class="text-sm text-gray-600 dark:text-gray-400">No tengo una opinión clara o no tengo preferencia</p>
                                                 </div>
                                             </div>
@@ -262,13 +212,13 @@
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         <span class="font-bold text-red-600 dark:text-red-400">
-                                            {{ $this->nullVotes }}
+                                            {{ $this->knowVotes }}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         @if($this->totalVotes > 0)
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-                                                {{ round(($this->nullVotes / $this->totalVotes) * 100, 1) }}%
+                                                {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
                                             </span>
                                         @else
                                             <span class="text-gray-400 dark:text-gray-500">0%</span>
@@ -294,7 +244,7 @@
                                         <label for="vote-null" class="cursor-pointer">
                                             <div class="flex items-center gap-3">
                                                 <div>
-                                                    <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">Voto ninguno / no votaría</p>
+                                                    <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">Ninguno de los anteriores</p>
                                                     <p class="text-sm text-gray-600 dark:text-gray-400">Ninguno de las opciones me representa o que no votaría.</p>
                                                 </div>
                                             </div>
@@ -302,13 +252,13 @@
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         <span class="font-bold text-red-600 dark:text-red-400">
-                                            {{ $this->nullVotes }}
+                                            {{ $this->noneVotes }}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         @if($this->totalVotes > 0)
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-                                                {{ round(($this->nullVotes / $this->totalVotes) * 100, 1) }}%
+                                                {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
                                             </span>
                                         @else
                                             <span class="text-gray-400 dark:text-gray-500">0%</span>
@@ -324,9 +274,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 sticky top-8">
                 <div class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-600/50 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
                     <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
+                        <flux:icon.chart-no-axes-column-increasing />
                         Resumen de votos
                     </h2>
                 </div>
@@ -344,30 +292,30 @@
 
                     <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/30 dark:to-gray-600/30 rounded-xl p-5 border border-gray-200 dark:border-gray-600">
                         <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Votos en blanco</p>
+                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">No sabe / No opina</p>
                             <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                         </div>
-                        <p class="text-3xl font-bold text-gray-700 dark:text-gray-300">{{ $this->blankVotes }}</p>
+                        <p class="text-3xl font-bold text-gray-700 dark:text-gray-300">{{ $this->knowVotes }}</p>
                         @if($this->totalVotes > 0)
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                {{ round(($this->blankVotes / $this->totalVotes) * 100, 1) }}%
+                                {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
                             </p>
                         @endif
                     </div>
 
                     <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 rounded-xl p-5 border border-red-200 dark:border-red-700">
                         <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm font-medium text-red-900 dark:text-red-100">Votos nulos</p>
+                            <p class="text-sm font-medium text-red-900 dark:text-red-100">Ninguno de los anteriores</p>
                             <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         </div>
-                        <p class="text-3xl font-bold text-red-600 dark:text-red-400">{{ $this->nullVotes }}</p>
+                        <p class="text-3xl font-bold text-red-600 dark:text-red-400">{{ $this->noneVotes }}</p>
                         @if($this->totalVotes > 0)
                             <p class="text-xs text-red-500 dark:text-red-400 mt-1">
-                                {{ round(($this->nullVotes / $this->totalVotes) * 100, 1) }}%
+                                {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
                             </p>
                         @endif
                     </div>

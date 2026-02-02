@@ -4,6 +4,7 @@ use App\Models\Poll;
 use App\Models\Vote;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -33,7 +34,7 @@ new class extends Component
 
     public function selectedVote(string|int $candidate): void
     {
-        if ($candidate === 'blanco' || $candidate === 'nulo') {
+        if ($candidate === 'no sabe' || $candidate === 'ninguno') {
             $this->selectedCandidate = null;
             $this->vote_type = $candidate;
         } else {
@@ -57,7 +58,7 @@ new class extends Component
 
         $this->validate([
             'selectedCandidate' => 'nullable|exists:candidates,id',
-            'vote_type' => 'nullable|in:blanco,nulo',
+            'vote_type' => 'nullable|in:no sabe,ninguno,válido',
         ]);
 
         if (!$this->selectedCandidate && !$this->vote_type) {
@@ -92,14 +93,14 @@ new class extends Component
         return $this->poll->votes()->count();
     }
 
-    public function getBlankVotesProperty(): int
+    public function getKnowVotesProperty(): int
     {
-        return $this->poll->votes()->where('vote_type', 'blanco')->count();
+        return $this->poll->votes()->where('vote_type', 'no sabe')->count();
     }
 
-    public function getNullVotesProperty(): int
+    public function getNoneVotesProperty(): int
     {
-        return $this->poll->votes()->where('vote_type', 'nulo')->count();
+        return $this->poll->votes()->where('vote_type', 'ninguno')->count();
     }
 
     public function getValidVotesProperty(): int
@@ -110,6 +111,10 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title($this->poll->title . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => $this->poll->title,
+                'description' => $this->poll->description,
+                'image' => $this->poll->image ? Storage::disk('polls')->url($this->poll->image) : null,
+            ]);
     }
 };

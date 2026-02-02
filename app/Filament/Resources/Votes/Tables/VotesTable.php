@@ -43,8 +43,8 @@ class VotesTable
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
                         'válido' => 'success',
-                        'blanco' => 'warning',
-                        'nulo' => 'danger',
+                        'no sabe' => 'warning',
+                        'ninguno' => 'danger',
                         default => 'success',
                     }),
 
@@ -59,8 +59,8 @@ class VotesTable
                     ->label('Tipo de Voto')
                     ->options([
                         'válido' => 'Válido',
-                        'blanco' => 'Blanco',
-                        'nulo' => 'Nulo',
+                        'no sabe' => 'No sabe / No opina',
+                        'ninguno' => 'Ninguno de los anteriores',
                     ]),
 
                 SelectFilter::make('user')

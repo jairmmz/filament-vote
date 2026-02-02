@@ -40,10 +40,6 @@ class PollInfolist
                     ->label('Estado')
                     ->badge(),
 
-                IconEntry::make('allow_blank_vote')
-                    ->label('Permitir voto en blanco')
-                    ->boolean(),
-
                 IconEntry::make('allow_know_vote')
                     ->label('Permitir voto no sabe / no opina')
                     ->boolean(),
