@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Policies\RolePolicy;
+use App\Support\SiteSettings;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Spatie\Permission\Models\Role;
@@ -27,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        View::share('siteSettings', SiteSettings::all());
 
         Gate::policy(Role::class, RolePolicy::class);
     }

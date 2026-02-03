@@ -71,6 +71,14 @@ return [
             'throw' => false,
         ],
 
+        'website_settings' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/website_settings'),
+            'url' => env('APP_URL') . '/storage/website_settings',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

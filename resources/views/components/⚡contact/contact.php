@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\SiteSettings;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Attributes\Rule;
@@ -43,6 +44,9 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title('Contacto' . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => 'Contacto' . ' - ' . SiteSettings::get('site_name', config('app.name')),
+                'description' => 'Página de contacto del sitio web',
+            ]);
     }
 };

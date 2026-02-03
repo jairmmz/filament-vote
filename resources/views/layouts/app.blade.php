@@ -5,15 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         @php
-            $metaTitle = $title ?? config('app.name');
-            $metaDescription = $description ?? 'Participa en encuestas y vota por tus candidatos favoritos. Mantente informado con las últimas encuestas electorales.';
-            $metaImage = $image ?? asset('images/default-meta-image.png');
+            $metaTitle = $title ?? $siteSettings['site_name'] ?? config('app.name');
+            $metaDescription = $description ?? $siteSettings['description'] ?? 'Bienvenido a ' . config('app.name') . ', tu plataforma de encuestas en línea.';
+            $metaImage = $image ?? Storage::disk('website_settings')->url($siteSettings['image']) ?? asset('default-meta-image.png');
             $metaUrl = $url ?? url()->current();
         @endphp
 
         <title>{{ $metaTitle }}</title>
 
-        <meta property="og:site_name" content="{{ config('app.name') }}">
+        <meta property="og:site_name" content="{{ $siteSettings['site_name'] ?? config('app.name') }}">
         <meta property="og:title" content="{{ $metaTitle }}">
         <meta property="og:description" content="{{ $metaDescription }}">
         <meta property="og:image" content="{{ $metaImage }}">
@@ -24,7 +24,7 @@
         <meta name="description" content="{{ $metaDescription }}">
         <meta name="robots" content="index, follow">
         <link rel="canonical" href="{{ $metaUrl }}">
-        <meta name="author" content="{{ config('app.name') }}">
+        <meta name="author" content="{{ $siteSettings['site_name'] ?? config('app.name') }}">
 
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="{{ $metaTitle }}">

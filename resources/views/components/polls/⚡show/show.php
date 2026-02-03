@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Poll;
+use App\Models\SiteSetting;
 use App\Models\Vote;
+use App\Support\SiteSettings;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -112,7 +114,7 @@ new class extends Component
     {
         return $this->view()
             ->layout('layouts::app', [
-                'title' => $this->poll->title,
+                'title' => $this->poll->title . ' - ' . SiteSettings::get('site_name', config('app.name')),
                 'description' => $this->poll->description,
                 'image' => $this->poll->image ? Storage::disk('polls')->url($this->poll->image) : null,
             ]);

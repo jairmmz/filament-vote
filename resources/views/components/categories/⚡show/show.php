@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Support\SiteSettings;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -36,6 +37,9 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title($this->category->name . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => $this->category->name . ' - ' . SiteSettings::get('site_name', config('app.name')),
+                'description' => $this->category->description,
+            ]);
     }
 };

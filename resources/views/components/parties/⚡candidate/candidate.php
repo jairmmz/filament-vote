@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Candidate;
+use App\Support\SiteSettings;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -16,6 +18,10 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title($this->candidate->name . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => $this->candidate->name . ' - ' . SiteSettings::get('site_name', config('app.name')),
+                'description' => $this->candidate->biography,
+                'image' => $this->candidate->photo ? Storage::disk('candidates_photos')->url($this->candidate->photo) : null,
+            ]);
     }
 };

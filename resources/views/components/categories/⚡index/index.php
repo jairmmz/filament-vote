@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Support\SiteSettings;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -29,6 +30,9 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title('Categorías' . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => 'Categorías' . ' - ' . SiteSettings::get('site_name', config('app.name')),
+                'description' => 'Lista de categorías de encuestas',
+            ]);
     }
 };

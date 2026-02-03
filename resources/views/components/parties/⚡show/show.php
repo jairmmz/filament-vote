@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\PoliticalParty;
+use App\Support\SiteSettings;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -27,6 +29,10 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title($this->politicalParty->name . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => $this->politicalParty->name . ' - ' . SiteSettings::get('site_name', config('app.name')),
+                'description' => $this->politicalParty->description,
+                'image' => $this->politicalParty->image ? Storage::disk('logos')->url($this->politicalParty->image) : null,
+            ]);
     }
 };

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\PoliticalParty;
+use App\Support\SiteSettings;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -27,6 +28,9 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title('Partidos Políticos' . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => 'Partidos Políticos' . ' - ' . SiteSettings::get('site_name', config('app.name')),
+                'description' => 'Lista de partidos políticos',
+            ]);
     }
 };

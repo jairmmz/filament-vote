@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Poll;
+use App\Support\SiteSettings;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -31,6 +32,9 @@ new class extends Component
     public function render(): View
     {
         return $this->view()
-            ->title('Encuestas' . ' - ' . config('app.name'));
+            ->layout('layouts::app', [
+                'title' => 'Encuestas' . ' - ' . SiteSettings::get('site_name', config('app.name')),
+                'description' => 'Lista de encuestas disponibles donde podrás participar y conocer los resultados.',
+            ]);
     }
 };
