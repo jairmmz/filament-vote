@@ -14,6 +14,8 @@ Route::livewire('/partidos-politicos', 'parties.index')->name('parties');
 Route::livewire('/partidos-politicos/{politicalParty:slug}', 'parties.show')->name('parties.show');
 Route::livewire('/partidos-politicos/{politicalParty:slug}/candidato/{candidate:slug}', 'parties.candidate')->name('parties.candidate');
 Route::livewire('/contacto', 'contact')->name('contact');
+Route::livewire('/nosotros', 'about')->name('about');
+Route::livewire('/como-funciona', 'how_it_works')->name('how-it-works');
 
 Route::middleware('guest')->group(function () {
     Route::livewire('/login', 'auth.login')->name('login');
