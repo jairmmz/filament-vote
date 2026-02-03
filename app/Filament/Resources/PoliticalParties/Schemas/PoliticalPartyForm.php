@@ -60,15 +60,6 @@ class PoliticalPartyForm
                             ->placeholder('Ej: FP')
                             ->columnSpan(4),
 
-                        TextInput::make('website')
-                            ->label('Sitio Web')
-                            ->url()
-                            ->maxLength(255)
-                            ->nullable()
-                            ->suffixIcon(Heroicon::GlobeAlt)
-                            ->placeholder('https://...')
-                            ->columnSpan(8),
-
                         Textarea::make('description')
                             ->label('Descripción')
                             ->rows(4)

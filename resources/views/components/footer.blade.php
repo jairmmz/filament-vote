@@ -5,7 +5,7 @@
 
             {{-- Brand --}}
             <div class="lg:col-span-2">
-                <a href="/" class="inline-flex items-center gap-2 mb-6">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 mb-6" wire:navigate>
                     <span class="font-bold text-lg text-foreground">{{ config('app.name') }}</span>
                 </a>
 
@@ -14,12 +14,6 @@
                 </p>
 
                 <div class="space-y-3 text-sm text-muted-foreground">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <span>Lima, Perú</span>
-                    </div>
 
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +37,7 @@
                 <ul class="space-y-3 text-sm">
                     <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Sobre Nosotros</a></li>
                     <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Cómo Funciona</a></li>
-                    <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Contacto</a></li>
+                    <li><a href="{{ route('contact') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Contacto</a></li>
                 </ul>
             </div>
 
@@ -51,10 +45,9 @@
             <div>
                 <h3 class="font-semibold text-foreground mb-4">Legal</h3>
                 <ul class="space-y-3 text-sm">
-                    <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Términos y Condiciones</a></li>
-                    <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Política de Privacidad</a></li>
-                    <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Aviso Legal</a></li>
-                    <li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">Cookies</a></li>
+                    <li><a href="{{ route('consent-terms') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Términos y Condiciones</a></li>
+                    <li><a href="{{ route('privacy-policy') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Política de Privacidad</a></li>
+                    <li><a onclick="showHideToggleCookiePreferencesModal()" class="cursor-pointer text-muted-foreground hover:text-primary transition-colors">Cookies</a></li>
                 </ul>
             </div>
 

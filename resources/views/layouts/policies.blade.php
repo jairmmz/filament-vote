@@ -26,8 +26,8 @@
             </a>
 
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-                <a href="{{ route('privacy-policy') }}" class="hover:opacity-80 transition">Privacidad</a>
-                <a href="{{ route('consent-terms') }}" class="hover:opacity-80 transition">Términos</a>
+                <a href="{{ route('privacy-policy') }}" class="hover:opacity-80 transition" wire:navigate>Privacidad</a>
+                <a href="{{ route('consent-terms') }}" class="hover:opacity-80 transition" wire:navigate>Términos</a>
             </nav>
         </div>
     </header>
@@ -50,8 +50,8 @@
         <div class="max-w-7xl mx-auto px-6 py-8 text-sm text-zinc-600 dark:text-zinc-400 flex flex-col md:flex-row justify-between gap-4">
             <p>© {{ date('Y') }} {{ config('app.name') }}. Todos los derechos reservados.</p>
             <div class="flex gap-4">
-                <a href="{{ route('privacy-policy') }}" class="hover:text-red-600">Política de Privacidad</a>
-                <a href="{{ route('consent-terms') }}" class="hover:text-red-600">Términos y Condiciones</a>
+                <a href="{{ route('privacy-policy') }}" class="hover:text-red-600" wire:navigate>Política de Privacidad</a>
+                <a href="{{ route('consent-terms') }}" class="hover:text-red-600" wire:navigate>Términos y Condiciones</a>
             </div>
         </div>
     </footer>

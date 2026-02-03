@@ -27,17 +27,6 @@
                             {{ $politicalParty->acronym }}
                         </p>
                     @endif
-
-                    @if($politicalParty->website)
-                        <a href="{{ $politicalParty->website }}" target="_blank"
-                           class="inline-flex items-center gap-2 mt-4 text-sm font-medium text-primary hover:underline">
-                            Sitio web oficial
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7v7m0-7L10 14"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 10v11h11"/>
-                            </svg>
-                        </a>
-                    @endif
                 </div>
             </div>
 

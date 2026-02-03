@@ -36,12 +36,6 @@ class PoliticalPartyInfolist
                 //     ->copyable()
                 //     ->columnSpan(6),
 
-                // TextEntry::make('website')
-                //     ->label('Sitio Web')
-                //     ->url(fn($state) => $state)
-                //     ->openUrlInNewTab()
-                //     ->columnSpan(6),
-
                 // ColorEntry::make('color')
                 //     ->label('Color principal')
                 //     ->columnSpan(4),

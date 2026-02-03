@@ -38,7 +38,8 @@
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Partido político</p>
                                 <a href="{{ route('parties.show', $candidate->politicalParty) }}"
                                    class="font-semibold hover:text-primary transition"
-                                   style="color: {{ $candidate->politicalParty->color ?? '' }}">
+                                   style="color: {{ $candidate->politicalParty->color ?? '' }}"
+                                   wire:navigate>
                                     {{ $candidate->politicalParty->name }}
                                 </a>
                             </div>

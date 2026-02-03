@@ -31,8 +31,9 @@
 
         {{-- CTA Buttons --}}
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#encuestas"
-               class="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <a href="{{ route('polls') }}"
+               class="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+               wire:navigate>
                 Ver Encuestas Activas
                 <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
