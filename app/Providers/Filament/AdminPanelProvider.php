@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use AchyutN\FilamentLogViewer\FilamentLogViewer;
+use Asmit\ResizedColumn\ResizedColumnPlugin;
 use Filament\Http\Middleware\Authenticate;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -20,6 +22,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
+use Swis\Filament\Backgrounds\ImageProviders\MyImages;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -63,7 +68,6 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationLabel('Roles y Permisos')
                     ->navigationGroup('Seguridad')
                     ->navigationSort(60),
-
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)
@@ -72,6 +76,15 @@ class AdminPanelProvider extends PanelProvider
                         navigationGroup: 'Settings', // Sets the navigation group for the My Profile page (default = null)
                         hasAvatars: false, // Enables the avatar upload form component (default = false)
                         slug: 'my-profile' // Sets the slug for the profile page (default = 'my-profile')
+                    ),
+                EnvironmentIndicatorPlugin::make(),
+                FilamentLogViewer::make(),
+                ResizedColumnPlugin::make()
+                    ->preserveOnDB(), // Enable database storage (optional)
+                FilamentBackgroundsPlugin::make()
+                    ->imageProvider(
+                        MyImages::make()
+                            ->directory('images/auth')
                     ),
             ])
             ->databaseNotifications()
