@@ -96,12 +96,6 @@ class PoliticalPartyForm
                                 'regex' => 'El formato del color debe ser #RRGGBB o #RGB.',
                             ])
                             ->columnSpanFull(),
-
-                        Checkbox::make('is_active')
-                            ->label('¿Esta activo?')
-                            ->default(true)
-                            ->rule('boolean')
-                            ->columnSpanFull(),
                     ]),
             ]);
     }

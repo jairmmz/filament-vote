@@ -32,7 +32,7 @@ new class extends Component
             ->layout('layouts::app', [
                 'title' => $this->politicalParty->name . ' - ' . SiteSettings::get('site_name', config('app.name')),
                 'description' => $this->politicalParty->description,
-                'image' => $this->politicalParty->image ? Storage::disk('logos')->url($this->politicalParty->image) : null,
+                'image' => $this->politicalParty->logo ? Storage::disk('logos')->url($this->politicalParty->logo) : null,
             ]);
     }
 };

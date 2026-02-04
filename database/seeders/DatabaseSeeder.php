@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             RolesPermissionSeeder::class,
             CategorySeeder::class,
             PoliticalPartySeeder::class,
+            SiteSettingSeeder::class,
         ]);
 
         // Poll::factory(30)->create();

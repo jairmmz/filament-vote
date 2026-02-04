@@ -36,12 +36,6 @@ class PoliticalPartiesTable
                     ->disk('logos')
                     ->circular(),
 
-                TextColumn::make('is_active')
-                    ->label('Estado')
-                    ->badge()
-                    ->formatStateUsing(fn(bool $state): string => $state ? 'Activo' : 'Inactivo')
-                    ->color(fn(bool $state): string => $state ? 'success' : 'danger'),
-
                 TextColumn::make('created_at')
                     ->label('Creado El')
                     ->dateTime()
@@ -55,12 +49,12 @@ class PoliticalPartiesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('is_active')
-                    ->label('Activos')
-                    ->options([
-                        1 => 'Activo',
-                        0 => 'Inactivo',
-                    ])
+                // SelectFilter::make('is_active')
+                //     ->label('Activos')
+                //     ->options([
+                //         1 => 'Activo',
+                //         0 => 'Inactivo',
+                //     ])
             ])
             ->recordActions([
                 ViewAction::make(),

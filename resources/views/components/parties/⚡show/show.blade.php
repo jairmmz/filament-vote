@@ -7,9 +7,9 @@
             <div class="flex flex-col md:flex-row md:items-center gap-6">
 
                 {{-- Logo --}}
-                <div class="w-28 h-28 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+                <div class="w-28 h-28 overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
                     @if($politicalParty->logo)
-                        <img src="{{ asset('storage/'.$politicalParty->logo) }}" alt="{{ $politicalParty->name }}" class="w-full h-full object-cover">
+                        <img src="{{ Storage::disk('logos')->url($politicalParty->logo) }}" alt="{{ $politicalParty->name }}" class="w-full h-full object-cover">
                     @else
                         <div class="text-3xl font-bold text-gray-400">
                             {{ Str::substr($politicalParty->acronym ?? $politicalParty->name, 0, 2) }}
@@ -32,7 +32,7 @@
 
             @if($politicalParty->description)
                 <div class="mt-6 prose dark:prose-invert max-w-none">
-                    {!! $politicalParty->description !!}
+                    {!! nl2br($politicalParty->description) !!}
                 </div>
             @endif
 

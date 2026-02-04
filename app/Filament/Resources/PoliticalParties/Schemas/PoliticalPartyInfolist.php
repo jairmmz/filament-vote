@@ -40,11 +40,6 @@ class PoliticalPartyInfolist
                 //     ->label('Color principal')
                 //     ->columnSpan(4),
 
-                // IconEntry::make('is_active')
-                //     ->label('Activo')
-                //     ->boolean()
-                //     ->columnSpan(4),
-
                 // TextEntry::make('description')
                 //     ->label('Descripción')
                 //     ->markdown()

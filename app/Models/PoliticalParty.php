@@ -17,23 +17,17 @@ class PoliticalParty extends Model
         'color',
         'description',
         'website',
-        'is_active',
     ];
 
     protected function casts(): array
     {
         return [
-            'is_active' => 'boolean',
+
         ];
     }
 
     public function candidates()
     {
         return $this->hasMany(Candidate::class);
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
     }
 }

@@ -17,14 +17,12 @@ new class extends Component
     #[Computed]
     public function categories()
     {
-        return Category::active()
-            ->when($this->search, function ($query) {
-                $query->where('name', 'like', "%{$this->search}%");
-            })
-            ->whereHas('activePolls')
+        return Category::when($this->search, function ($query) {
+            $query->where('name', 'like', "%{$this->search}%");
+        })
             ->withCount('activePolls')
             ->orderBy('id', 'asc')
-            ->paginate(10);
+            ->paginate(8);
     }
 
     public function render(): View

@@ -29,7 +29,6 @@ class CandidateFactory extends Factory
             'photo' => 'https://picsum.photos/seed/' . fake()->numberBetween(1, 1000) . '/200/200',
             'biography' => fake()->paragraphs(3, true),
             'number' => fake()->numberBetween(1, 20),
-            'is_active' => true,
         ];
     }
 }

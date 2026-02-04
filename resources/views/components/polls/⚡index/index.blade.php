@@ -39,11 +39,11 @@
 
                             @if($poll->status === 'activo')
                                 <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold shadow">
-                                    Activa
+                                    Activo
                                 </span>
                             @else
                                 <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
-                                    Cerrada
+                                    Cerrado
                                 </span>
                             @endif
                         </div>
@@ -94,12 +94,15 @@
                         </div>
 
                         <div class="mt-auto flex gap-2">
+                            @php
+                                $label = $poll->actionLabel(auth()->user());
+                            @endphp
+
                             <a href="{{ route('polls.show', $poll->slug) }}"
                             class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold hover:opacity-90 transition"
                             wire:navigate>
-                                {{ auth()->check() && auth()->user()->hasVotedInPoll($poll) ? 'Ver Resultados' : 'Votar Ahora' }}
+                                {{ $label }}
                             </a>
-
                             <button class="p-2 rounded-lg border border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/10 transition">
                                 <flux:icon.share-2 />
                             </button>

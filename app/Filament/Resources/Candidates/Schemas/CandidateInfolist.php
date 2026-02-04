@@ -33,6 +33,7 @@ class CandidateInfolist
 
                 TextEntry::make('biography')
                     ->label('Biografía')
+                    ->formatStateUsing(fn(?string $state): string => $state ? nl2br(e($state)) : '-')
                     ->html()
                     ->placeholder('-')
                     ->columnSpanFull(),
@@ -41,11 +42,6 @@ class CandidateInfolist
                     ->label('Número')
                     ->numeric()
                     ->placeholder('-'),
-
-
-                IconEntry::make('is_active')
-                    ->label('Estado')
-                    ->boolean(),
 
                 TextEntry::make('created_at')
                     ->label('Creado el')

@@ -21,7 +21,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#FF6600',
                 'description' => 'Partido político peruano de derecha fundado por Keiko Fujimori',
-                'is_active' => true,
             ],
             [
                 'name' => 'Perú Libre',
@@ -30,7 +29,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#DC143C',
                 'description' => 'Partido político peruano de izquierda marxista-leninista',
-                'is_active' => true,
             ],
             [
                 'name' => 'Alianza para el Progreso',
@@ -39,7 +37,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#0066CC',
                 'description' => 'Partido político peruano de centroderecha fundado por César Acuña',
-                'is_active' => true,
             ],
             [
                 'name' => 'Acción Popular',
@@ -48,7 +45,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#E31E24',
                 'description' => 'Partido político peruano de centro fundado por Fernando Belaúnde Terry',
-                'is_active' => true,
             ],
             [
                 'name' => 'Avanza País',
@@ -57,7 +53,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#00A0E3',
                 'description' => 'Partido político peruano de derecha liberal',
-                'is_active' => true,
             ],
             [
                 'name' => 'Renovación Popular',
@@ -66,7 +61,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#00B8E6',
                 'description' => 'Partido político peruano de derecha conservadora fundado por Rafael López Aliaga',
-                'is_active' => true,
             ],
             [
                 'name' => 'Partido Morado',
@@ -75,7 +69,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#663399',
                 'description' => 'Partido político peruano de centroizquierda progresista',
-                'is_active' => true,
             ],
             [
                 'name' => 'Somos Perú',
@@ -84,7 +77,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#FF8C00',
                 'description' => 'Partido político peruano de centro fundado por Alberto Andrade',
-                'is_active' => true,
             ],
             [
                 'name' => 'Podemos Perú',
@@ -93,7 +85,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#9B59B6',
                 'description' => 'Partido político peruano de centro fundado por José Luna Gálvez',
-                'is_active' => true,
             ],
             [
                 'name' => 'Juntos por el Perú',
@@ -102,7 +93,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#C41E3A',
                 'description' => 'Partido político peruano de izquierda democrática',
-                'is_active' => true,
             ],
             [
                 'name' => 'Partido Nacionalista Peruano',
@@ -111,7 +101,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#E74C3C',
                 'description' => 'Partido político peruano nacionalista fundado por Ollanta Humala',
-                'is_active' => true,
             ],
             [
                 'name' => 'Partido Aprista Peruano',
@@ -120,7 +109,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#ED1C24',
                 'description' => 'Partido político histórico peruano fundado por Víctor Raúl Haya de la Torre',
-                'is_active' => true,
             ],
             [
                 'name' => 'Perú Patria Segura',
@@ -129,7 +117,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#2C3E50',
                 'description' => 'Partido político peruano enfocado en seguridad ciudadana',
-                'is_active' => true,
             ],
             [
                 'name' => 'Frente Amplio',
@@ -138,7 +125,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#8B008B',
                 'description' => 'Coalición política peruana de izquierda',
-                'is_active' => true,
             ],
             [
                 'name' => 'Democracia Directa',
@@ -147,7 +133,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => null,
                 'color' => '#27AE60',
                 'description' => 'Partido político peruano enfocado en la participación ciudadana',
-                'is_active' => true,
             ],
         ];
 
@@ -159,7 +144,6 @@ class PoliticalPartySeeder extends Seeder
                 'logo' => $party['logo'],
                 'color' => $party['color'],
                 'description' => $party['description'],
-                'is_active' => $party['is_active'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

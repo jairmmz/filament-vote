@@ -30,7 +30,7 @@
                     @if($candidate->politicalParty)
                         <div class="mt-4 flex items-center gap-3">
                             @if($candidate->politicalParty->logo)
-                                <img src="{{ asset('storage/'.$candidate->politicalParty->logo) }}"
+                                <img src="{{ Storage::disk('logos')->url($candidate->politicalParty->logo) }}"
                                      class="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-white/10">
                             @endif
 
@@ -71,7 +71,7 @@
                     Biografía
                 </h2>
                 <p class="prose dark:prose-invert max-w-none">
-                    {!! $candidate->biography !!}
+                    {!! nl2br($candidate->biography) !!}
                 </p>
             </div>
         @endif

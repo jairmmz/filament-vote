@@ -28,9 +28,9 @@
                         <div class="flex items-start gap-5">
 
                             {{-- Logo --}}
-                            <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+                            <div class="w-20 h-20 overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
                                 @if($party->logo)
-                                    <img src="{{ asset('storage/'.$party->logo) }}" alt="{{ $party->name }}" class="w-full h-full object-cover">
+                                    <img src="{{ Storage::disk('logos')->url($party->logo) }}" alt="{{ $party->name }}" class="w-full h-full object-cover">
                                 @else
                                     <div class="text-xl font-bold text-gray-400">
                                         {{ Str::substr($party->acronym ?? $party->name, 0, 2) }}
@@ -50,7 +50,7 @@
                                 @endif
 
                                 <p class="mt-3 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
-                                    {{ Str::limit($party->description, 140) }}
+                                    {{ Str::limit($party->description, 150) }}
                                 </p>
 
                                 <div class="mt-5 flex items-center text-sm font-medium text-primary">

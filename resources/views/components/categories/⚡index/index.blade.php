@@ -34,7 +34,7 @@
                                 </h2>
 
                                 <span class="shrink-0 text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary dark:bg-primary/20">
-                                    {{ $category->active_polls_count }} {{ \Illuminate\Support\Str::plural('encuesta', $category->active_polls_count) }}
+                                    {{ $category->active_polls_count ?? 0 }} {{ \Illuminate\Support\Str::plural('encuesta', $category->active_polls_count) }}
                                 </span>
                             </div>
 

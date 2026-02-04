@@ -21,9 +21,8 @@ new class extends Component
             ->when($this->search, function ($query) {
                 $query->where('title', 'like', "%{$this->search}%");
             })
-            ->whereHas('candidates')
             ->withCount('votes')
-            ->with(['category'])
+            ->with(['category', 'candidates'])
             ->orderBy('votes_count', 'desc')
             ->latest()
             ->paginate(6);

@@ -60,4 +60,21 @@ class Poll extends Model
     {
         return $query->whereIn('status', ['activo', 'cerrado']);
     }
+
+    public function actionLabel(?User $user): ?string
+    {
+        if ($this->status === 'cerrado') {
+            return 'Ver Resultados';
+        }
+
+        if ($this->status === 'activo') {
+            if ($user && $user->hasVotedInPoll($this)) {
+                return 'Ver Resultados';
+            }
+
+            return 'Votar Ahora';
+        }
+
+        return null;
+    }
 }

@@ -25,8 +25,6 @@ class CandidateExporter extends Exporter
                 ->label('Partido Político'),
             ExportColumn::make('number')
                 ->label('Número del Partido'),
-            ExportColumn::make('is_active')
-                ->label('Estado'),
             ExportColumn::make('created_at')
                 ->label('Creado el'),
             ExportColumn::make('updated_at')

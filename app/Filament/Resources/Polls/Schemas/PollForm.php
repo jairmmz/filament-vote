@@ -6,7 +6,6 @@ use App\Models\Category;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -33,7 +32,7 @@ class PollForm
                     ->schema([
                         Select::make('category_id')
                             ->label('Categoría')
-                            ->options(Category::query()->where('is_active', true)->pluck('name', 'id'))
+                            ->options(Category::query()->pluck('name', 'id'))
                             ->searchable()
                             ->required()
                             ->columnSpan(6),
@@ -68,14 +67,9 @@ class PollForm
                             ->nullable()
                             ->columnSpan(6),
 
-                        RichEditor::make('description')
+                        Textarea::make('description')
                             ->label('Descripción')
-                            ->toolbarButtons(([
-                                ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
-                                ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
-                                ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
-                                ['undo', 'redo'],
-                            ]))
+                            ->rows(7)
                             ->columnSpanFull()
                             ->belowContent('Proporcione una descripción detallada de la encuesta.'),
                     ]),

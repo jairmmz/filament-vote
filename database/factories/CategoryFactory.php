@@ -23,21 +23,6 @@ class CategoryFactory extends Factory
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
             'description' => fake()->sentence(12),
-            'is_active' => true,
         ];
-    }
-
-    public function active()
-    {
-        return $this->state(fn(array $attributes) => [
-            'is_active' => true,
-        ]);
-    }
-
-    public function inactive()
-    {
-        return $this->state(fn(array $attributes) => [
-            'is_active' => false,
-        ]);
     }
 }

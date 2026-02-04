@@ -22,8 +22,6 @@ class PoliticalPartyExporter extends Exporter
             ExportColumn::make('slug'),
             ExportColumn::make('acronym')
                 ->label('Acrónimo'),
-            ExportColumn::make('is_active')
-                ->label('Estado'),
             ExportColumn::make('created_at')
                 ->label('Creado el'),
             ExportColumn::make('updated_at')

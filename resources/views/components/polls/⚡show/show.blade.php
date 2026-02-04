@@ -10,6 +10,24 @@
                             class="w-full h-full object-cover">
 
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
+
+                        <div class="absolute top-4 left-4 z-10">
+                            <span class="px-3 py-1 text-xs font-bold rounded-full bg-white/90 text-slate-900 backdrop-blur">
+                                {{ $poll->category->name }}
+                            </span>
+                        </div>
+
+                        <div class="absolute top-4 right-4 z-10">
+                            <span @class([
+                                'px-3 py-1 text-xs font-bold rounded-full backdrop-blur',
+                                'bg-green-500/90 text-white' => $poll->status === 'activo',
+                                'bg-gray-500/90 text-white' => $poll->status === 'cerrado',
+                                'bg-yellow-500/90 text-white' => $poll->status === 'borrador',
+                                'bg-red-500/90 text-white' => $poll->status === 'archivado',
+                            ])>
+                                {{ ucfirst($poll->status) }}
+                            </span>
+                        </div>
                     </div>
                 @endif
 
@@ -21,7 +39,7 @@
                         </h1>
 
                         <div class="prose dark:prose-invert max-w-none text-sm md:text-base mb-8">
-                            {!! $poll->description !!}
+                            {!! nl2br($poll->description) !!}
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -157,7 +175,7 @@
                                         <div class="flex justify-center">
                                             @if($candidate->politicalParty?->logo)
                                                 <img
-                                                    src="{{ $candidate->politicalParty->logo }}"
+                                                    src="{{ Storage::disk('logos')->url($candidate->politicalParty->logo) }}"
                                                     alt="{{ $candidate->politicalParty->name }}"
                                                     class="w-10 h-10 object-cover ring-gray-200 dark:ring-gray-600"
                                                 >
@@ -290,35 +308,39 @@
                         <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">{{ $this->totalVotes }}</p>
                     </div>
 
-                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/30 dark:to-gray-600/30 rounded-xl p-5 border border-gray-200 dark:border-gray-600">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">No sabe / No opina</p>
-                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                            </svg>
+                    @if ($poll->allow_know_vote)
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/30 dark:to-gray-600/30 rounded-xl p-5 border border-gray-200 dark:border-gray-600">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">No sabe / No opina</p>
+                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-liResumen nejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                            <p class="text-3xl font-bold text-gray-700 dark:text-gray-300">{{ $this->knowVotes }}</p>
+                            @if($this->totalVotes > 0)
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
+                                </p>
+                            @endif
                         </div>
-                        <p class="text-3xl font-bold text-gray-700 dark:text-gray-300">{{ $this->knowVotes }}</p>
-                        @if($this->totalVotes > 0)
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
-                            </p>
-                        @endif
-                    </div>
+                    @endif
 
-                    <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 rounded-xl p-5 border border-red-200 dark:border-red-700">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="text-sm font-medium text-red-900 dark:text-red-100">Ninguno de los anteriores</p>
-                            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
+                    @if ($poll->allow_none_vote)
+                        <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 rounded-xl p-5 border border-red-200 dark:border-red-700">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm font-medium text-red-900 dark:text-red-100">Ninguno de los anteriores</p>
+                                <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </div>
+                            <p class="text-3xl font-bold text-red-600 dark:text-red-400">{{ $this->noneVotes }}</p>
+                            @if($this->totalVotes > 0)
+                                <p class="text-xs text-red-500 dark:text-red-400 mt-1">
+                                    {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
+                                </p>
+                            @endif
                         </div>
-                        <p class="text-3xl font-bold text-red-600 dark:text-red-400">{{ $this->noneVotes }}</p>
-                        @if($this->totalVotes > 0)
-                            <p class="text-xs text-red-500 dark:text-red-400 mt-1">
-                                {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
-                            </p>
-                        @endif
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>

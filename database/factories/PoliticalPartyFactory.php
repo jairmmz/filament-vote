@@ -27,15 +27,7 @@ class PoliticalPartyFactory extends Factory
             'logo' => 'https://picsum.photos/seed/' . fake()->numberBetween(1, 1000) . '/200/200',
             'color' => fake()->hexColor(),
             'description' => fake()->sentence(15),
-            'is_active' => true,
         ];
-    }
-
-    public function active()
-    {
-        return $this->state(fn(array $attributes) => [
-            'is_active' => true,
-        ]);
     }
 
     public function withLogo()

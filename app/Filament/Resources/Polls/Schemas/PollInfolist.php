@@ -24,6 +24,7 @@ class PollInfolist
 
                 TextEntry::make('description')
                     ->label('Descripción')
+                    ->formatStateUsing(fn(?string $state): string => $state ? nl2br(e($state)) : '-')
                     ->html()
                     ->columnSpanFull(),
 

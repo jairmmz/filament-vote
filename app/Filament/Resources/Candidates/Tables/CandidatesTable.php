@@ -49,10 +49,6 @@ class CandidatesTable
                     ->numeric()
                     ->sortable(),
 
-                IconColumn::make('is_active')
-                    ->label('Estado')
-                    ->boolean(),
-
                 TextColumn::make('created_at')
                     ->label('Creado El')
                     ->dateTime()
@@ -66,12 +62,7 @@ class CandidatesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('is_active')
-                    ->label('Activos')
-                    ->options([
-                        1 => 'Activo',
-                        0 => 'Inactivo',
-                    ])
+
             ])
             ->recordActions([
                 ViewAction::make(),

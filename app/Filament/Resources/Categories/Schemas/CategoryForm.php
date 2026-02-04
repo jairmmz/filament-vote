@@ -18,6 +18,8 @@ class CategoryForm
                 TextInput::make('name')
                     ->label('Nombre')
                     ->required()
+                    ->string()
+                    ->minLength(2)
                     ->maxLength('255')
                     ->autofocus()
                     ->live(onBlur: true)
@@ -26,24 +28,21 @@ class CategoryForm
                 TextInput::make('slug')
                     ->label('Slug')
                     ->required()
+                    ->minLength(2)
                     ->maxLength('255')
                     ->unique(ignoreRecord: true)
                     ->dehydrated()
                     ->regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')
                     ->validationMessages([
                         'regex' => 'El formato del slug debe ser minúsculas, números y guiones (ej: mi-categoria-1).',
-                    ]),
+                    ])
+                    ->disabled(fn($record) => $record !== null),
 
                 Textarea::make('description')
                     ->label('Descripción')
                     ->rows(4)
                     ->maxLength('65535')
                     ->columnSpanFull(),
-
-                Toggle::make('is_active')
-                    ->label('¿Está activo?')
-                    ->default(true)
-                    ->belowContent('Si esta habilitado, la categoría podrá ser visible'),
             ]);
     }
 }

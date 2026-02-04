@@ -20,6 +20,11 @@ new class extends Component
 
     public function mount(Poll $poll): void
     {
+        abort_if(
+            in_array($poll->status, ['borrador', 'archivado'], true),
+            404
+        );
+
         $this->poll = $poll->load([
             'category',
             'candidates.politicalParty',

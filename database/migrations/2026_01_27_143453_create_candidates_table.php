@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->text('biography')->nullable();
             $table->integer('number')->nullable();
-            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

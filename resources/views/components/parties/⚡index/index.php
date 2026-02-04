@@ -17,12 +17,11 @@ new class extends Component
     #[Computed]
     public function politicalParties()
     {
-        return PoliticalParty::active()
-            ->when($this->search, function ($query) {
-                $query->where('name', 'like', "%{$this->search}%");
-            })
+        return PoliticalParty::when($this->search, function ($query) {
+            $query->where('name', 'like', "%{$this->search}%");
+        })
             ->orderBy('name')
-            ->paginate(6);
+            ->paginate(8);
     }
 
     public function render(): View

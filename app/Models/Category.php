@@ -13,7 +13,6 @@ class Category extends Model
         'name',
         'slug',
         'description',
-        'is_active',
     ];
 
     /**
@@ -22,18 +21,13 @@ class Category extends Model
     protected function casts(): array
     {
         return [
-            'is_active' => 'boolean',
+
         ];
     }
 
     public function polls()
     {
         return $this->hasMany(Poll::class);
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
     }
 
     public function activePolls()
