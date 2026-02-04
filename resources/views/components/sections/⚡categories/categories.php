@@ -15,9 +15,7 @@ new class extends Component
 
     public function mount(): void
     {
-        $this->categories = Category::whereHas('activePolls')
-            ->withCount('activePolls')
-            ->orderBy('id', 'asc')
+        $this->categories = Category::orderBy('id', 'asc')
             ->take(12)
             ->get();
     }

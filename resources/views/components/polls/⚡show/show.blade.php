@@ -205,85 +205,81 @@
                                 </tr>
                             @endforeach
 
-                            @if($poll->allow_know_vote)
-                                <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
-                                    <td class="px-4 py-3">
-                                        @unless($hasVoted)
-                                            <flux:button type="button" icon="x" wire:click="selectedVote('no_sabe')" class="cursor-pointer">
-                                                Marcar
-                                            </flux:button>
-                                        @else
-                                            <flux:button type="button" icon="vote" disabled>
-                                                Marcado
-                                            </flux:button>
-                                        @endunless
-                                    </td>
-                                    <td colspan="5" class="px-4 py-3">
-                                        <label for="vote-null" class="cursor-pointer">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">No sabe / No opina</p>
-                                                    <p class="text-sm text-gray-600 dark:text-gray-400">No tengo una opinión clara o no tengo preferencia</p>
-                                                </div>
+                            <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
+                                <td class="px-4 py-3">
+                                    @unless($hasVoted)
+                                        <flux:button type="button" icon="x" wire:click="selectedVote('no sabe')" class="cursor-pointer">
+                                            Marcar
+                                        </flux:button>
+                                    @else
+                                        <flux:button type="button" icon="vote" disabled>
+                                            Marcado
+                                        </flux:button>
+                                    @endunless
+                                </td>
+                                <td colspan="5" class="px-4 py-3">
+                                    <label for="vote-null" class="cursor-pointer">
+                                        <div class="flex items-center gap-3">
+                                            <div>
+                                                <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">No sabe / No opina</p>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">No tengo una opinión clara o no tengo preferencia</p>
                                             </div>
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">
-                                        <span class="font-bold text-red-600 dark:text-red-400">
-                                            {{ $this->knowVotes }}
+                                        </div>
+                                    </label>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="font-bold text-red-600 dark:text-red-400">
+                                        {{ $this->knowVotes }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    @if($this->totalVotes > 0)
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                                            {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
                                         </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">
-                                        @if($this->totalVotes > 0)
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-                                                {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
-                                            </span>
-                                        @else
-                                            <span class="text-gray-400 dark:text-gray-500">0%</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endif
+                                    @else
+                                        <span class="text-gray-400 dark:text-gray-500">0%</span>
+                                    @endif
+                                </td>
+                            </tr>
 
-                            @if($poll->allow_none_vote)
-                                <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
-                                    <td class="px-4 py-3">
-                                        @unless($hasVoted)
-                                            <flux:button type="button" icon="x" wire:click="selectedVote('ninguno')" class="cursor-pointer">
-                                                Marcar
-                                            </flux:button>
-                                        @else
-                                            <flux:button type="button" icon="vote" disabled>
-                                                Marcado
-                                            </flux:button>
-                                        @endunless
-                                    </td>
-                                    <td colspan="5" class="px-4 py-3">
-                                        <label for="vote-null" class="cursor-pointer">
-                                            <div class="flex items-center gap-3">
-                                                <div>
-                                                    <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">Ninguno de los anteriores</p>
-                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Ninguno de las opciones me representa o que no votaría.</p>
-                                                </div>
+                            <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
+                                <td class="px-4 py-3">
+                                    @unless($hasVoted)
+                                        <flux:button type="button" icon="x" wire:click="selectedVote('ninguno')" class="cursor-pointer">
+                                            Marcar
+                                        </flux:button>
+                                    @else
+                                        <flux:button type="button" icon="vote" disabled>
+                                            Marcado
+                                        </flux:button>
+                                    @endunless
+                                </td>
+                                <td colspan="5" class="px-4 py-3">
+                                    <label for="vote-null" class="cursor-pointer">
+                                        <div class="flex items-center gap-3">
+                                            <div>
+                                                <p class="text-sm font-semibold  text-gray-900 dark:text-gray-100">Ninguno de los anteriores</p>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">Ninguno de las opciones me representa o que no votaría</p>
                                             </div>
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">
-                                        <span class="font-bold text-red-600 dark:text-red-400">
-                                            {{ $this->noneVotes }}
+                                        </div>
+                                    </label>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="font-bold text-red-600 dark:text-red-400">
+                                        {{ $this->noneVotes }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    @if($this->totalVotes > 0)
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                                            {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
                                         </span>
-                                    </td>
-                                    <td class="px-4 py-3 text-center">
-                                        @if($this->totalVotes > 0)
-                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-                                                {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
-                                            </span>
-                                        @else
-                                            <span class="text-gray-400 dark:text-gray-500">0%</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endif
+                                    @else
+                                        <span class="text-gray-400 dark:text-gray-500">0%</span>
+                                    @endif
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -308,39 +304,35 @@
                         <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">{{ $this->totalVotes }}</p>
                     </div>
 
-                    @if ($poll->allow_know_vote)
-                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/30 dark:to-gray-600/30 rounded-xl p-5 border border-gray-200 dark:border-gray-600">
-                            <div class="flex items-center justify-between mb-2">
-                                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">No sabe / No opina</p>
-                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-liResumen nejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                            </div>
-                            <p class="text-3xl font-bold text-gray-700 dark:text-gray-300">{{ $this->knowVotes }}</p>
-                            @if($this->totalVotes > 0)
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
-                                </p>
-                            @endif
+                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700/30 dark:to-gray-600/30 rounded-xl p-5 border border-gray-200 dark:border-gray-600">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">No sabe / No opina</p>
+                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-liResumen nejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
                         </div>
-                    @endif
+                        <p class="text-3xl font-bold text-gray-700 dark:text-gray-300">{{ $this->knowVotes }}</p>
+                        @if($this->totalVotes > 0)
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                {{ round(($this->knowVotes / $this->totalVotes) * 100, 1) }}%
+                            </p>
+                        @endif
+                    </div>
 
-                    @if ($poll->allow_none_vote)
-                        <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 rounded-xl p-5 border border-red-200 dark:border-red-700">
-                            <div class="flex items-center justify-between mb-2">
-                                <p class="text-sm font-medium text-red-900 dark:text-red-100">Ninguno de los anteriores</p>
-                                <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </div>
-                            <p class="text-3xl font-bold text-red-600 dark:text-red-400">{{ $this->noneVotes }}</p>
-                            @if($this->totalVotes > 0)
-                                <p class="text-xs text-red-500 dark:text-red-400 mt-1">
-                                    {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
-                                </p>
-                            @endif
+                    <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 rounded-xl p-5 border border-red-200 dark:border-red-700">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-sm font-medium text-red-900 dark:text-red-100">Ninguno de los anteriores</p>
+                            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
                         </div>
-                    @endif
+                        <p class="text-3xl font-bold text-red-600 dark:text-red-400">{{ $this->noneVotes }}</p>
+                        @if($this->totalVotes > 0)
+                            <p class="text-xs text-red-500 dark:text-red-400 mt-1">
+                                {{ round(($this->noneVotes / $this->totalVotes) * 100, 1) }}%
+                            </p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -359,6 +351,20 @@
                     <div class="my-4">
                         <flux:button class="w-full" href="{{ route('login') }}" wire:navigate>
                             Iniciar Sesión
+                        </flux:button>
+                    </div>
+                </div>
+            @elseif ($isUserNotEmailVerification)
+                <div>
+                    <flux:heading size="lg">Verifica tu correo</flux:heading>
+                    <flux:text class="my-4">
+                        Necesitas verificar tu email antes de poder votar.
+                        El correo llegará a tu bandeja de entrada.
+                    </flux:text>
+
+                    <div class="my-4">
+                        <flux:button wire:click="resendVerification" class="w-full">
+                            Reenviar correo de verificación
                         </flux:button>
                     </div>
                 </div>

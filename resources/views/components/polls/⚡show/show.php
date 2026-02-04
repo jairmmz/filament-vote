@@ -17,11 +17,13 @@ new class extends Component
     public ?string $vote_type = null;
     public bool $hasVoted = false;
     public bool $isUserNotAuth = false;
+    public bool $isUserNotEmailVerification = false;
 
     public function mount(Poll $poll): void
     {
         abort_if(
-            in_array($poll->status, ['borrador', 'archivado'], true),
+            in_array($poll->status, ['borrador', 'archivado'], true)
+            || $poll->ends_at->isPast(),
             404
         );
 
@@ -51,6 +53,13 @@ new class extends Component
 
         if (!Auth::check()) {
             $this->isUserNotAuth = true;
+            $this->isUserNotEmailVerification = false;
+        } elseif (!Auth::user()->hasVerifiedEmail()) {
+            $this->isUserNotAuth = false;
+            $this->isUserNotEmailVerification = true;
+        } else {
+            $this->isUserNotAuth = false;
+            $this->isUserNotEmailVerification = false;
         }
 
         Flux::modal('modal-vote')->show();
@@ -58,6 +67,9 @@ new class extends Component
 
     public function vote()
     {
+        abort_unless(Auth::check(), 403);
+        abort_unless(Auth::user()->hasVerifiedEmail(), 403);
+
         if ($this->hasVoted) {
             $this->addError('vote', 'Ya has votado en esta encuesta.');
             return;
@@ -83,13 +95,8 @@ new class extends Component
         ]);
 
         $this->hasVoted = true;
-        $this->selectedCandidate = null;
-        $this->vote_type = null;
-        $this->isUserNotAuth = false;
-
-        Flux::modal('modal-vote')->close();
         $this->reset(['selectedCandidate', 'vote_type']);
-
+        Flux::modal('modal-vote')->close();
         $this->poll->refresh();
 
         session()->flash('vote_success', '¡Tu voto ha sido registrado exitosamente!');
@@ -113,6 +120,14 @@ new class extends Component
     public function getValidVotesProperty(): int
     {
         return $this->poll->votes()->where('vote_type', 'válido')->count();
+    }
+
+    public function resendVerification(): void
+    {
+        if (Auth::check() && !Auth::user()->hasVerifiedEmail()) {
+            Auth::user()->sendEmailVerificationNotification();
+            session()->flash('message_email', 'Te enviamos un correo de verificación a tu correo electrónico');
+        }
     }
 
     public function render(): View

@@ -41,14 +41,6 @@ class PollInfolist
                     ->label('Estado')
                     ->badge(),
 
-                IconEntry::make('allow_know_vote')
-                    ->label('Permitir voto no sabe / no opina')
-                    ->boolean(),
-
-                IconEntry::make('allow_none_vote')
-                    ->label('Permitir voto ninguno / no votaría')
-                    ->boolean(),
-
                 TextEntry::make('starts_at')
                     ->label('Fecha de inicio')
                     ->dateTime()

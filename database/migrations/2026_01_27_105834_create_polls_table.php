@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('location')->nullable();
             $table->enum('status', ['borrador', 'activo', 'cerrado', 'archivado'])->default('borrador');
-            $table->boolean('allow_know_vote')->default(true);
-            $table->boolean('allow_none_vote')->default(true);
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();
             $table->timestamps();

@@ -110,18 +110,6 @@ class PollForm
                             ->required()
                             ->columnSpan(6)
                             ->belowContent('Seleccione el estado actual de la encuesta.'),
-
-                        Toggle::make('allow_know_vote')
-                            ->label('Permitir voto (No sabe / No opina)')
-                            ->default(true)
-                            ->columnSpan(6)
-                            ->belowContent('Si está habilitado, los votantes podrán enviar un voto indicando que no saben o no opinan.'),
-
-                        Toggle::make('allow_none_vote')
-                            ->label('Permitir voto (Ninguno / No votaría)')
-                            ->default(true)
-                            ->columnSpan(6)
-                            ->belowContent('Si está habilitado, los votantes podrán enviar un voto indicando que ninguno de las opciones les representa o que no votarían.'),
                     ]),
 
                 Section::make('Programación')
