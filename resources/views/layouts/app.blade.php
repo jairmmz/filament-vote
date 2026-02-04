@@ -55,6 +55,10 @@
 
         @fluxScripts
 
+        @persist('toast')
+            <flux:toast />
+        @endpersist
+
         {!! CookieConsent::scripts() !!}
 
         {{-- Scripts --}}

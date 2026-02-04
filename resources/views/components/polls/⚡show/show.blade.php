@@ -74,22 +74,6 @@
             </div>
         </div>
 
-        @if($hasVoted)
-            <div class="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-700 rounded-2xl p-6">
-                <div class="flex items-center gap-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                            <flux:icon.thumbs-up />
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-green-900 dark:text-green-100">¡Voto registrado exitosamente!</h3>
-                        <p class="text-green-700 dark:text-green-300 text-sm">Tu voto ha sido guardado de forma segura en esta encuesta.</p>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <div class="grid grid-cols-1 gap-8">
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                 <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-b border-gray-200 dark:border-gray-600">
@@ -104,7 +88,7 @@
                         <thead class="bg-gray-100 dark:bg-gray-700/30 border-b border-gray-200 dark:border-gray-600">
                             <tr>
                                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                                    Votar
+
                                 </th>
                                 <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                                     Candidato
@@ -131,17 +115,28 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($poll->candidates as $candidate)
-                                <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
+                                <tr class="{{ $this->isVotedCandidate($candidate->id) ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
                                     <td class="px-4 py-3">
-                                        @unless($hasVoted)
-                                            <flux:button type="button" icon="x" wire:click="selectedVote({{ $candidate->id }})" class="cursor-pointer">
+                                        @php
+                                            $isThisCandidate = $userVote?->candidate_id === $candidate->id;
+                                        @endphp
+                                        @if($this->isPollClosed)
+                                            @if($isThisCandidate)
+                                                <flux:button type="button" icon="vote" disabled>
+                                                    Marcado
+                                                </flux:button>
+                                            @endif
+                                        @elseif(!$userVote)
+                                            <flux:button type="button" icon="x"
+                                                wire:click="selectedVote({{ $candidate->id }})"
+                                                class="cursor-pointer">
                                                 Marcar
                                             </flux:button>
-                                        @else
+                                        @elseif($isThisCandidate)
                                             <flux:button type="button" icon="vote" disabled>
                                                 Marcado
                                             </flux:button>
-                                        @endunless
+                                        @endif
                                     </td>
                                     <td class="px-4 py-3">
                                         <label for="candidate-{{ $candidate->id }}" class="text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
@@ -205,17 +200,28 @@
                                 </tr>
                             @endforeach
 
-                            <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
+                            <tr class="{{ $this->isSpecialVote('no sabe') ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
                                 <td class="px-4 py-3">
-                                    @unless($hasVoted)
-                                        <flux:button type="button" icon="x" wire:click="selectedVote('no sabe')" class="cursor-pointer">
+                                    @php
+                                        $isNoSabe = $userVote?->vote_type === 'no sabe';
+                                    @endphp
+                                    @if($this->isPollClosed)
+                                        @if($isNoSabe)
+                                            <flux:button type="button" icon="vote" disabled>
+                                                Marcado
+                                            </flux:button>
+                                        @endif
+                                    @elseif(!$userVote)
+                                        <flux:button type="button" icon="x"
+                                            wire:click="selectedVote('no sabe')"
+                                            class="cursor-pointer">
                                             Marcar
                                         </flux:button>
-                                    @else
+                                    @elseif($isNoSabe)
                                         <flux:button type="button" icon="vote" disabled>
                                             Marcado
                                         </flux:button>
-                                    @endunless
+                                    @endif
                                 </td>
                                 <td colspan="5" class="px-4 py-3">
                                     <label for="vote-null" class="cursor-pointer">
@@ -243,17 +249,28 @@
                                 </td>
                             </tr>
 
-                            <tr class="{{ $hasVoted ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
+                            <tr class="{{ $this->isSpecialVote('ninguno') ? 'bg-[#d6f4df] dark:bg-[#253949]' : '' }}">
                                 <td class="px-4 py-3">
-                                    @unless($hasVoted)
-                                        <flux:button type="button" icon="x" wire:click="selectedVote('ninguno')" class="cursor-pointer">
+                                    @php
+                                        $isNinguno = $userVote?->vote_type === 'ninguno';
+                                    @endphp
+                                    @if($this->isPollClosed)
+                                        @if($isNinguno)
+                                            <flux:button type="button" icon="vote" disabled>
+                                                Marcado
+                                            </flux:button>
+                                        @endif
+                                    @elseif(!$userVote)
+                                        <flux:button type="button" icon="x"
+                                            wire:click="selectedVote('ninguno')"
+                                            class="cursor-pointer">
                                             Marcar
                                         </flux:button>
-                                    @else
+                                    @elseif($isNinguno)
                                         <flux:button type="button" icon="vote" disabled>
                                             Marcado
                                         </flux:button>
-                                    @endunless
+                                    @endif
                                 </td>
                                 <td colspan="5" class="px-4 py-3">
                                     <label for="vote-null" class="cursor-pointer">
@@ -349,7 +366,7 @@
                     </flux:text>
 
                     <div class="my-4">
-                        <flux:button class="w-full" href="{{ route('login') }}" wire:navigate>
+                        <flux:button type="button" class="w-full"  href="{{ route('login') }}" wire:navigate>
                             Iniciar Sesión
                         </flux:button>
                     </div>
@@ -363,7 +380,7 @@
                     </flux:text>
 
                     <div class="my-4">
-                        <flux:button wire:click="resendVerification" class="w-full">
+                        <flux:button type="button" wire:click="resendVerification" class="w-full">
                             Reenviar correo de verificación
                         </flux:button>
                     </div>
@@ -372,7 +389,13 @@
                 <div>
                     <flux:heading size="lg">Confirmar Votación</flux:heading>
                     <flux:text class="mt-2">
-                        Estás seguro de que deseas registrar tu voto en esta encuesta?
+                        @if ($vote_type === 'válido')
+                            Estás seguro de votar por la opción: <br>
+                            <span class="text-sm font-semibold">{{ $selectedCandidateName }}</span>
+                        @else
+                            Estás seguro de marcar por la opción: <br>
+                            <span class="text-sm font-semibold">{{ Str::ucfirst($vote_type) }}</span>
+                        @endif
                     </flux:text>
                 </div>
                 <div class="flex gap-2">
@@ -380,7 +403,7 @@
                     <flux:modal.close>
                         <flux:button variant="danger">Cancelar</flux:button>
                     </flux:modal.close>
-                    <flux:button type="submit" wire:click="vote" variant="primary">Confirmar Votación</flux:button>
+                    <flux:button type="button" wire:click="vote" variant="primary">Confirmar Votación</flux:button>
                 </div>
             @endif
         </div>

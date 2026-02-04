@@ -59,7 +59,7 @@ class Poll extends Model
 
     public function actionLabel(?User $user): ?string
     {
-        if ($this->status === 'cerrado') {
+        if ($this->status === 'cerrado' || $this->ends_at->isPast()) {
             return 'Ver Resultados';
         }
 

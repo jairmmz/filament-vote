@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Candidate;
 use App\Models\Poll;
 use App\Models\SiteSetting;
 use App\Models\Vote;
@@ -13,17 +14,17 @@ use Livewire\Component;
 new class extends Component
 {
     public ?Poll $poll;
-    public ?int $selectedCandidate = null;
+    public int|string|null $selectedCandidate = null;
+    public ?string $selectedCandidateName = null;
     public ?string $vote_type = null;
-    public bool $hasVoted = false;
+    public ?Vote $userVote = null;
     public bool $isUserNotAuth = false;
     public bool $isUserNotEmailVerification = false;
 
     public function mount(Poll $poll): void
     {
         abort_if(
-            in_array($poll->status, ['borrador', 'archivado'], true)
-            || $poll->ends_at->isPast(),
+            in_array($poll->status, ['borrador', 'archivado'], true),
             404
         );
 
@@ -35,20 +36,23 @@ new class extends Component
         ]);
 
         if (Auth::check()) {
-            $this->hasVoted = Vote::where('poll_id', $poll->id)
+            $this->userVote = Vote::where('poll_id', $poll->id)
                 ->where('user_id', Auth::id())
-                ->exists();
+                ->first();
         }
     }
 
-    public function selectedVote(string|int $candidate): void
+    public function selectedVote(int|string $candidate): void
     {
         if ($candidate === 'no sabe' || $candidate === 'ninguno') {
             $this->selectedCandidate = null;
             $this->vote_type = $candidate;
+            $this->selectedCandidateName = ucfirst($candidate);
         } else {
+            $candidateModel = Candidate::findOr($candidate);
             $this->selectedCandidate = $candidate;
             $this->vote_type = 'válido';
+            $this->selectedCandidateName = $candidateModel->name;
         }
 
         if (!Auth::check()) {
@@ -70,8 +74,8 @@ new class extends Component
         abort_unless(Auth::check(), 403);
         abort_unless(Auth::user()->hasVerifiedEmail(), 403);
 
-        if ($this->hasVoted) {
-            $this->addError('vote', 'Ya has votado en esta encuesta.');
+        if ($this->userVote) {
+            Flux::toast('Ya has votado en esta encuesta.', variant: 'warning');
             return;
         }
 
@@ -81,11 +85,11 @@ new class extends Component
         ]);
 
         if (!$this->selectedCandidate && !$this->vote_type) {
-            $this->addError('vote', 'Debes seleccionar una opción para votar.');
+            Flux::toast('Debes seleccionar una opción para votar.', variant: 'warning');
             return;
         }
 
-        Vote::create([
+        $vote = Vote::create([
             'poll_id' => $this->poll->id,
             'user_id' => Auth::id(),
             'candidate_id' => $this->selectedCandidate,
@@ -94,12 +98,19 @@ new class extends Component
             'user_agent' => request()->userAgent(),
         ]);
 
-        $this->hasVoted = true;
+        $this->userVote = $vote;
+
+        $this->poll = $this->poll->fresh([
+            'category',
+            'candidates.politicalParty',
+            'candidates.votes',
+            'votes'
+        ]);
+
         $this->reset(['selectedCandidate', 'vote_type']);
         Flux::modal('modal-vote')->close();
-        $this->poll->refresh();
 
-        session()->flash('vote_success', '¡Tu voto ha sido registrado exitosamente!');
+        Flux::toast('¡Tu voto ha sido registrado exitosamente!', variant: 'success');
     }
 
     public function getTotalVotesProperty(): int
@@ -126,8 +137,24 @@ new class extends Component
     {
         if (Auth::check() && !Auth::user()->hasVerifiedEmail()) {
             Auth::user()->sendEmailVerificationNotification();
-            session()->flash('message_email', 'Te enviamos un correo de verificación a tu correo electrónico');
+            Flux::modal('modal-vote')->close();
+            Flux::toast('Te enviamos un correo de verificación a tu correo electrónico', variant: 'success');
         }
+    }
+
+    public function isVotedCandidate(int $candidateId): bool
+    {
+        return $this->userVote?->candidate_id === $candidateId;
+    }
+
+    public function isSpecialVote(string $type): bool
+    {
+        return $this->userVote?->vote_type === $type;
+    }
+
+    public function getIsPollClosedProperty(): bool
+    {
+        return $this->poll->ends_at && $this->poll->ends_at->isPast();
     }
 
     public function render(): View
