@@ -94,14 +94,10 @@
                     </div>
 
                     <div class="mt-auto flex gap-2">
-                        @php
-                            $label = $poll->actionLabel(auth()->user());
-                        @endphp
-
                         <a href="{{ route('polls.show', $poll->slug) }}"
                         class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold hover:opacity-90 transition"
                         wire:navigate>
-                            {{ $label }}
+                            Ver Encuesta
                         </a>
                         <button class="p-2 rounded-lg border border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/10 transition">
                             <flux:icon.share-2 />

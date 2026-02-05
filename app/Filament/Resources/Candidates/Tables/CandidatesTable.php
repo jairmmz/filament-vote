@@ -38,16 +38,19 @@ class CandidatesTable
 
                 TextColumn::make('politicalParty.name')
                     ->label('Partido Político')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 TextColumn::make('poll.title')
                     ->label('Encuesta')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 TextColumn::make('number')
                     ->label('Número')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 TextColumn::make('created_at')
                     ->label('Creado El')
@@ -62,7 +65,17 @@ class CandidatesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('poll')
+                    ->label('Encuesta')
+                    ->relationship('poll', 'title')
+                    ->searchable()
+                    ->preload(),
 
+                SelectFilter::make('politicalParty')
+                    ->label('Partido Político')
+                    ->relationship('politicalParty', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->recordActions([
                 ViewAction::make(),

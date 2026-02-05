@@ -26,7 +26,8 @@ class PollsTable
                 TextColumn::make('category.name')
                     ->label('Categoría')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 TextColumn::make('title')
                     ->label('Título')
@@ -63,7 +64,6 @@ class PollsTable
                     ->toggleable(),
             ])
             ->filters([
-                TrashedFilter::make(),
                 SelectFilter::make('status')
                     ->label('Estado')
                     ->options([
@@ -71,7 +71,13 @@ class PollsTable
                         'activo' => 'Activo',
                         'cerrado' => 'Cerrado',
                         'archivado' => 'Archivado',
-                    ])
+                    ]),
+
+                SelectFilter::make('category')
+                    ->label('Categoría')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->recordActions([
                 ViewAction::make(),

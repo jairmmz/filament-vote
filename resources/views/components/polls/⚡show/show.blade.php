@@ -29,6 +29,40 @@
                             </span>
                         </div>
                     </div>
+                @else
+                    <div class="relative w-full h-36 sm:h-52 md:h-64 lg:h-[300px] overflow-hidden rounded-xl bg-gradient-to-br from-red-600 via-rose-600 to-red-800">
+
+                        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_20%,white,transparent_40%),radial-gradient(circle_at_70%_80%,white,transparent_40%)]"></div>
+
+                        <div class="absolute inset-0 bg-black/30"></div>
+
+                        <div class="absolute top-4 left-4 z-10">
+                            <span class="px-3 py-1 text-xs font-bold rounded-full bg-white/90 text-slate-900 backdrop-blur">
+                                {{ $poll->category->name }}
+                            </span>
+                        </div>
+
+                        <div class="absolute top-4 right-4 z-10">
+                            <span @class([
+                                'px-3 py-1 text-xs font-bold rounded-full backdrop-blur',
+                                'bg-green-500/90 text-white' => $poll->status === 'activo',
+                                'bg-gray-500/90 text-white' => $poll->status === 'cerrado',
+                                'bg-yellow-500/90 text-white' => $poll->status === 'borrador',
+                                'bg-red-500/90 text-white' => $poll->status === 'archivado',
+                            ])>
+                                {{ ucfirst($poll->status) }}
+                            </span>
+                        </div>
+
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+                            <h2 class="text-white text-xl md:text-3xl font-bold drop-shadow-lg">
+                                {{ $poll->title }}
+                            </h2>
+                            <p class="text-white/80 text-sm mt-2">
+                                Encuesta disponible para votación
+                            </p>
+                        </div>
+                    </div>
                 @endif
 
                 <div class="px-6 md:px-10 py-8">
