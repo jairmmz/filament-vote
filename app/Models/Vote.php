@@ -17,10 +17,19 @@ class Vote extends Model
         'vote_type',
         'ip_address',
         'user_agent',
+        'poll_token',
         'fingerprint',
         'session_id',
-        'composite_hash'
+        'composite_hash',
+        'is_suspicious',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_suspicious' => 'boolean',
+        ];
+    }
 
     protected static function booted()
     {
@@ -34,6 +43,7 @@ class Vote extends Model
             $vote->composite_hash = hash('sha256',
                 $vote->poll_id .
                 $vote->fingerprint .
+                $vote->poll_token .
                 $vote->ip_address .
                 $vote->user_agent
             );

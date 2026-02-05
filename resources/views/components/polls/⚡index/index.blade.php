@@ -99,9 +99,6 @@
                             wire:navigate>
                                 Ver Encuesta
                             </a>
-                            <button class="p-2 rounded-lg border border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/10 transition">
-                                <flux:icon.share-2 />
-                            </button>
                         </div>
                     </div>
                 </div>

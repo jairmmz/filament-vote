@@ -20,11 +20,14 @@ return new class extends Migration
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
             $table->string('fingerprint')->unique();
+            $table->string('poll_token')->nullable();
             $table->string('session_id')->nullable();
             $table->string('composite_hash', 64)->unique();
+            $table->boolean('is_suspicious')->default(false);
             $table->timestamps();
 
             $table->index(['poll_id', 'fingerprint']);
+            $table->unique(['poll_id', 'poll_token']);
             $table->index(['poll_id', 'composite_hash']);
             $table->index(['poll_id', 'ip_address']);
         });
