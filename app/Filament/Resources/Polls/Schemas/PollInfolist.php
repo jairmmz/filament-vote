@@ -60,11 +60,6 @@ class PollInfolist
                     ->label('Actualizado el')
                     ->dateTime('d/m/Y H:i')
                     ->placeholder('-'),
-
-                TextEntry::make('deleted_at')
-                    ->label('Eliminado el')
-                    ->dateTime('d/m/Y H:i')
-                    ->visible(fn(Poll $record): bool => $record->trashed()),
             ]);
     }
 }
