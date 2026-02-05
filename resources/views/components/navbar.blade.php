@@ -21,47 +21,6 @@
             <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" size="sm"  icon="moon" variant="subtle" aria-label="Toggle dark mode" />
 
             <flux:spacer />
-
-            {{-- Profile Dropdown --}}
-            @auth
-                <flux:dropdown position="top" align="end">
-                    <flux:profile
-                        :avatar="auth()->user()->avatar"
-                    />
-
-                    <flux:menu>
-                        <flux:menu.radio.group>
-                            <div class="p-0 text-sm font-normal">
-                                <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                    <flux:avatar :src="auth()->user()->avatar" size="sm" class="shrink-0" />
-
-                                    <div class="grid flex-1 text-left text-sm leading-tight">
-                                        <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                        <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </flux:menu.radio.group>
-
-                        <flux:menu.separator />
-
-                        <flux:menu.radio.group>
-                            <flux:menu.item href="/settings/profile" icon="cog">Perfil</flux:menu.item>
-                        </flux:menu.radio.group>
-
-                        <flux:menu.separator />
-
-                        <form method="POST" action="{{ route('logout.frontend') }}" class="w-full">
-                            @csrf
-                            <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" data-test="logout-button" class="w-full">
-                                Cerrar Sesión
-                            </flux:menu.item>
-                        </form>
-                    </flux:menu>
-                </flux:dropdown>
-            @else
-                <flux:button size="sm" href="{{ route('login') }}" wire:navigate>Iniciar Sesión</flux:button>
-            @endauth
         </flux:navbar>
     </flux:header>
 

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -16,22 +15,6 @@ Route::livewire('/partidos-politicos/{politicalParty:slug}/candidato/{candidate:
 Route::livewire('/contacto', 'contact')->name('contact');
 Route::livewire('/nosotros', 'about')->name('about');
 Route::livewire('/como-funciona', 'how_it_works')->name('how-it-works');
-
-Route::middleware('guest')->group(function () {
-    Route::livewire('/login', 'auth.login')->name('login');
-    Route::livewire('/register', 'auth.register')->name('register');
-    Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google.redirect');
-    Route::livewire('/forgot-password', 'auth.forgot-password')->name('forgot-password');
-    Route::livewire('/reset-password', 'auth.reset-password')->name('reset-password');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::post('/logout', App\Livewire\Actions\Logout::class)->name('logout.frontend');
-    Route::livewire('/verify-email', 'auth.verify-email')->name('verify-email');
-    Route::livewire('/confirm-password', 'auth.confirm-password')->name('confirm-password');
-});
-
-Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
 Route::view('/politicas-de-privacidad', 'policies.privacy-policy')->name('privacy-policy');
 Route::view('/terminos-y-condiciones', 'policies.consent-terms')->name('consent-terms');

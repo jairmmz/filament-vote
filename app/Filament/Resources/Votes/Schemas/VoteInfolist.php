@@ -17,7 +17,7 @@ class VoteInfolist
 
                 Section::make('Información del voto')
                     ->columns(12)
-                    ->columnSpan(8)
+                    ->columnSpanFull()
                     ->schema([
                         TextEntry::make('code')
                             ->label('Código de voto')
@@ -49,28 +49,21 @@ class VoteInfolist
                             ->placeholder('—')
                             ->columnSpanFull()
                             ->visible(fn($record) => $record->vote_type === 'válido'),
-                    ]),
-
-                Section::make('Información del votante')
-                    ->columns(12)
-                    ->columnSpan(4)
-                    ->schema([
-                        TextEntry::make('user.name')
-                            ->label('Usuario')
-                            ->weight(FontWeight::Medium)
-                            ->columnSpanFull(),
-
-                        TextEntry::make('user.email')
-                            ->label('Correo')
-                            ->columnSpanFull(),
 
                         TextEntry::make('created_at')
-                            ->label('Fecha del voto')
-                            ->dateTime('d/m/Y H:i')
-                            ->columnSpanFull(),
+                            ->label('Fecha de votación')
+                            ->dateTime('d/m/Y H:i:s')
+                            ->columnSpan(6),
+
+                        TextEntry::make('updated_at')
+                            ->label('Última actualización')
+                            ->dateTime('d/m/Y H:i:s')
+                            ->columnSpan(6)
+                            ->visible(fn($record) => $record->created_at != $record->updated_at),
                     ]),
 
-                Section::make('Datos técnicos')
+                Section::make('Datos técnicos del dispositivo')
+                    ->icon('heroicon-o-device-phone-mobile')
                     ->columns(12)
                     ->columnSpanFull()
                     ->collapsible()
@@ -78,11 +71,121 @@ class VoteInfolist
                         TextEntry::make('ip_address')
                             ->label('Dirección IP')
                             ->placeholder('No registrada')
+                            ->copyable()
+                            ->icon('heroicon-o-globe-alt')
                             ->columnSpan(6),
 
                         TextEntry::make('user_agent')
                             ->label('Navegador / Dispositivo')
                             ->placeholder('No registrado')
+                            ->wrap()
+                            ->icon('heroicon-o-computer-desktop')
+                            ->columnSpan(6),
+
+                        TextEntry::make('session_id')
+                            ->label('ID de Sesión')
+                            ->placeholder('No registrada')
+                            ->copyable()
+                            ->icon('heroicon-o-identification')
+                            ->fontFamily('mono')
+                            ->size('xs')
+                            ->columnSpan(12),
+                    ]),
+
+                Section::make('Huellas de seguridad (Anti-fraude)')
+                    ->icon('heroicon-o-shield-check')
+                    ->description('Identificadores únicos utilizados para prevenir votos duplicados')
+                    ->columns(12)
+                    ->columnSpanFull()
+                    ->collapsible()
+                    ->collapsed()
+                    ->schema([
+                        TextEntry::make('fingerprint')
+                            ->label('Browser Fingerprint')
+                            ->placeholder('No registrado')
+                            ->copyable()
+                            ->fontFamily('mono')
+                            ->size('xs')
+                            ->helperText('Huella digital única del navegador/dispositivo')
+                            ->icon('heroicon-o-finger-print')
+                            ->columnSpan(12),
+
+                        TextEntry::make('composite_hash')
+                            ->label('Hash Compuesto')
+                            ->placeholder('No registrado')
+                            ->copyable()
+                            ->fontFamily('mono')
+                            ->size('xs')
+                            ->helperText('SHA-256 combinado de: Poll ID + Fingerprint + IP + User Agent')
+                            ->icon('heroicon-o-lock-closed')
+                            ->columnSpan(12),
+                    ]),
+
+                Section::make('Análisis de seguridad')
+                    ->icon('heroicon-o-chart-bar')
+                    ->columns(12)
+                    ->columnSpanFull()
+                    ->collapsible()
+                    ->collapsed()
+                    ->schema([
+                        TextEntry::make('security_analysis')
+                            ->label('Análisis automático')
+                            ->placeholder('—')
+                            ->state(function ($record) {
+                                $warnings = [];
+
+                                $votesFromSameIP = \App\Models\Vote::where('poll_id', $record->poll_id)
+                                    ->where('ip_address', $record->ip_address)
+                                    ->count();
+
+                                if ($votesFromSameIP > 1) {
+                                    $warnings[] = "⚠️ {$votesFromSameIP} votos detectados desde esta IP en esta encuesta";
+                                }
+
+                                $votesFromSameFingerprint = \App\Models\Vote::where('poll_id', $record->poll_id)
+                                    ->where('fingerprint', $record->fingerprint)
+                                    ->count();
+
+                                if ($votesFromSameFingerprint > 1) {
+                                    $warnings[] = "⚠️ {$votesFromSameFingerprint} votos con el mismo fingerprint en esta encuesta";
+                                }
+
+                                $allVotesFromIP = \App\Models\Vote::where('ip_address', $record->ip_address)->count();
+
+                                if ($allVotesFromIP > 5) {
+                                    $warnings[] = "🚨 Esta IP ha votado {$allVotesFromIP} veces en total (múltiples encuestas)";
+                                }
+
+                                if (empty($warnings)) {
+                                    return '✅ Voto legítimo - No se detectaron anomalías';
+                                }
+
+                                return implode("\n", $warnings);
+                            })
+                            ->markdown()
+                            ->columnSpanFull(),
+
+                        TextEntry::make('votes_from_same_ip')
+                            ->label('Votos desde la misma IP (todas las encuestas)')
+                            ->state(fn($record) => \App\Models\Vote::where('ip_address', $record->ip_address)->count())
+                            ->badge()
+                            ->color(fn($state) => match(true) {
+                                $state == 1 => 'success',
+                                $state <= 3 => 'warning',
+                                default => 'danger',
+                            })
+                            ->columnSpan(6),
+
+                        TextEntry::make('votes_same_fingerprint')
+                            ->label('Votos con mismo fingerprint (esta encuesta)')
+                            ->state(fn($record) => \App\Models\Vote::where('poll_id', $record->poll_id)
+                                ->where('fingerprint', $record->fingerprint)
+                                ->count())
+                            ->badge()
+                            ->color(fn($state) => match(true) {
+                                $state == 1 => 'success',
+                                default => 'danger',
+                            })
                             ->columnSpan(6),
                     ]),
             ]);

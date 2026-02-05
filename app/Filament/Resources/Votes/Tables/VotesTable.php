@@ -26,11 +26,6 @@ class VotesTable
                     ->label('Código')
                     ->searchable(),
 
-                TextColumn::make('user.name')
-                    ->label('Usuario')
-                    ->sortable()
-                    ->searchable(),
-
                 TextColumn::make('poll.title')
                     ->label('Encuesta')
                     ->sortable()
@@ -62,12 +57,6 @@ class VotesTable
                         'no sabe' => 'No sabe / No opina',
                         'ninguno' => 'Ninguno de los anteriores',
                     ]),
-
-                SelectFilter::make('user')
-                    ->label('Usuario')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->preload(),
 
                 SelectFilter::make('poll')
                     ->label('Encuesta')

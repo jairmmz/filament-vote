@@ -15,14 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->foreignId('poll_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('candidate_id')->nullable()->constrained()->onDelete('cascade');
             $table->enum('vote_type', ['válido', 'no sabe', 'ninguno'])->default('válido');
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
+            $table->string('fingerprint')->unique();
+            $table->string('session_id')->nullable();
+            $table->string('composite_hash', 64)->unique();
             $table->timestamps();
 
-            $table->unique(['poll_id', 'user_id']);
+            $table->index(['poll_id', 'fingerprint']);
+            $table->index(['poll_id', 'composite_hash']);
+            $table->index(['poll_id', 'ip_address']);
         });
     }
 

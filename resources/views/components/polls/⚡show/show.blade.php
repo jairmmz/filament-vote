@@ -1,4 +1,4 @@
-<div class="min-h-screen py-8 px-4">
+<div class="min-h-screen py-8 px-4" x-data="voteSecurityHandler()">
     <div class="container mx-auto max-w-7xl">
 
         <div class="dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
@@ -145,11 +145,19 @@
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         <div class="flex justify-center">
-                                            <img
-                                                src="{{ Storage::disk('candidates_photos')->url($candidate->photo) }}"
-                                                alt="{{ $candidate->name }}"
-                                                class="w-12 h-12 object-cover ring-gray-200 dark:ring-gray-600"
-                                            >
+                                            @if($candidate?->photo)
+                                                <img
+                                                    src="{{ Storage::disk('candidates_photos')->url($candidate->photo) }}"
+                                                    alt="{{ $candidate->name }}"
+                                                    class="w-12 h-12 object-cover ring-gray-200 dark:ring-gray-600"
+                                                >
+                                            @else
+                                                <div class="w-10 h-10 bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                                                    <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                                    </svg>
+                                                </div>
+                                            @endif
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 text-center">
@@ -358,54 +366,91 @@
     {{-- Modal --}}
     <flux:modal name="modal-vote" class="md:w-96" :dismissible="false">
         <div class="space-y-6">
-            @if ($isUserNotAuth)
-                <div>
-                    <flux:heading size="lg">Debes iniciar sesión para votar</flux:heading>
-                    <flux:text class="my-4">
-                        Para poder votar en esta encuesta, debes iniciar sesión en tu cuenta de google
-                    </flux:text>
-
-                    <div class="my-4">
-                        <flux:button type="button" class="w-full"  href="{{ route('login') }}" wire:navigate>
-                            Iniciar Sesión
-                        </flux:button>
-                    </div>
-                </div>
-            @elseif ($isUserNotEmailVerification)
-                <div>
-                    <flux:heading size="lg">Verifica tu correo</flux:heading>
-                    <flux:text class="my-4">
-                        Necesitas verificar tu email antes de poder votar.
-                        El correo llegará a tu bandeja de entrada.
-                    </flux:text>
-
-                    <div class="my-4">
-                        <flux:button type="button" wire:click="resendVerification" class="w-full">
-                            Reenviar correo de verificación
-                        </flux:button>
-                    </div>
-                </div>
-            @else
-                <div>
-                    <flux:heading size="lg">Confirmar Votación</flux:heading>
-                    <flux:text class="mt-2">
-                        @if ($vote_type === 'válido')
-                            Estás seguro de votar por la opción: <br>
-                            <span class="text-sm font-semibold">{{ $selectedCandidateName }}</span>
-                        @else
-                            Estás seguro de marcar por la opción: <br>
-                            <span class="text-sm font-semibold">{{ Str::ucfirst($vote_type) }}</span>
-                        @endif
-                    </flux:text>
-                </div>
-                <div class="flex gap-2">
-                    <flux:spacer />
-                    <flux:modal.close>
-                        <flux:button variant="danger">Cancelar</flux:button>
-                    </flux:modal.close>
-                    <flux:button type="button" wire:click="vote" variant="primary">Confirmar Votación</flux:button>
-                </div>
-            @endif
+            <div>
+                <flux:heading size="lg">Confirmar Votación</flux:heading>
+                <flux:text class="mt-2">
+                    @if ($vote_type === 'válido')
+                        Estás seguro de votar por la opción: <br>
+                        <span class="text-sm font-semibold">{{ $selectedCandidateName }}</span>
+                    @else
+                        Estás seguro de marcar por la opción: <br>
+                        <span class="text-sm font-semibold">{{ Str::ucfirst($vote_type) }}</span>
+                    @endif
+                </flux:text>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="danger">Cancelar</flux:button>
+                </flux:modal.close>
+                <flux:button type="button" @click="submitVote()" variant="primary">Confirmar Votación</flux:button>
+            </div>
         </div>
     </flux:modal>
 </div>
+
+@push('scripts')
+    <script>
+        function voteSecurityHandler() {
+            return {
+                async init() {
+                    const fingerprint = await this.generateFingerprint();
+                    @this.set('clientFingerprint', fingerprint);
+                },
+
+                async generateFingerprint() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    ctx.textBaseline = 'top';
+                    ctx.font = '14px Arial';
+                    ctx.fillText('vote-fingerprint', 2, 2);
+
+                    const data = {
+                        canvas: canvas.toDataURL(),
+                        userAgent: navigator.userAgent,
+                        language: navigator.language,
+                        languages: navigator.languages?.join(',') || '',
+                        platform: navigator.platform,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        screenResolution: `${screen.width}x${screen.height}x${screen.colorDepth}`,
+                        availableScreenResolution: `${screen.availWidth}x${screen.availHeight}`,
+                        hardwareConcurrency: navigator.hardwareConcurrency || 0,
+                        deviceMemory: navigator.deviceMemory || 0,
+                        maxTouchPoints: navigator.maxTouchPoints || 0,
+                        plugins: Array.from(navigator.plugins || []).map(p => p.name).join(','),
+                        webgl: this.getWebGLFingerprint()
+                    };
+
+                    const textData = JSON.stringify(data);
+                    const encoder = new TextEncoder();
+                    const dataBuffer = encoder.encode(textData);
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                },
+
+                getWebGLFingerprint() {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                        if (!gl) return 'no-webgl';
+
+                        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                        if (debugInfo) {
+                            return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                        }
+                        return 'no-debug-info';
+                    } catch (e) {
+                        return 'error';
+                    }
+                },
+
+                async submitVote() {
+                    const fingerprint = await this.generateFingerprint();
+                    @this.set('clientFingerprint', fingerprint);
+                    await @this.vote();
+                }
+            }
+        }
+    </script>
+@endpush

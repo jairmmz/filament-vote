@@ -13,11 +13,13 @@ class Vote extends Model
     protected $fillable = [
         'code',
         'poll_id',
-        'user_id',
         'candidate_id',
         'vote_type',
         'ip_address',
         'user_agent',
+        'fingerprint',
+        'session_id',
+        'composite_hash'
     ];
 
     protected static function booted()
@@ -28,17 +30,19 @@ class Vote extends Model
             } while (self::where('code', $code)->exists());
 
             $vote->code = $code;
+
+            $vote->composite_hash = hash('sha256',
+                $vote->poll_id .
+                $vote->fingerprint .
+                $vote->ip_address .
+                $vote->user_agent
+            );
         });
     }
 
     public function poll()
     {
         return $this->belongsTo(Poll::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 
     public function candidate()

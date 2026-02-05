@@ -12,12 +12,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
 
-    public const ROLE_USER = 'Usuario';
     public const ROLE_SUPER_ADMIN = 'super_admin';
 
     /**
@@ -29,8 +28,6 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'name',
         'email',
         'email_verified_at',
-        'google_id',
-        'avatar',
         'status',
         'password',
     ];
@@ -66,16 +63,6 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->hasMany(Poll::class);
     }
 
-    public function votes()
-    {
-        return $this->hasMany(Vote::class);
-    }
-
-    public function hasVotedInPoll(Poll $poll): bool
-    {
-        return $this->votes()->where('poll_id', $poll->id)->exists();
-    }
-
     /**
      * Get the user's initials
      */
@@ -101,10 +88,6 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         $roles = $this->roles->pluck('name')->toArray();
 
         if (empty($roles)) {
-            return false;
-        }
-
-        if (count($roles) === 1 && in_array(static::ROLE_USER, $roles)) {
             return false;
         }
 

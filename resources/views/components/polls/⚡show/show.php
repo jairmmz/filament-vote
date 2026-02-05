@@ -2,11 +2,10 @@
 
 use App\Models\Candidate;
 use App\Models\Poll;
-use App\Models\SiteSetting;
 use App\Models\Vote;
 use App\Support\SiteSettings;
 use Flux\Flux;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -18,8 +17,7 @@ new class extends Component
     public ?string $selectedCandidateName = null;
     public ?string $vote_type = null;
     public ?Vote $userVote = null;
-    public bool $isUserNotAuth = false;
-    public bool $isUserNotEmailVerification = false;
+    public ?string $clientFingerprint = null;
 
     public function mount(Poll $poll): void
     {
@@ -35,11 +33,25 @@ new class extends Component
             'votes'
         ]);
 
-        if (Auth::check()) {
-            $this->userVote = Vote::where('poll_id', $poll->id)
-                ->where('user_id', Auth::id())
-                ->first();
-        }
+        $this->checkExistingVote();
+    }
+
+    protected function checkExistingVote(): void
+    {
+        $sessionId = session()->getId();
+        $ipAddress = request()->ip();
+        $userAgent = request()->userAgent();
+
+        $this->userVote = Vote::where('poll_id', $this->poll->id)
+            ->where(function ($query) use ($sessionId, $ipAddress, $userAgent) {
+                $query->where('session_id', $sessionId)
+                    ->orWhere('ip_address', $ipAddress)
+                    ->orWhere(function ($q) use ($ipAddress, $userAgent) {
+                        $q->where('ip_address', $ipAddress)
+                            ->where('user_agent', $userAgent);
+                    });
+            })
+            ->first();
     }
 
     public function selectedVote(int|string $candidate): void
@@ -49,21 +61,10 @@ new class extends Component
             $this->vote_type = $candidate;
             $this->selectedCandidateName = ucfirst($candidate);
         } else {
-            $candidateModel = Candidate::findOr($candidate);
+            $candidateModel = Candidate::findOrFail($candidate);
             $this->selectedCandidate = $candidate;
             $this->vote_type = 'válido';
             $this->selectedCandidateName = $candidateModel->name;
-        }
-
-        if (!Auth::check()) {
-            $this->isUserNotAuth = true;
-            $this->isUserNotEmailVerification = false;
-        } elseif (!Auth::user()->hasVerifiedEmail()) {
-            $this->isUserNotAuth = false;
-            $this->isUserNotEmailVerification = true;
-        } else {
-            $this->isUserNotAuth = false;
-            $this->isUserNotEmailVerification = false;
         }
 
         Flux::modal('modal-vote')->show();
@@ -71,8 +72,18 @@ new class extends Component
 
     public function vote()
     {
-        abort_unless(Auth::check(), 403);
-        abort_unless(Auth::user()->hasVerifiedEmail(), 403);
+        $key = 'vote:' . request()->ip() . ':poll:' . $this->poll->id;
+
+        if (RateLimiter::tooManyAttempts($key, 10)) {
+            $seconds = RateLimiter::availableIn($key);
+            Flux::toast(
+                "Demasiados intentos en esta encuesta. Espera {$seconds} segundos.",
+                variant: 'danger'
+            );
+            return;
+        }
+
+        RateLimiter::hit($key, 60);
 
         if ($this->userVote) {
             Flux::toast('Ya has votado en esta encuesta.', variant: 'warning');
@@ -81,36 +92,75 @@ new class extends Component
 
         $this->validate([
             'selectedCandidate' => 'nullable|exists:candidates,id',
-            'vote_type' => 'nullable|in:no sabe,ninguno,válido',
+            'vote_type' => 'required|in:no sabe,ninguno,válido',
+            'clientFingerprint' => 'required|string|min:32',
         ]);
 
-        if (!$this->selectedCandidate && !$this->vote_type) {
+        if ($this->vote_type === 'válido' && !$this->selectedCandidate) {
             Flux::toast('Debes seleccionar una opción para votar.', variant: 'warning');
             return;
         }
 
-        $vote = Vote::create([
-            'poll_id' => $this->poll->id,
-            'user_id' => Auth::id(),
-            'candidate_id' => $this->selectedCandidate,
-            'vote_type' => $this->vote_type,
-            'ip_address' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-        ]);
+        $ipAddress = request()->ip();
+        $userAgent = request()->userAgent();
+        $sessionId = session()->getId();
+        $fingerprint = $this->clientFingerprint;
 
-        $this->userVote = $vote;
+        $compositeHash = hash(
+            'sha256',
+            $this->poll->id .
+                $fingerprint .
+                $ipAddress .
+                $userAgent
+        );
 
-        $this->poll = $this->poll->fresh([
-            'category',
-            'candidates.politicalParty',
-            'candidates.votes',
-            'votes'
-        ]);
+        $existingVote = Vote::where('poll_id', $this->poll->id)
+            ->where(function ($query) use ($fingerprint, $compositeHash, $sessionId, $ipAddress, $userAgent) {
+                $query->where('fingerprint', $fingerprint)
+                    ->orWhere('composite_hash', $compositeHash)
+                    ->orWhere('session_id', $sessionId)
+                    ->orWhere('ip_address', $ipAddress)
+                    ->orWhere(function ($q) use ($ipAddress, $userAgent) {
+                        $q->where('ip_address', $ipAddress)
+                            ->where('user_agent', $userAgent);
+                    });
+            })
+            ->first();
 
-        $this->reset(['selectedCandidate', 'vote_type']);
-        Flux::modal('modal-vote')->close();
+        if ($existingVote) {
+            $this->userVote = $existingVote;
+            Flux::toast('Ya has votado en esta encuesta.', variant: 'warning');
+            Flux::modal('modal-vote')->close();
+            return;
+        }
 
-        Flux::toast('¡Tu voto ha sido registrado exitosamente!', variant: 'success');
+        try {
+            $vote = Vote::create([
+                'poll_id' => $this->poll->id,
+                'candidate_id' => $this->selectedCandidate,
+                'vote_type' => $this->vote_type,
+                'ip_address' => $ipAddress,
+                'user_agent' => $userAgent,
+                'fingerprint' => $fingerprint,
+                'session_id' => $sessionId,
+            ]);
+
+            $this->userVote = $vote;
+
+            $this->poll = $this->poll->fresh([
+                'category',
+                'candidates.politicalParty',
+                'candidates.votes',
+                'votes'
+            ]);
+
+            $this->reset(['selectedCandidate', 'vote_type', 'clientFingerprint']);
+            Flux::modal('modal-vote')->close();
+
+            Flux::toast('¡Tu voto ha sido registrado exitosamente!', variant: 'success');
+        } catch (\Exception $e) {
+            Flux::toast('Error al registrar el voto. Por favor intenta nuevamente.', variant: 'danger');
+        }
     }
 
     public function getTotalVotesProperty(): int
@@ -131,15 +181,6 @@ new class extends Component
     public function getValidVotesProperty(): int
     {
         return $this->poll->votes()->where('vote_type', 'válido')->count();
-    }
-
-    public function resendVerification(): void
-    {
-        if (Auth::check() && !Auth::user()->hasVerifiedEmail()) {
-            Auth::user()->sendEmailVerificationNotification();
-            Flux::modal('modal-vote')->close();
-            Flux::toast('Te enviamos un correo de verificación a tu correo electrónico', variant: 'success');
-        }
     }
 
     public function isVotedCandidate(int $candidateId): bool

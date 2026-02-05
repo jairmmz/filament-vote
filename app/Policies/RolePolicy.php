@@ -30,7 +30,7 @@ class RolePolicy
 
     public function update(AuthUser $authUser, Role $role): bool
     {
-        if (in_array($role->name, [User::ROLE_USER, User::ROLE_SUPER_ADMIN])) {
+        if (in_array($role->name, [User::ROLE_SUPER_ADMIN])) {
             return false;
         }
 
@@ -39,7 +39,7 @@ class RolePolicy
 
     public function delete(AuthUser $authUser, Role $role): bool
     {
-        if (in_array($role->name, [User::ROLE_USER, User::ROLE_SUPER_ADMIN])) {
+        if (in_array($role->name, [User::ROLE_SUPER_ADMIN])) {
             return false;
         }
 
@@ -53,7 +53,7 @@ class RolePolicy
 
     public function forceDelete(AuthUser $authUser, Role $role): bool
     {
-        if (in_array($role->name, [User::ROLE_USER, User::ROLE_SUPER_ADMIN])) {
+        if (in_array($role->name, [User::ROLE_SUPER_ADMIN])) {
             return false;
         }
 

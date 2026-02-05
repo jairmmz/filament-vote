@@ -64,10 +64,6 @@ class Poll extends Model
         }
 
         if ($this->status === 'activo') {
-            if ($user && $user->hasVotedInPoll($this)) {
-                return 'Ver Resultados';
-            }
-
             return 'Votar Ahora';
         }
 
