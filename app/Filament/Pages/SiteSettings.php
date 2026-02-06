@@ -33,10 +33,6 @@ class SiteSettings extends Page implements HasSchemas
     public function mount(): void
     {
         $this->data = SiteSetting::first()?->data ?? [];
-
-        if (isset($this->data['image']) && is_string($this->data['image'])) {
-            $this->data['image'] = [$this->data['image']];
-        }
     }
 
     public function form(Schema $schema): Schema
@@ -56,24 +52,6 @@ class SiteSettings extends Page implements HasSchemas
                             ->maxLength(255)
                             ->nullable()
                             ->columnSpanFull(),
-
-                        FileUpload::make('image')
-                            ->label('Imagen principal')
-                            ->disk('website_settings')
-                            ->image()
-                            ->imageEditor()
-                            ->imageEditorAspectRatioOptions([
-                                null,
-                                '1:1',
-                                '4:3',
-                                '16:9',
-                            ])
-                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
-                            ->maxSize(2048)
-                            ->columnSpanFull()
-                            ->multiple(false)
-                            ->nullable()
-                            ->belowContent('Seleccione una imagen representativa para la página.'),
 
                         TextInput::make('email')
                             ->label('Correo electrónico')
@@ -122,10 +100,6 @@ class SiteSettings extends Page implements HasSchemas
     public function save(): void
     {
         $data = $this->form->getState();
-
-        if (isset($data['image']) && is_array($data['image'])) {
-            $data['image'] = $data['image'][0] ?? null;
-        }
 
         SiteSetting::updateOrCreate(
             ['id' => 1],

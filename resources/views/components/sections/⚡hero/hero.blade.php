@@ -40,8 +40,9 @@
                 </svg>
             </a>
 
-            <a href="#como-funciona"
-               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-white/30 text-slate-700 dark:text-white font-semibold text-lg hover:bg-slate-900/5 dark:hover:bg-white/10 transition-all duration-300 hover:scale-105">
+            <a href="{{ route('how-it-works') }}"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-white/30 text-slate-700 dark:text-white font-semibold text-lg hover:bg-slate-900/5 dark:hover:bg-white/10 transition-all duration-300 hover:scale-105"
+               wire:navigate>
                 ¿Cómo Funciona?
             </a>
         </div>

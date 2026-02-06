@@ -7,7 +7,7 @@
         @php
             $metaTitle = $title ?? $siteSettings['site_name'] ?? config('app.name');
             $metaDescription = $description ?? $siteSettings['description'] ?? 'Bienvenido a ' . config('app.name') . ', tu plataforma de encuestas en línea.';
-            $metaImage = $image ?? Storage::disk('website_settings')->url($siteSettings['image']) ?? asset('default-meta-image.png');
+            $metaImage = $image ?? asset('images/website/image_site_default.png');
             $metaUrl = $url ?? url()->current();
         @endphp
 
@@ -35,10 +35,9 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
         @fluxAppearance
 
         {!! CookieConsent::styles() !!}

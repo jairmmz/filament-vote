@@ -21,28 +21,43 @@ Route::view('/terminos-y-condiciones', 'policies.consent-terms')->name('consent-
 
 Route::get('/sitemap.xml', function () {
     $sitemap = Sitemap::create()
-        ->add(Url::create('/'))
+        ->add(Url::create('/')
+            ->setPriority(1.0)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY))
         ->add(Url::create('/categorias'))
         ->add(Url::create('/encuestas'))
-        ->add(Url::create('/partidos-politicos'));
+        ->add(Url::create('/partidos-politicos'))
+        ->add(Url::create('/nosotros'))
+        ->add(Url::create('/contacto'))
+        ->add(Url::create('/como-funciona'));
 
-    foreach (App\Models\Category::all() as $category) {
+    foreach (App\Models\Category::query()->select(['id', 'slug', 'updated_at'])->cursor() as $category) {
         $sitemap->add(Url::create(route('categories.show', $category))
             ->setLastModificationDate($category->updated_at));
     }
 
-    foreach (App\Models\Poll::all() as $poll) {
+    foreach (App\Models\Poll::query()->select(['id', 'slug', 'updated_at'])->cursor() as $poll) {
         $sitemap->add(Url::create(route('polls.show', $poll))
-            ->setLastModificationDate($poll->updated_at));
+            ->setLastModificationDate($poll->updated_at)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_HOURLY)
+            ->setPriority(0.9));
     }
 
-    foreach (App\Models\PoliticalParty::all() as $party) {
+    foreach (App\Models\PoliticalParty::query()->select(['id', 'slug', 'updated_at'])->cursor() as $party) {
         $sitemap->add(Url::create(route('parties.show', $party))
-            ->setLastModificationDate($party->updated_at));
+            ->setLastModificationDate($party->updated_at)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(0.7));
 
-        foreach ($party->candidates as $candidate) {
+        foreach (App\Models\Candidate::query()
+                ->where('political_party_id', $party->id)
+                ->select(['id', 'slug', 'updated_at', 'political_party_id'])
+                ->cursor() as $candidate)
+        {
             $sitemap->add(Url::create(route('parties.candidate', ['politicalParty' => $party, 'candidate' => $candidate]))
-                ->setLastModificationDate($candidate->updated_at));
+                ->setLastModificationDate($candidate->updated_at)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                ->setPriority(0.6));
         }
     }
 

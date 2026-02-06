@@ -47,7 +47,7 @@
                 <ul class="space-y-3 text-sm">
                     <li><a href="{{ route('consent-terms') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Términos y Condiciones</a></li>
                     <li><a href="{{ route('privacy-policy') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Política de Privacidad</a></li>
-                    <li><a onclick="showHideToggleCookiePreferencesModal()" class="cursor-pointer text-muted-foreground hover:text-primary transition-colors">Cookies</a></li>
+                    <li><button type="button" onclick="showHideToggleCookiePreferencesModal()" class="cursor-pointer text-muted-foreground hover:text-primary transition-colors">Cookies</button></li>
                 </ul>
             </div>
 

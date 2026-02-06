@@ -1,15 +1,8 @@
 User-agent: *
-Disallow: /
+Allow: /
 
-Disallow: /admin
-Disallow: /admin/*
-Disallow: /filament
-Disallow: /filament/*
-Disallow: /login
-Disallow: /register
-Disallow: /password
-Disallow: /dashboard
-Disallow: /user
-Disallow: /api
+Disallow: /admin/
+Disallow: /filament/
+Disallow: /api/
 
-Sitemap: https://tudominio.com/sitemap.xml
+Sitemap: https://encuestas.xnor.site/sitemap.xml
