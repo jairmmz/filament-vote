@@ -33,6 +33,9 @@ class VoteExporter extends Exporter
                 ->label('User Agent'),
             ExportColumn::make('created_at')
                 ->label('Creado el'),
+            ExportColumn::make('is_suspicious')
+                ->label('Es sospechoso?')
+                ->formatStateUsing(fn ($state) => $state ? 'Sí' : 'No'),
         ];
     }
 
