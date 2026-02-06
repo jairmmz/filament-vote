@@ -7,6 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class VoteTypeChart extends ChartWidget
 {
+    protected static bool $isLazy = true;
     protected ?string $heading = 'Distribución de Votos por Tipo';
     protected static ?int $sort = 2;
 

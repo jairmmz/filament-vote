@@ -7,6 +7,7 @@ use Filament\Widgets\ChartWidget;
 
 class TopCandidatesChart extends ChartWidget
 {
+    protected static bool $isLazy = true;
     protected ?string $heading = 'Top 5 Candidatos Más Votados';
     protected static ?int $sort = 5;
     protected int|string|array $columnSpan = 'full';

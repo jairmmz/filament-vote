@@ -8,6 +8,7 @@ use Filament\Widgets\ChartWidget;
 
 class VotingTrendChart extends ChartWidget
 {
+    protected static bool $isLazy = true;
     protected ?string $heading = 'Tendencia de Votación (Últimos 7 días)';
     protected static ?int $sort = 3;
 

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ActivePollsTable extends TableWidget
 {
-
+    protected static bool $isLazy = true;
     protected static ?string $heading = 'Encuestas Activas';
     protected static ?int $sort = 4;
     protected int | string | array $columnSpan = 'full';
