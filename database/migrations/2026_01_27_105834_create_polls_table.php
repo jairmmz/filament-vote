@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
+            $table->enum('scope', ['nacional', 'regional', 'provincial', 'distrital']);
+            $table->foreignId('region_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('province_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('district_id')->nullable()->constrained()->nullOnDelete();
             $table->string('image')->nullable();
             $table->string('location')->nullable();
             $table->enum('status', ['borrador', 'activo', 'cerrado', 'archivado'])->default('borrador');

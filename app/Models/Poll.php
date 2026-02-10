@@ -36,6 +36,21 @@ class Poll extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

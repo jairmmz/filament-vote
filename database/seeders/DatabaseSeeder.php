@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             PoliticalPartySeeder::class,
             SiteSettingSeeder::class,
+            RegionSeeder::class,
+            ProvinceSeeder::class,
+            DistrictSeeder::class,
         ]);
 
         // Poll::factory(30)->create();
