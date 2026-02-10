@@ -1,13 +1,13 @@
 <x-layouts::policies title="Términos y Condiciones de Uso">
 
     <h2>1. Objeto del servicio</h2>
-    <p>{{ config('app.name') }} es una plataforma digital de encuestas electorales de carácter informativo y
+    <p>{{ $siteSettings['site_name'] }} es una plataforma digital de encuestas electorales de carácter informativo y
         estadístico, sin vinculación oficial con entidades del Estado.</p>
 
     <h2>2. Aceptación</h2>
     <p>El uso del sitio implica la aceptación plena de estos términos.</p>
 
-    <h2>3. Uso permitido</h2>
+    <h2>3. Uso no permitido</h2>
     <ul>
         <li>No manipular resultados</li>
         <li>No usar bots o sistemas automatizados</li>

@@ -1,7 +1,7 @@
 <x-layouts::policies title="Política de Privacidad">
 
     <h2>1. Introducción</h2>
-    <p>En {{ config('app.name') }} respetamos tu privacidad y protegemos tus datos personales conforme a la legislación
+    <p>En {{ $siteSettings['site_name'] }} respetamos tu privacidad y protegemos tus datos personales conforme a la legislación
         peruana vigente.</p>
 
     <h2>2. Base Legal</h2>

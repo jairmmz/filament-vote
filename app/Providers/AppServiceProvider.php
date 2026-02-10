@@ -38,7 +38,6 @@ class AppServiceProvider extends ServiceProvider
             config([
                 'app.name' => $settings['site_name'] ?? config('app.name'),
                 'mail.from.name' => $settings['site_name'] ?? config('mail.from.name'),
-                'mail.from.address' => $settings['mail_from_address'] ?? config('mail.from.address'),
             ]);
         }
 
