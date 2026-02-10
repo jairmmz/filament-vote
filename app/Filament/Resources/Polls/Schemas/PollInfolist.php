@@ -37,6 +37,47 @@ class PollInfolist
                         ]),
                     ])->columnSpanFull(),
 
+                Section::make('Ámbito Geográfico')
+                    ->schema([
+                        Grid::make(2)->schema([
+
+                            TextEntry::make('scope')
+                                ->label('Ámbito')
+                                ->formatStateUsing(fn($state) => match ($state) {
+                                    'nacional' => 'Nacional',
+                                    'regional' => 'Regional',
+                                    'provincial' => 'Provincial',
+                                    'distrital' => 'Distrital',
+                                    default => '-',
+                                })
+                                ->badge()
+                                ->color(fn($state) => match ($state) {
+                                    'nacional' => 'primary',
+                                    'regional' => 'info',
+                                    'provincial' => 'warning',
+                                    'distrital' => 'danger',
+                                    default => 'gray',
+                                }),
+
+                            TextEntry::make('region.name')
+                                ->label('Región')
+                                ->visible(fn(Poll $record) => in_array($record->scope, ['regional', 'provincial', 'distrital']))
+                                ->placeholder('-'),
+
+                            TextEntry::make('province.name')
+                                ->label('Provincia')
+                                ->visible(fn(Poll $record) => in_array($record->scope, ['provincial', 'distrital']))
+                                ->placeholder('-'),
+
+                            TextEntry::make('district.name')
+                                ->label('Distrito')
+                                ->visible(fn(Poll $record) => $record->scope === 'distrital')
+                                ->placeholder('-'),
+
+                        ]),
+                    ])
+                    ->columnSpanFull(),
+
                 Section::make('Resumen de Votación')
                     ->schema([
                         Grid::make(4)->schema([

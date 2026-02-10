@@ -38,6 +38,30 @@ class ViewPoll extends ViewRecord
 
     protected function getPollData(Poll $poll): array
     {
+        $poll->load(['region', 'province', 'district']);
+
+        $ubicacion = null;
+
+        if ($poll->scope === 'regional' && $poll->region) {
+            $ubicacion = 'Región: ' . $poll->region->name;
+        }
+
+        if ($poll->scope === 'provincial' && $poll->province) {
+            $ubicacion = 'Región: ' . $poll->region?->name . ' - Provincia: ' . $poll->province->name;
+        }
+
+        if ($poll->scope === 'distrital' && $poll->district) {
+            $ubicacion = 'Región: ' . $poll->region?->name . ' - Provincia: ' . $poll->province?->name . ' - Distrito: ' . $poll->district->name;
+        }
+
+        $scopeLabel = match ($poll->scope) {
+            'nacional' => 'Nacional',
+            'regional' => 'Regional',
+            'provincial' => 'Provincial',
+            'distrital' => 'Distrital',
+            default => 'No definido',
+        };
+
         $totalVotosValidos = $poll->votes()
             ->where('vote_type', 'válido')
             ->count();
@@ -76,6 +100,8 @@ class ViewPoll extends ViewRecord
 
         return [
             'poll' => $poll,
+            'scope_label' => $scopeLabel,
+            'ubicacion_detalle' => $ubicacion,
             'candidatos' => $candidatos,
             'votos_no_sabe' => $votosNoSabe,
             'votos_ninguno' => $votosNinguno,

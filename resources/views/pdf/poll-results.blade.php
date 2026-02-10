@@ -214,8 +214,9 @@
             <p style="white-space: pre-line;">{{ $poll->description }}</p>
         @endif
         <p><strong>Fecha de generación:</strong> {{ now()->format('d/m/Y H:i') }}</p>
-        @if($poll->location)
-            <p><strong>Ubicación:</strong> {{ $poll->location }}</p>
+        <p><strong>Ámbito:</strong> {{ $scope_label }}</p>
+        @if($ubicacion_detalle)
+            <p>{{ $ubicacion_detalle }}</p>
         @endif
     </div>
 

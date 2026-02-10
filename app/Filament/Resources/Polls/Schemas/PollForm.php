@@ -3,14 +3,18 @@
 namespace App\Filament\Resources\Polls\Schemas;
 
 use App\Models\Category;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Region;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -94,10 +98,87 @@ class PollForm
                             ->belowContent('Seleccione una imagen representativa para la encuesta. Tamaño sugerido 800x600 píxeles.'),
                     ]),
 
-                Section::make('Configuración')
+                Section::make('Ámbito de la encuesta')
                     ->columns(12)
                     ->columnSpan(6)
                     ->schema([
+
+                        Select::make('scope')
+                            ->label('Ámbito')
+                            ->options([
+                                'nacional' => 'Nacional',
+                                'regional' => 'Regional',
+                                'provincial' => 'Provincial',
+                                'distrital' => 'Distrital',
+                            ])
+                            ->required()
+                            ->live()
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('region_id', null);
+                                $set('province_id', null);
+                                $set('district_id', null);
+                            })
+                            ->columnSpanFull(),
+
+                        Select::make('region_id')
+                            ->label('Región')
+                            ->options(fn() => Region::orderBy('name')->pluck('name', 'id'))
+                            ->searchable()
+                            ->live()
+                            ->visible(fn(Get $get) => in_array($get('scope'), ['regional', 'provincial', 'distrital']))
+                            ->required(fn(Get $get) => in_array($get('scope'), ['regional', 'provincial', 'distrital']))
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('province_id', null);
+                                $set('district_id', null);
+                            })
+                            ->columnSpanFull(),
+
+                        Select::make('province_id')
+                            ->label('Provincia')
+                            ->options(
+                                fn(Get $get) =>
+                                Province::where('region_id', $get('region_id'))
+                                    ->orderBy('name')
+                                    ->pluck('name', 'id')
+                            )
+                            ->searchable()
+                            ->live()
+                            ->visible(fn(Get $get) => in_array($get('scope'), ['provincial', 'distrital']))
+                            ->required(fn(Get $get) => in_array($get('scope'), ['provincial', 'distrital']))
+                            ->afterStateUpdated(fn(Set $set) => $set('district_id', null))
+                            ->columnSpanFull(),
+
+                        Select::make('district_id')
+                            ->label('Distrito')
+                            ->options(
+                                fn(Get $get) =>
+                                District::where('province_id', $get('province_id'))
+                                    ->orderBy('name')
+                                    ->pluck('name', 'id')
+                            )
+                            ->searchable()
+                            ->visible(fn(Get $get) => $get('scope') === 'distrital')
+                            ->required(fn(Get $get) => $get('scope') === 'distrital')
+                            ->columnSpanFull(),
+                    ]),
+
+                Section::make('Programación')
+                    ->columnSpan(6)
+                    ->schema([
+                        DateTimePicker::make('starts_at')
+                            ->label('Fecha de inicio')
+                            ->required()
+                            ->seconds(false)
+                            ->columnSpanFull()
+                            ->belowContent('Fechas de inicio de la encuesta.'),
+
+                        DateTimePicker::make('ends_at')
+                            ->label('Fecha de finalización')
+                            ->required()
+                            ->seconds(false)
+                            ->columnSpanFull()
+                            ->belowContent('Fechas de finalización de la encuesta.'),
+
                         Select::make('status')
                             ->label('Estado')
                             ->options([
@@ -108,25 +189,9 @@ class PollForm
                             ])
                             ->default('borrador')
                             ->required()
-                            ->columnSpan(6)
-                            ->belowContent('Seleccione el estado actual de la encuesta.'),
+                            ->columnSpanFull()
+                            ->belowContent('Seleccione el estado actual de la encuesta.')
                     ]),
-
-                Section::make('Programación')
-                    ->columnSpan(6)
-                    ->schema([
-                        DateTimePicker::make('starts_at')
-                            ->label('Fecha de inicio')
-                            ->required()
-                            ->seconds(false)
-                            ->columnSpanFull(),
-
-                        DateTimePicker::make('ends_at')
-                            ->label('Fecha de finalización')
-                            ->required()
-                            ->seconds(false)
-                            ->columnSpanFull(),
-                    ])->belowContent('Establezca las fechas de inicio y finalización de la encuesta.'),
             ]);
     }
 }
