@@ -18,7 +18,7 @@
                 </div>
                 <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 text-center">Explora</h3>
                 <p class="text-slate-600 dark:text-slate-300 text-center leading-relaxed">
-                    Navega por las categorías disponibles, revisa las encuestas activas y conoce a los candidatos y sus propuestas.
+                    Consulta las encuestas activas filtrándolas según el ámbito de la encuesta: regional, provincial o distrital.
                 </p>
             </div>
 
@@ -33,13 +33,10 @@
             </div>
         </div>
 
-        <div class="mb-20" x-data="{ activeTab: 'categorias' }">
+        <div class="mb-20" x-data="{ activeTab: 'encuestas' }">
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden">
                 <div class="border-b border-slate-200 dark:border-slate-700">
                     <nav class="flex flex-wrap -mb-px">
-                        <button @click="activeTab = 'categorias'" :class="activeTab === 'categorias' ? 'border-blue-600 text-blue-600 dark:text-blue-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'" class="w-full sm:w-auto flex-1 sm:flex-none py-4 px-6 text-center border-b-2 font-medium text-sm transition-colors">
-                            Categorías
-                        </button>
                         <button @click="activeTab = 'encuestas'" :class="activeTab === 'encuestas' ? 'border-blue-600 text-blue-600 dark:text-blue-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'" class="w-full sm:w-auto flex-1 sm:flex-none py-4 px-6 text-center border-b-2 font-medium text-sm transition-colors">
                             Encuestas
                         </button>
@@ -50,76 +47,6 @@
                 </div>
 
                 <div class="p-8 sm:p-12">
-                    <div x-show="activeTab === 'categorias'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0" style="display: none;">
-                        <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">Categorías de Encuestas</h2>
-
-                        <p class="text-slate-600 dark:text-slate-300 mb-8">
-                            Las encuestas están organizadas por niveles de gobierno para facilitar tu participación según tus intereses:
-                        </p>
-
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 rounded-xl p-6 border border-blue-200 dark:border-blue-700">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-blue-600 dark:bg-blue-500 rounded-lg flex items-center justify-center mr-3">
-                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/>
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Nacional</h3>
-                                </div>
-                                <p class="text-slate-700 dark:text-slate-300">Encuestas para cargos de alcance nacional como Presidente de la República y Vicepresidentes.</p>
-                            </div>
-
-                            <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 rounded-xl p-6 border border-green-200 dark:border-green-700">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-green-600 dark:bg-green-500 rounded-lg flex items-center justify-center mr-3">
-                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Congresistas</h3>
-                                </div>
-                                <p class="text-slate-700 dark:text-slate-300">Preferencias para candidatos al Congreso de la República, tanto por circunscripción como nacional.</p>
-                            </div>
-
-                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 rounded-xl p-6 border border-purple-200 dark:border-purple-700">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-purple-600 dark:bg-purple-500 rounded-lg flex items-center justify-center mr-3">
-                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Regional</h3>
-                                </div>
-                                <p class="text-slate-700 dark:text-slate-300">Candidatos a Gobernadores Regionales y Consejeros Regionales de tu región.</p>
-                            </div>
-
-                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30 rounded-xl p-6 border border-orange-200 dark:border-orange-700">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-orange-600 dark:bg-orange-500 rounded-lg flex items-center justify-center mr-3">
-                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">Municipal</h3>
-                                </div>
-                                <p class="text-slate-700 dark:text-slate-300">Preferencias para Alcaldes y Regidores de tu provincia y distrito.</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
-                            <h4 class="font-semibold text-blue-900 dark:text-blue-300 mb-2 flex items-center">
-                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                                </svg>
-                                Navegación por Categorías
-                            </h4>
-                            <p class="text-blue-800 dark:text-blue-300 text-sm">
-                                Cada categoría incluye una descripción detallada del cargo, las responsabilidades, y el ámbito de acción de los candidatos. Esto te ayudará a tomar decisiones más informadas.
-                            </p>
-                        </div>
-                    </div>
-
                     <div x-show="activeTab === 'encuestas'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0" style="display: none;">
                         <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">Exploración de Encuestas</h2>
 
@@ -164,18 +91,6 @@
                                         <div>
                                             <p class="font-medium text-slate-900 dark:text-white">Total de Votos</p>
                                             <p class="text-sm text-slate-600 dark:text-slate-400">Cantidad de personas que han participado</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-start">
-                                        <div class="flex-shrink-0 w-8 h-8 bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mr-3">
-                                            <svg class="w-4 h-4 text-orange-600 dark:text-orange-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-slate-900 dark:text-white">Número de Postulantes</p>
-                                            <p class="text-sm text-slate-600 dark:text-slate-400">Cantidad de candidatos participando en la encuesta</p>
                                         </div>
                                     </div>
                                 </div>

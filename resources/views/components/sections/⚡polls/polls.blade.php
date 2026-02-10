@@ -11,7 +11,7 @@
 
         <flux:button href="{{ route('polls') }}" wire:navigate>
             Ver todas las encuestas
-            <flux:icon.chevron-right />
+            <flux:icon.chevron-right class="h-5 w-5" />
         </flux:button>
     </div>
 
@@ -60,8 +60,8 @@
                     </h3>
 
                     <div class="flex flex-wrap justify-between gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        <div class="flex items-center gap-1">
-                            <flux:icon.map-pin class="w-6 h-6" />
+                        <div class="flex items-center justify-center gap-1">
+                            <flux:icon.map-pin class="w-4 h-4" />
                             @if($poll->scope !== 'nacional')
                                 <div>
                                     {{ $poll->region->name ?? '' }}
@@ -72,8 +72,8 @@
                         </div>
 
                         @if($poll->ends_at)
-                            <div class="flex items-center gap-1">
-                                <flux:icon.calendar-1 class="w-6 h-6" />
+                            <div class="flex items-center justify-center gap-1">
+                                <flux:icon.calendar-1 class="w-4 h-4" />
                                 Finaliza el {{ $poll->ends_at->format('d/m/Y') }}
                             </div>
                         @endif

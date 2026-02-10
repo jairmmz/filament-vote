@@ -98,15 +98,15 @@
                         </div>
 
                         <div class="p-6 flex flex-col flex-1">
-                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 transition">
+                            <h3 class="font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 transition">
                                 {{ $poll->title }}
                             </h3>
 
                             <div class="flex flex-wrap justify-between gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
                                 <div class="flex items-center gap-1">
-                                    <flux:icon.map-pin class="w-6 h-6" />
+                                    <flux:icon.map-pin class="w-4 h-4" />
                                     @if($poll->scope !== 'nacional')
-                                        <div>
+                                        <div class="text-xs">
                                             {{ $poll->region->name ?? '' }}
                                             @if($poll->province) - {{ $poll->province->name }} @endif
                                             @if($poll->district) - {{ $poll->district->name }} @endif
@@ -116,7 +116,7 @@
 
                                 @if($poll->ends_at)
                                     <div class="flex items-center gap-1">
-                                        <flux:icon.calendar-1 class="w-6 h-6" />
+                                        <flux:icon.calendar-1 class="w-4 h-4" />
                                         Finaliza el {{ $poll->ends_at->format('d/m/Y') }}
                                     </div>
                                 @endif
