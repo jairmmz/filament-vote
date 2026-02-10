@@ -17,15 +17,15 @@
                                     {{ $poll->category->name }}
                                 </span>
 
-                                <span @class([
-                                    'px-3 py-1 text-xs font-bold rounded-full backdrop-blur',
-                                    'bg-green-500/90 text-white' => $poll->status === 'activo',
-                                    'bg-gray-500/90 text-white' => $poll->status === 'cerrado',
-                                    'bg-yellow-500/90 text-white' => $poll->status === 'borrador',
-                                    'bg-red-500/90 text-white' => $poll->status === 'archivado',
-                                ])>
-                                    {{ ucfirst($poll->status) }}
-                                </span>
+                                @if($poll->status === 'activo')
+                                    <span class="px-3 py-1 rounded-full bg-green-500 text-white text-xs font-semibold shadow">
+                                        Encuesta activa
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
+                                        Encuesta finalizada
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -42,15 +42,15 @@
                                     {{ $poll->category->name }}
                                 </span>
 
-                                <span @class([
-                                    'px-3 py-1 text-xs font-bold rounded-full backdrop-blur',
-                                    'bg-green-500/90 text-white' => $poll->status === 'activo',
-                                    'bg-gray-500/90 text-white' => $poll->status === 'cerrado',
-                                    'bg-yellow-500/90 text-white' => $poll->status === 'borrador',
-                                    'bg-red-500/90 text-white' => $poll->status === 'archivado',
-                                ])>
-                                    {{ ucfirst($poll->status) }}
-                                </span>
+                                @if($poll->status === 'activo')
+                                    <span class="px-3 py-1 rounded-full bg-green-500 text-white text-xs font-semibold shadow">
+                                        Encuesta activa
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
+                                        Encuesta finalizada
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -75,7 +75,17 @@
                                 <flux:icon.map-pin />
                                 <div>
                                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Ubicación</p>
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $poll->location }}</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                        @if($poll->scope !== 'nacional')
+                                            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                                {{ $poll->region->name ?? '' }}
+                                                @if($poll->province) - {{ $poll->province->name }} @endif
+                                                @if($poll->district) - {{ $poll->district->name }} @endif
+                                            </p>
+                                        @else
+                                            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ ucfirst($poll->scope) }}</p>
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
 
@@ -83,7 +93,7 @@
                                 <flux:icon.clock-8 />
                                 <div>
                                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Finaliza</p>
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $poll->ends_at->format('d/m/Y') }}</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $poll->ends_at->format('d/m/Y') }}</p>
                                 </div>
                             </div>
 
@@ -91,7 +101,7 @@
                                 <flux:icon.clipboard-plus />
                                 <div>
                                     <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Votos emitidos</p>
-                                    <p class="text-sm font-bold text-gray-900 dark:text-white">{{ $this->totalVotes }}</p>
+                                    <p class="text-sm font-bold text-gray-900 dark:text-gray-100">{{ $this->totalVotes }}</p>
                                 </div>
                             </div>
 
@@ -434,7 +444,7 @@
                                         </div>
                                     @endif
 
-                                    <div class="text-center font-bold text-xl mb-2 text-gray-900 dark:text-white">
+                                    <div class="text-center font-bold text-xl mb-2 text-gray-900 dark:text-gray-100">
                                         {{ $item['porcentaje'] }}%
                                     </div>
 
@@ -449,7 +459,7 @@
                                     </div>
 
                                     <div class="text-center mt-3 px-1 w-full">
-                                        <div class="font-semibold text-sm leading-tight text-gray-900 dark:text-white break-words">
+                                        <div class="font-semibold text-sm leading-tight text-gray-900 dark:text-gray-100 break-words">
                                             @if(str_word_count($item['nombre']) > 1)
                                                 @php
                                                     $palabras = explode(' ', $item['nombre']);

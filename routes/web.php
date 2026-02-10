@@ -29,7 +29,7 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/como-funciona'))
         ->add(Url::create('/terminos-y-condiciones'));
 
-    foreach (App\Models\Poll::query()->select(['id', 'slug', 'updated_at'])->cursor() as $poll) {
+    foreach (App\Models\Poll::actives()->select(['id', 'slug', 'updated_at'])->cursor() as $poll) {
         $sitemap->add(Url::create(route('polls.show', $poll))
             ->setLastModificationDate($poll->updated_at)
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_HOURLY)

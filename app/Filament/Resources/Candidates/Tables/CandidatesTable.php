@@ -21,11 +21,6 @@ class CandidatesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->numeric()
-                    ->sortable(),
-
                 TextColumn::make('name')
                     ->label('Nombres y Apellidos')
                     ->sortable()

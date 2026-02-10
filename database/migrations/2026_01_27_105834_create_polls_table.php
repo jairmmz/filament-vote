@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreignId('province_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('district_id')->nullable()->constrained()->nullOnDelete();
             $table->string('image')->nullable();
-            $table->string('location')->nullable();
             $table->enum('status', ['borrador', 'activo', 'cerrado', 'archivado'])->default('borrador');
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();

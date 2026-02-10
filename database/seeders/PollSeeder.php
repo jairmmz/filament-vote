@@ -57,7 +57,6 @@ class PollSeeder extends Seeder
                 'province_id' => null,
                 'district_id' => null,
                 'image' => null,
-                'location' => $nombre,
                 'status' => 'activo',
                 'starts_at' => now(),
                 'ends_at' => now()->addMonths(3),

@@ -77,24 +77,19 @@
                                 <span class="px-3 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-semibold text-slate-800 dark:text-white">
                                     {{ $poll->category->name }}
                                 </span>
-
-                                @if($poll->status === 'activo')
-                                    <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold shadow">
-                                        Activo
-                                    </span>
-                                @else
-                                    <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
-                                        Cerrado
-                                    </span>
-                                @endif
                             </div>
 
                             <div class="absolute top-4 right-4 z-10">
-                                <span class="px-3 py-1 rounded-full bg-black/60 text-white text-xs font-semibold backdrop-blur">
-                                    {{ number_format($poll->votes_count) }} {{ \Illuminate\Support\Str::plural('voto', $poll->votes_count) }}
-                                </span>
+                                @if($poll->status === 'activo')
+                                    <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold shadow">
+                                        Encuesta activa
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
+                                        Encuesta finalizada
+                                    </span>
+                                @endif
                             </div>
-
                         </div>
 
                         <div class="p-6 flex flex-col flex-1">
@@ -111,6 +106,8 @@
                                             @if($poll->province) - {{ $poll->province->name }} @endif
                                             @if($poll->district) - {{ $poll->district->name }} @endif
                                         </div>
+                                    @else
+                                        <p class="text-xs">{{ ucfirst($poll->scope) }}</p>
                                     @endif
                                 </div>
 

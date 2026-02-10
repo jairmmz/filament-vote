@@ -20,10 +20,6 @@ class PoliticalPartiesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
-
                 TextColumn::make('name')
                     ->label('Nombre')
                     ->sortable()
@@ -31,6 +27,9 @@ class PoliticalPartiesTable
 
                 TextColumn::make('slug')
                     ->label('Slug'),
+
+                TextColumn::make('acronym')
+                    ->label('Acrónimo'),
 
                 ImageColumn::make('logo')
                     ->disk('logos')

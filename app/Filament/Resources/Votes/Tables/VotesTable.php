@@ -4,8 +4,6 @@ namespace App\Filament\Resources\Votes\Tables;
 
 use App\Filament\Exports\VoteExporter;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -18,10 +16,6 @@ class VotesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
-
                 TextColumn::make('code')
                     ->label('Código')
                     ->searchable(),

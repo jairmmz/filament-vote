@@ -1,6 +1,7 @@
 <?php
 
 use App\Support\SiteSettings;
+use Flux\Flux;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Attributes\Rule;
@@ -20,12 +21,8 @@ new class extends Component
     #[Rule('required|string|min:10')]
     public string $message = '';
 
-    public bool $isSendMail = false;
-
     public function send()
     {
-        $this->isSendMail = false;
-
         $this->validate();
 
         Mail::raw(
@@ -36,9 +33,9 @@ new class extends Component
             }
         );
 
-        $this->isSendMail = true;
-
         $this->reset(['name', 'email', 'subject', 'message']);
+
+        Flux::toast('Mensaje enviado correctamente. Te responderemos pronto.', variant: 'success');
     }
 
     public function render(): View

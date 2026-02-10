@@ -27,12 +27,6 @@
                 </flux:button>
             </div>
 
-            @if ($isSendMail)
-                <div class="text-sm text-green-600 dark:text-green-400 font-medium">
-                    ✅ Mensaje enviado correctamente. Te responderemos pronto.
-                </div>
-            @endif
-
         </form>
     </div>
 </div>

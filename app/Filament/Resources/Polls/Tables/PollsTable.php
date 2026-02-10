@@ -26,22 +26,23 @@ class PollsTable
     {
         return $table
             ->columns([
+                TextColumn::make('title')
+                    ->label('Título')
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('category.name')
                     ->label('Categoría')
                     ->numeric()
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('title')
-                    ->label('Título')
-                    ->searchable(),
-
                 ImageColumn::make('image')
                     ->disk('polls')
                     ->label('Imagen'),
 
-                TextColumn::make('location')
-                    ->label('Ubicación')
+                TextColumn::make('scope')
+                    ->label('Ámbito')
                     ->searchable(),
 
                 TextColumn::make('status')
@@ -54,19 +55,28 @@ class PollsTable
                         'danger' => 'archivado',
                     ]),
 
-                TextColumn::make('starts_at')
-                    ->label('Inicio')
-                    ->date('d/m/Y')
-                    ->sortable()
-                    ->toggleable(),
-
                 TextColumn::make('ends_at')
-                    ->label('Fin')
+                    ->label('Finalización')
                     ->date('d/m/Y')
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
+                SelectFilter::make('category')
+                    ->label('Categoría')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload(),
+
+                SelectFilter::make('scope')
+                    ->label('Ámbito')
+                    ->options([
+                        'nacional' => 'Nacional',
+                        'regional' => 'Regional',
+                        'provincial' => 'Provincial',
+                        'distrital' => 'Distrital',
+                    ]),
+
                 SelectFilter::make('status')
                     ->label('Estado')
                     ->options([
@@ -75,12 +85,6 @@ class PollsTable
                         'cerrado' => 'Cerrado',
                         'archivado' => 'Archivado',
                     ]),
-
-                SelectFilter::make('category')
-                    ->label('Categoría')
-                    ->relationship('category', 'name')
-                    ->searchable()
-                    ->preload(),
             ])
             ->recordActions([
                 ViewAction::make(),

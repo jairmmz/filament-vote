@@ -21,7 +21,6 @@ class Poll extends Model
         'province_id',
         'district_id',
         'image',
-        'location',
         'status',
         'starts_at',
         'ends_at',

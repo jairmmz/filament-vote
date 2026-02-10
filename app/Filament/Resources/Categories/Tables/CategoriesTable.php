@@ -18,10 +18,6 @@ class CategoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
-
                 TextColumn::make('name')
                     ->label('Nombre')
                     ->sortable()
@@ -29,7 +25,6 @@ class CategoriesTable
 
                 TextColumn::make('slug')
                     ->label('Slug'),
-
             ])
             ->filters([
 

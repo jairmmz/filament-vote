@@ -28,7 +28,6 @@ class PollInfolist
                                 ->html()
                                 ->columnSpanFull(),
                             ImageEntry::make('image')->disk('polls')->label('Imagen')->placeholder('-'),
-                            TextEntry::make('location')->label('Ubicación')->placeholder('-'),
                             TextEntry::make('status')->label('Estado')->badge(),
                             TextEntry::make('starts_at')->label('Fecha de inicio')->dateTime(),
                             TextEntry::make('ends_at')->label('Fecha de finalización')->dateTime('d/m/Y H:i'),

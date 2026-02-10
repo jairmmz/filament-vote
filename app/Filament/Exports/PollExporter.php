@@ -21,8 +21,14 @@ class PollExporter extends Exporter
                 ->label('Título'),
             ExportColumn::make('category.name'),
             ExportColumn::make('slug'),
-            ExportColumn::make('location')
-                ->label('Ubicación'),
+            ExportColumn::make('scope')
+                ->label('Ambito'),
+            ExportColumn::make('region.name')
+                ->label('Región'),
+            ExportColumn::make('province.name')
+                ->label('Provincia'),
+            ExportColumn::make('district.name')
+                ->label('Distrito'),
             ExportColumn::make('status')
                 ->label('Estado'),
             ExportColumn::make('starts_at')

@@ -28,7 +28,6 @@ class PollFactory extends Factory
             'slug' => Str::slug($title),
             'description' => fake()->paragraphs(3, true),
             'image' => 'https://picsum.photos/seed/' . fake()->numberBetween(1, 1000) . '/200/200',
-            'location' => fake()->randomElement(['Lima', 'Arequipa', 'Cusco', 'Piura', 'Nacional']),
             'status' => 'activo',
             'starts_at' => fake()->dateTimeBetween('-1 month', 'now'),
             'ends_at' => fake()->dateTimeBetween('now', '+4 months'),

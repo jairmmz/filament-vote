@@ -39,7 +39,7 @@ class PollForm
                             ->options(Category::query()->pluck('name', 'id'))
                             ->searchable()
                             ->required()
-                            ->columnSpan(6),
+                            ->columnSpanFull(),
 
                         TextInput::make('title')
                             ->label('Título')
@@ -49,7 +49,7 @@ class PollForm
                             ->maxLength(255)
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(callable $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
-                            ->columnSpan(6),
+                            ->columnSpanFull(),
 
                         TextInput::make('slug')
                             ->label('Slug')
@@ -63,13 +63,7 @@ class PollForm
                                 'regex' => 'El formato del slug debe ser minúsculas, números y guiones (ej: mi-categoria-1).',
                             ])
                             ->disabled(fn($record) => $record !== null)
-                            ->columnSpan(6),
-
-                        TextInput::make('location')
-                            ->label('Ubicación')
-                            ->maxLength(255)
-                            ->nullable()
-                            ->columnSpan(6),
+                            ->columnSpanFull(),
 
                         Textarea::make('description')
                             ->label('Descripción')
