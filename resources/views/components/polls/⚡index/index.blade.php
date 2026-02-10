@@ -15,15 +15,13 @@
 
             <flux:input icon="magnifying-glass" wire:model.live.300ms="search" placeholder="Buscar encuesta por nombre..." clearable />
 
-            <div>
-                {{-- Scope --}}
-                <flux:select wire:model.live="scope" variant="listbox" clearable placeholder="Ámbito de la encuesta">
-                    <flux:select.option value="nacional">Nacional</flux:select.option>
-                    <flux:select.option value="regional">Regional</flux:select.option>
-                    <flux:select.option value="provincial">Provincial</flux:select.option>
-                    <flux:select.option value="distrital">Distrital</flux:select.option>
-                </flux:select>
-            </div>
+            {{-- Scope --}}
+            <flux:select wire:model.live="scope" variant="listbox" clearable placeholder="Ámbito de la encuesta">
+                <flux:select.option value="nacional">Nacional</flux:select.option>
+                <flux:select.option value="regional">Regional</flux:select.option>
+                <flux:select.option value="provincial">Provincial</flux:select.option>
+                <flux:select.option value="distrital">Distrital</flux:select.option>
+            </flux:select>
 
             {{-- Región --}}
             @if(in_array($scope, ['regional','provincial','distrital']))
@@ -68,9 +66,9 @@
                                     alt="{{ $poll->title }}"
                                     class="absolute inset-0 w-full h-full object-cover">
 
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
+                                <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-black/10"></div>
                             @else
-                                <div class="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"></div>
+                                <div class="absolute inset-0 bg-linear-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"></div>
                             @endif
 
                             <div class="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
@@ -138,6 +136,5 @@
                 {{ $this->polls->links() }}
             </div>
         </div>
-
     </div>
 </section>

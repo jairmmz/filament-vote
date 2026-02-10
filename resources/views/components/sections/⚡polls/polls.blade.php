@@ -25,9 +25,9 @@
                             alt="{{ $poll->title }}"
                             class="absolute inset-0 w-full h-full object-cover">
 
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
+                        <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-black/10"></div>
                     @else
-                        <div class="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"></div>
+                        <div class="absolute inset-0 bg-linear-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"></div>
                     @endif
 
                     <div class="absolute top-4 left-4 flex flex-wrap gap-2 z-10">

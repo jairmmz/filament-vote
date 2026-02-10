@@ -32,17 +32,13 @@
     <p>Los datos se conservarán solo durante el tiempo necesario para cumplir las finalidades descritas o según lo exija
         la ley.</p>
 
-    <h2>7. Derechos ARCO</h2>
-    <p>El usuario puede ejercer sus derechos de <strong>Acceso, Rectificación, Cancelación y Oposición</strong> enviando
-        una solicitud al correo de contacto del sitio.</p>
-
-    <h2>8. Seguridad</h2>
+    <h2>7. Seguridad</h2>
     <p>Aplicamos medidas técnicas y organizativas para proteger la información contra accesos no autorizados.</p>
 
-    <h2>9. Transferencias</h2>
+    <h2>8. Transferencias</h2>
     <p>No vendemos ni transferimos datos personales a terceros sin consentimiento, salvo obligación legal.</p>
 
-    <h2>10. Cambios a esta política</h2>
+    <h2>9. Cambios a esta política</h2>
     <p>Nos reservamos el derecho de actualizar esta política conforme a cambios normativos.</p>
 
 </x-layouts::policies>

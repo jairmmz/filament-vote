@@ -10,7 +10,7 @@
             <flux:navbar.item href="{{ route('home') }}" :current="request()->routeIs('home')" wire:navigate>Inicio</flux:navbar.item>
             <flux:navbar.item href="{{ route('polls') }}" :current="request()->routeIs('polls', 'polls.*')" wire:navigate>Encuestas</flux:navbar.item>
             <flux:navbar.item href="{{ route('parties') }}" :current="request()->routeIs('parties', 'parties.*')" wire:navigate>Partidos Políticos</flux:navbar.item>
-            <flux:navbar.item href="{{ route('contact') }}" :current="request()->routeIs('contact')" wire:navigate>Contacto</flux:navbar.item>
+            {{-- <flux:navbar.item href="{{ route('contact') }}" :current="request()->routeIs('contact')" wire:navigate>Contacto</flux:navbar.item> --}}
         </flux:navbar>
 
         <flux:spacer />
@@ -42,9 +42,9 @@
                     Partidos Políticos
                 </flux:sidebar.item>
 
-                <flux:sidebar.item icon="contact" href="{{ route('contact') }}" :current="request()->routeIs('contact')" wire:navigate>
+                {{-- <flux:sidebar.item icon="contact" href="{{ route('contact') }}" :current="request()->routeIs('contact')" wire:navigate>
                     Contacto
-                </flux:sidebar.item>
+                </flux:sidebar.item> --}}
             </flux:sidebar.group>
         </flux:sidebar.nav>
 

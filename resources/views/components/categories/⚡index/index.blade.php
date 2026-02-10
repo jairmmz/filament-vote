@@ -25,7 +25,7 @@
                         class="group relative rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 backdrop-blur"
                         wire:navigate
                     >
-                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition"></div>
+                        <div class="absolute inset-0 rounded-2xl bg-linear-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition"></div>
 
                         <div class="relative">
                             <div class="flex items-start justify-between mb-2 gap-3">

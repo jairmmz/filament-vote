@@ -37,7 +37,7 @@
                 <ul class="space-y-3 text-sm">
                     <li><a href="{{ route('about') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Sobre Nosotros</a></li>
                     <li><a href="{{ route('how-it-works') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Cómo Funciona</a></li>
-                    <li><a href="{{ route('contact') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Contacto</a></li>
+                    {{-- <li><a href="{{ route('contact') }}" class="text-muted-foreground hover:text-primary transition-colors" wire:navigate>Contacto</a></li> --}}
                 </ul>
             </div>
 
