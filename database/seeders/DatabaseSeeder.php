@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             ProvinceSeeder::class,
             DistrictSeeder::class,
+            PollSeeder::class,
+            CandidateSeeder::class,
         ]);
 
         // Poll::factory(30)->create();

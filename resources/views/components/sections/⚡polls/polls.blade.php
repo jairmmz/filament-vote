@@ -9,12 +9,10 @@
             </h2>
         </div>
 
-        <a href="{{ route('polls') }}"
-           class="self-start sm:self-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 dark:border-white/20 text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition"
-           wire:navigate>
+        <flux:button href="{{ route('polls') }}" wire:navigate>
             Ver todas las encuestas
             <flux:icon.chevron-right />
-        </a>
+        </flux:button>
     </div>
 
     <div class="grid md:grid-cols-2 gap-8">
@@ -61,44 +59,30 @@
                         {{ $poll->title }}
                     </h3>
 
-                    <div class="flex flex-wrap gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+                    <div class="flex flex-wrap justify-between gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
                         <div class="flex items-center gap-1">
                             <flux:icon.map-pin class="w-6 h-6" />
-                            {{ $poll->location }}
+                            @if($poll->scope !== 'nacional')
+                                <div>
+                                    {{ $poll->region->name ?? '' }}
+                                    @if($poll->province) - {{ $poll->province->name }} @endif
+                                    @if($poll->district) - {{ $poll->district->name }} @endif
+                                </div>
+                            @endif
                         </div>
 
                         @if($poll->ends_at)
-                        <div class="flex items-center gap-1">
-                            <flux:icon.calendar-1 class="w-6 h-6" />
-                            Finaliza el {{ $poll->ends_at->format('d/m/Y') }}
-                        </div>
+                            <div class="flex items-center gap-1">
+                                <flux:icon.calendar-1 class="w-6 h-6" />
+                                Finaliza el {{ $poll->ends_at->format('d/m/Y') }}
+                            </div>
                         @endif
                     </div>
 
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="flex -space-x-2">
-                            @foreach($poll->candidates->take(3) as $candidate)
-                                @php
-                                    $initials = collect(explode(' ', $candidate->name))->map(fn($n) => substr($n, 0, 1))->take(2)->join('');
-                                    $color = $candidate->politicalParty?->color ?? '#64748b';
-                                @endphp
-                                <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-bold border-2 border-white dark:border-slate-900"
-                                    style="color: {{ $color }};">
-                                    {{ $initials }}
-                                </div>
-                            @endforeach
-                        </div>
-                        <span class="text-sm text-slate-500 dark:text-slate-400">
-                            {{ $poll->candidates->count() }} {{ \Illuminate\Support\Str::plural('candidato', $poll->candidates->count()) }}
-                        </span>
-                    </div>
-
                     <div class="mt-auto flex gap-2">
-                        <a href="{{ route('polls.show', $poll->slug) }}"
-                        class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold hover:opacity-90 transition"
-                        wire:navigate>
+                        <flux:button type="button" icon="eye" variant="primary" href="{{ route('polls.show', $poll->slug) }}" class="w-full" wire:navigate>
                             Ver Encuesta
-                        </a>
+                        </flux:button>
                     </div>
                 </div>
             </div>

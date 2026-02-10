@@ -11,9 +11,8 @@ new class extends Component
     public function mount(): void
     {
         $this->polls = Poll::actives()
-            ->whereHas('candidates')
             ->withCount('votes')
-            ->with(['category'])
+            ->with(['category', 'region', 'province', 'district'])
             ->orderBy('votes_count', 'desc')
             ->latest()
             ->take(4)

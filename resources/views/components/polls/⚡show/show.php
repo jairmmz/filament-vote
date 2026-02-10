@@ -242,6 +242,10 @@ new class extends Component
             Flux::modal('modal-vote')->close();
 
             Flux::toast('¡Tu voto ha sido registrado exitosamente!', variant: 'success');
+
+            $this->loadChartData();
+
+            $this->dispatch('chart-updated');
         } catch (\Illuminate\Database\QueryException $e) {
             Flux::toast('Ya registramos un voto tuyo previamente.', variant: 'warning');
         }

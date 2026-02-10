@@ -8,106 +8,139 @@
         </p>
     </div>
 
-    <div class="mb-8">
-        <flux:input icon="magnifying-glass" wire:model.live.300ms="search" placeholder="Ingrese el nombre de la encuesta a buscar" clearable />
-    </div>
+    <div class="grid lg:grid-cols-3 gap-10">
 
-    <div class="grid md:grid-cols-2 gap-8">
-        @if ($this->polls->isEmpty())
-            <p class="text-center text-gray-600 dark:text-gray-300 col-span-full">
-                No se encontraron encuestas.
-            </p>
-        @else
-            @foreach($this->polls as $poll)
-                <div class="group rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg flex flex-col">
-                    <div class="h-40 relative overflow-hidden">
+        <div class="space-y-6">
+            <h2 class="text-lg font-bold mb-4 text-gray-700 dark:text-gray-100">Filtrar encuestas</h2>
 
-                        @if($poll->image)
-                            <img src="{{ Storage::disk('polls')->url($poll->image) }}"
-                                alt="{{ $poll->title }}"
-                                class="absolute inset-0 w-full h-full object-cover">
+            <flux:input icon="magnifying-glass" wire:model.live.300ms="search" placeholder="Buscar encuesta por nombre..." clearable />
 
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
-                        @else
-                            <div class="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"></div>
-                        @endif
+            <div>
+                {{-- Scope --}}
+                <flux:select wire:model.live="scope" variant="listbox" clearable placeholder="Ámbito de la encuesta">
+                    <flux:select.option value="nacional">Nacional</flux:select.option>
+                    <flux:select.option value="regional">Regional</flux:select.option>
+                    <flux:select.option value="provincial">Provincial</flux:select.option>
+                    <flux:select.option value="distrital">Distrital</flux:select.option>
+                </flux:select>
+            </div>
 
-                        <div class="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
-                            <span class="px-3 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-semibold text-slate-800 dark:text-white">
-                                {{ $poll->category->name }}
-                            </span>
+            {{-- Región --}}
+            @if(in_array($scope, ['regional','provincial','distrital']))
+                <flux:select wire:model.live="regionId" variant="listbox" searchable clearable placeholder="Selecciona región">
+                    @foreach($this->regions as $id => $name)
+                        <flux:select.option value="{{ $id }}">{{ $name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+            @endif
 
-                            @if($poll->status === 'activo')
-                                <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold shadow">
-                                    Activo
-                                </span>
+            {{-- Provincia --}}
+            @if(in_array($scope, ['provincial','distrital']) && $regionId)
+                <flux:select wire:model.live="provinceId" variant="listbox" searchable clearable placeholder="Selecciona provincia">
+                    @foreach($this->provinces as $id => $name)
+                        <flux:select.option value="{{ $id }}">{{ $name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+            @endif
+
+            {{-- Distrito --}}
+            @if($scope === 'distrital' && $provinceId)
+                <flux:select wire:model.live="districtId" variant="listbox" searchable clearable placeholder="Selecciona distrito">
+                    @foreach($this->districts as $id => $name)
+                        <flux:select.option value="{{ $id }}">{{ $name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+            @endif
+
+            <flux:button icon="trash" variant="danger" wire:click="resetFilters" class="w-full">
+                Limpiar filtros
+            </flux:button>
+        </div>
+
+        <div class="lg:col-span-2">
+            <div class="grid md:grid-cols-2 gap-8">
+                @forelse($this->polls as $poll)
+                    <div class="group rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg flex flex-col">
+                        <div class="h-40 relative overflow-hidden">
+
+                            @if($poll->image)
+                                <img src="{{ Storage::disk('polls')->url($poll->image) }}"
+                                    alt="{{ $poll->title }}"
+                                    class="absolute inset-0 w-full h-full object-cover">
+
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
                             @else
-                                <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
-                                    Cerrado
+                                <div class="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700"></div>
+                            @endif
+
+                            <div class="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
+                                <span class="px-3 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-semibold text-slate-800 dark:text-white">
+                                    {{ $poll->category->name }}
                                 </span>
-                            @endif
-                        </div>
 
-                        <div class="absolute top-4 right-4 z-10">
-                            <span class="px-3 py-1 rounded-full bg-black/60 text-white text-xs font-semibold backdrop-blur">
-                                {{ number_format($poll->votes_count) }} {{ \Illuminate\Support\Str::plural('voto', $poll->votes_count) }}
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 transition">
-                            {{ $poll->title }}
-                        </h3>
-
-                        <div class="flex flex-wrap gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
-                            <div class="flex items-center gap-1">
-                                <flux:icon.map-pin class="w-6 h-6" />
-                                {{ $poll->location }}
+                                @if($poll->status === 'activo')
+                                    <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold shadow">
+                                        Activo
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-semibold shadow">
+                                        Cerrado
+                                    </span>
+                                @endif
                             </div>
 
-                            @if($poll->ends_at)
-                            <div class="flex items-center gap-1">
-                                <flux:icon.calendar-1 class="w-6 h-6" />
-                                Finaliza el {{ $poll->ends_at->format('d/m/Y') }}
+                            <div class="absolute top-4 right-4 z-10">
+                                <span class="px-3 py-1 rounded-full bg-black/60 text-white text-xs font-semibold backdrop-blur">
+                                    {{ number_format($poll->votes_count) }} {{ \Illuminate\Support\Str::plural('voto', $poll->votes_count) }}
+                                </span>
                             </div>
-                            @endif
+
                         </div>
 
-                        <div class="flex items-center gap-3 mb-5">
-                            <div class="flex -space-x-2">
-                                @foreach($poll->candidates->take(3) as $candidate)
-                                    @php
-                                        $initials = collect(explode(' ', $candidate->name))->map(fn($n) => substr($n, 0, 1))->take(2)->join('');
-                                        $color = $candidate->politicalParty?->color ?? '#64748b';
-                                    @endphp
-                                    <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-bold border-2 border-white dark:border-slate-900"
-                                        style="color: {{ $color }};">
-                                        {{ $initials }}
+                        <div class="p-6 flex flex-col flex-1">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 transition">
+                                {{ $poll->title }}
+                            </h3>
+
+                            <div class="flex flex-wrap justify-between gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+                                <div class="flex items-center gap-1">
+                                    <flux:icon.map-pin class="w-6 h-6" />
+                                    @if($poll->scope !== 'nacional')
+                                        <div>
+                                            {{ $poll->region->name ?? '' }}
+                                            @if($poll->province) - {{ $poll->province->name }} @endif
+                                            @if($poll->district) - {{ $poll->district->name }} @endif
+                                        </div>
+                                    @endif
+                                </div>
+
+                                @if($poll->ends_at)
+                                    <div class="flex items-center gap-1">
+                                        <flux:icon.calendar-1 class="w-6 h-6" />
+                                        Finaliza el {{ $poll->ends_at->format('d/m/Y') }}
                                     </div>
-                                @endforeach
+                                @endif
                             </div>
-                            <span class="text-sm text-slate-500 dark:text-slate-400">
-                                {{ $poll->candidates->count() }} {{ \Illuminate\Support\Str::plural('candidato', $poll->candidates->count()) }}
-                            </span>
-                        </div>
 
-                        <div class="mt-auto flex gap-2">
-                            <a href="{{ route('polls.show', $poll->slug) }}"
-                            class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold hover:opacity-90 transition"
-                            wire:navigate>
-                                Ver Encuesta
-                            </a>
+                            <div class="mt-auto flex gap-2">
+                                <flux:button type="button" icon="eye" variant="primary" href="{{ route('polls.show', $poll->slug) }}" class="w-full" wire:navigate>
+                                    Ver Encuesta
+                                </flux:button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        @endif
-    </div>
+                @empty
+                    <p class="col-span-full text-center text-gray-500">
+                        No hay encuestas con esos filtros.
+                    </p>
+                @endforelse
+            </div>
 
-    {{-- Paginación --}}
-    <div class="mt-12">
-        {{ $this->polls->links() }}
+            {{-- Paginación --}}
+            <div class="mt-12">
+                {{ $this->polls->links() }}
+            </div>
+        </div>
+
     </div>
 </section>

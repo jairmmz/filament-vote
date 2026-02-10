@@ -5,8 +5,6 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
 Route::livewire('/', 'home')->name('home');
-Route::livewire('/categorias', 'categories.index')->name('categories');
-Route::livewire('/categorias/{category:slug}', 'categories.show')->name('categories.show');
 Route::livewire('/encuestas', 'polls.index')->name('polls');
 Route::livewire('/encuestas/{poll:slug}', 'polls.show')->name('polls.show');
 Route::livewire('/partidos-politicos', 'parties.index')->name('parties');
@@ -24,17 +22,12 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/')
             ->setPriority(1.0)
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY))
-        ->add(Url::create('/categorias'))
         ->add(Url::create('/encuestas'))
         ->add(Url::create('/partidos-politicos'))
         ->add(Url::create('/nosotros'))
         ->add(Url::create('/contacto'))
-        ->add(Url::create('/como-funciona'));
-
-    foreach (App\Models\Category::query()->select(['id', 'slug', 'updated_at'])->cursor() as $category) {
-        $sitemap->add(Url::create(route('categories.show', $category))
-            ->setLastModificationDate($category->updated_at));
-    }
+        ->add(Url::create('/como-funciona'))
+        ->add(Url::create('/terminos-y-condiciones'));
 
     foreach (App\Models\Poll::query()->select(['id', 'slug', 'updated_at'])->cursor() as $poll) {
         $sitemap->add(Url::create(route('polls.show', $poll))
