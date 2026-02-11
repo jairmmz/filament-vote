@@ -56,5 +56,3 @@ Route::get('/sitemap.xml', function () {
 
     return $sitemap;
 });
-
-require __DIR__.'/settings.php';

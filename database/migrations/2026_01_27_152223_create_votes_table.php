@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('vote_type', ['válido', 'no sabe', 'ninguno'])->default('válido');
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
-            $table->string('fingerprint')->unique();
+            $table->string('fingerprint');
             $table->string('poll_token')->nullable();
             $table->string('session_id')->nullable();
             $table->string('composite_hash', 64)->unique();
