@@ -9,6 +9,7 @@ use Flux\Flux;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -291,7 +292,7 @@ new class extends Component
         return $this->view()
             ->layout('layouts::app', [
                 'title' => $this->poll->title . ' - ' . SiteSettings::get('site_name', config('app.name')),
-                'description' => $this->poll->description,
+                'description' => Str::words($this->poll->description, 20, '...'),
                 'image' => $this->poll->image ? Storage::disk('polls')->url($this->poll->image) : null,
             ]);
     }
