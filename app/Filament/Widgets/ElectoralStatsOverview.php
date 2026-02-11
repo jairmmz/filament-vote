@@ -5,12 +5,15 @@ namespace App\Filament\Widgets;
 use App\Models\Poll;
 use App\Models\User;
 use App\Models\Vote;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class ElectoralStatsOverview extends BaseWidget
 {
+    use HasWidgetShield;
+
     protected static bool $isLazy = true;
 
     protected ?string $heading = 'Estadísticas Electorales';

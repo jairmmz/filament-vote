@@ -13,8 +13,10 @@ use Filament\Actions\ExportAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -45,15 +47,24 @@ class PollsTable
                     ->label('Ámbito')
                     ->searchable(),
 
-                TextColumn::make('status')
+                SelectColumn::make('status')
                     ->label('Estado')
-                    ->badge()
-                    ->colors([
-                        'gray' => 'borrador',
-                        'success' => 'activo',
-                        'warning' => 'cerrado',
-                        'danger' => 'archivado',
-                    ]),
+                    ->options([
+                        'borrador' => 'Borrador',
+                        'activo' => 'Activo',
+                        'cerrado' => 'Cerrado',
+                        'archivado' => 'Archivado',
+                    ])
+                    ->selectablePlaceholder(false)
+                    ->disabled(fn() => !auth()->user()->can('Update:Poll'))
+                    ->afterStateUpdated(function ($record, $state) {
+                        $record->update(['status' => $state]);
+
+                        Notification::make()
+                            ->title('Estado actualizado')
+                            ->success()
+                            ->send();
+                    }),
 
                 TextColumn::make('ends_at')
                     ->label('Finalización')
@@ -121,6 +132,30 @@ class PollsTable
 
     protected static function getPollData(Poll $poll): array
     {
+        $poll->load(['region', 'province', 'district']);
+
+        $ubicacion = null;
+
+        if ($poll->scope === 'regional' && $poll->region) {
+            $ubicacion = 'Región: ' . $poll->region->name;
+        }
+
+        if ($poll->scope === 'provincial' && $poll->province) {
+            $ubicacion = 'Región: ' . $poll->region?->name . ' - Provincia: ' . $poll->province->name;
+        }
+
+        if ($poll->scope === 'distrital' && $poll->district) {
+            $ubicacion = 'Región: ' . $poll->region?->name . ' - Provincia: ' . $poll->province?->name . ' - Distrito: ' . $poll->district->name;
+        }
+
+        $scopeLabel = match ($poll->scope) {
+            'nacional' => 'Nacional',
+            'regional' => 'Regional',
+            'provincial' => 'Provincial',
+            'distrital' => 'Distrital',
+            default => 'No definido',
+        };
+
         $totalVotosValidos = $poll->votes()
             ->where('vote_type', 'válido')
             ->count();
@@ -159,6 +194,8 @@ class PollsTable
 
         return [
             'poll' => $poll,
+            'scope_label' => $scopeLabel,
+            'ubicacion_detalle' => $ubicacion,
             'candidatos' => $candidatos,
             'votos_no_sabe' => $votosNoSabe,
             'votos_ninguno' => $votosNinguno,

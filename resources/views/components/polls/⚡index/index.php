@@ -60,7 +60,7 @@ new class extends Component
     #[Computed]
     public function polls()
     {
-        return Poll::query()
+        return Poll::actives()
             ->when($this->search, fn ($q) =>
                 $q->where('title', 'like', "%{$this->search}%")
             )

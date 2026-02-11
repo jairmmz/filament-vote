@@ -21,8 +21,6 @@ class VoteExporter extends Exporter
                 ->label('Código'),
             ExportColumn::make('poll.title')
                 ->label('Encuesta'),
-            ExportColumn::make('user.name')
-                ->label('Usuario'),
             ExportColumn::make('candidate.name')
                 ->label('Candidato'),
             ExportColumn::make('vote_type')

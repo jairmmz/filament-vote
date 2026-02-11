@@ -78,7 +78,8 @@ class AdminPanelProvider extends PanelProvider
                         slug: 'my-profile' // Sets the slug for the profile page (default = 'my-profile')
                     ),
                 EnvironmentIndicatorPlugin::make(),
-                FilamentLogViewer::make(),
+                FilamentLogViewer::make()
+                    ->authorize(fn(): bool => auth()->check() && auth()->user()->can('View:LogTable')),
                 ResizedColumnPlugin::make()
                     ->preserveOnDB(), // Enable database storage (optional)
                 FilamentBackgroundsPlugin::make()

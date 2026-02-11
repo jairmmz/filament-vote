@@ -15,11 +15,12 @@ use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Support\Icons\Heroicon;
 use App\Support\SiteSettings as CacheSiteSettings;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\FileUpload;
 
 class SiteSettings extends Page implements HasSchemas
 {
-    use InteractsWithSchemas;
+    use InteractsWithSchemas, HasPageShield;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
     protected static string|\UnitEnum|null $navigationGroup = 'Sistema';

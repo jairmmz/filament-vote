@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Poll;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Actions\BulkActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ActivePollsTable extends TableWidget
 {
+    use HasWidgetShield;
+
     protected static bool $isLazy = true;
     protected static ?string $heading = 'Encuestas Activas';
     protected static ?int $sort = 4;

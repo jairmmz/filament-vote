@@ -3,10 +3,13 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Vote;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 
 class VoteTypeChart extends ChartWidget
 {
+    use HasWidgetShield;
+
     protected static bool $isLazy = true;
     protected ?string $heading = 'Distribución de Votos por Tipo';
     protected static ?int $sort = 2;

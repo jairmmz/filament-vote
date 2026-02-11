@@ -3,10 +3,13 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Vote;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 
 class TopCandidatesChart extends ChartWidget
 {
+    use HasWidgetShield;
+
     protected static bool $isLazy = true;
     protected ?string $heading = 'Top 5 Candidatos Más Votados';
     protected static ?int $sort = 5;
