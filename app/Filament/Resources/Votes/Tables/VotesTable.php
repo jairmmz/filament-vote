@@ -6,6 +6,8 @@ use App\Filament\Exports\VoteExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -59,7 +61,12 @@ class VotesTable
                     ->preload(),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                    ->label('')
+                    ->icon(Heroicon::Eye)
+                    ->color('warning')
+                    ->tooltip('Ver')
+                    ->size(Size::Medium),
             ])
             ->headerActions([
                 ExportAction::make()->exporter(VoteExporter::class),

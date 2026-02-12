@@ -9,6 +9,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -26,10 +28,13 @@ class PoliticalPartiesTable
                     ->searchable(),
 
                 TextColumn::make('slug')
-                    ->label('Slug'),
+                    ->label('Slug')
+                    ->searchable(),
 
                 TextColumn::make('acronym')
-                    ->label('Acrónimo'),
+                    ->label('Acrónimo')
+                    ->sortable()
+                    ->searchable(),
 
                 ImageColumn::make('logo')
                     ->disk('logos')
@@ -39,26 +44,38 @@ class PoliticalPartiesTable
                     ->label('Creado El')
                     ->dateTime()
                     ->sortable()
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
                     ->label('Actualizado El')
                     ->dateTime()
                     ->sortable()
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                // SelectFilter::make('is_active')
-                //     ->label('Activos')
-                //     ->options([
-                //         1 => 'Activo',
-                //         0 => 'Inactivo',
-                //     ])
+                //
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ViewAction::make()
+                    ->label('')
+                    ->icon(Heroicon::Eye)
+                    ->color('warning')
+                    ->tooltip('Ver')
+                    ->size(Size::Medium),
+                EditAction::make()
+                    ->label('')
+                    ->icon(Heroicon::PencilSquare)
+                    ->color('info')
+                    ->tooltip('Editar')
+                    ->size(Size::Medium),
+                DeleteAction::make()
+                    ->label('')
+                    ->icon(Heroicon::Trash)
+                    ->color('danger')
+                    ->tooltip('Eliminar')
+                    ->size(Size::Medium)
             ])
             ->headerActions([
                 ExportAction::make()->exporter(PoliticalPartyExporter::class),

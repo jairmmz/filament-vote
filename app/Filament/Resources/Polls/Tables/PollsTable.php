@@ -13,17 +13,25 @@ use Filament\Actions\ExportAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
+use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
+use Shreejan\ActionableColumn\Tables\Columns\ActionableColumn;
 
 class PollsTable
 {
+    public const STATUS_COLORS = [
+        'borrador' => 'gray',
+        'activo' => 'success',
+        'cerrado' => 'danger',
+        'archivado' => 'warning',
+    ];
+
     public static function configure(Table $table): Table
     {
         return $table
@@ -39,37 +47,52 @@ class PollsTable
                     ->sortable()
                     ->searchable(),
 
-                ImageColumn::make('image')
-                    ->disk('polls')
-                    ->label('Imagen'),
-
                 TextColumn::make('scope')
                     ->label('Ámbito')
+                    ->sortable()
                     ->searchable(),
 
-                SelectColumn::make('status')
+                ActionableColumn::make('status')
                     ->label('Estado')
-                    ->options([
-                        'borrador' => 'Borrador',
-                        'activo' => 'Activo',
-                        'cerrado' => 'Cerrado',
-                        'archivado' => 'Archivado',
-                    ])
-                    ->selectablePlaceholder(false)
-                    ->disabled(fn() => !auth()->user()->can('Update:Poll'))
-                    ->afterStateUpdated(function ($record, $state) {
-                        $record->update(['status' => $state]);
+                    ->badge()
+                    ->color(fn ($state) => PollsTable::STATUS_COLORS[$state] ?? 'secondary')
+                    ->actionIcon(Heroicon::PencilSquare)
+                    ->actionIconColor(fn ($record) => PollsTable::STATUS_COLORS[$record->status] ?? 'secondary')
+                    ->sortable()
+                    ->searchable()
+                    ->tapAction(
+                        Action::make('changeStatus')
+                            ->label('Cambiar estado')
+                            ->tooltip('Click para cambiar el estado')
+                            ->schema([
+                                Select::make('status')
+                                    ->label('Estado')
+                                    ->options([
+                                        'borrador' => 'Borrador',
+                                        'activo' => 'Activo',
+                                        'cerrado' => 'Cerrado',
+                                        'archivado' => 'Archivado',
+                                    ])
+                                    ->required(),
+                            ])
+                            ->fillForm(fn ($record) => [
+                                'status' => $record->status,
+                            ])
+                            ->action(function ($record, array $data) {
+                                $record->update($data);
 
-                        Notification::make()
-                            ->title('Estado actualizado')
-                            ->success()
-                            ->send();
-                    }),
+                                Notification::make()
+                                    ->title('Estado actualizado a ' . $data['status'])
+                                    ->success()
+                                    ->send();
+                            })
+                    )->showActionIcon(fn() => auth()->user()->can('Update:Poll')),
 
                 TextColumn::make('ends_at')
                     ->label('Finalización')
-                    ->date('d/m/Y')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
+                    ->searchable()
                     ->toggleable(),
             ])
             ->filters([
@@ -98,12 +121,24 @@ class PollsTable
                     ]),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->label('')
+                    ->icon(Heroicon::Eye)
+                    ->color('warning')
+                    ->tooltip('Ver')
+                    ->size(Size::Medium),
+                EditAction::make()
+                    ->label('')
+                    ->icon(Heroicon::PencilSquare)
+                    ->color('info')
+                    ->tooltip('Editar')
+                    ->size(Size::Medium),
                 Action::make('exportPdf')
-                    ->label('Exportar PDF')
+                    ->label('')
                     ->icon(Heroicon::DocumentArrowDown)
-                    ->color('sucess')
+                    ->color('danger')
+                    ->tooltip('Exportar a PDF')
+                    ->size(Size::Medium)
                     ->action(function (Poll $record) {
                         return response()->streamDownload(function () use ($record) {
                             $data = self::getPollData($record);

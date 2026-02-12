@@ -9,6 +9,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -51,12 +53,14 @@ class CandidatesTable
                     ->label('Creado El')
                     ->dateTime()
                     ->sortable()
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
                     ->label('Actualizado El')
                     ->dateTime()
                     ->sortable()
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
@@ -73,9 +77,24 @@ class CandidatesTable
                     ->preload(),
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                DeleteAction::make(),
+                ViewAction::make()
+                    ->label('')
+                    ->icon(Heroicon::Eye)
+                    ->color('warning')
+                    ->tooltip('Ver')
+                    ->size(Size::Medium),
+                EditAction::make()
+                    ->label('')
+                    ->icon(Heroicon::PencilSquare)
+                    ->color('info')
+                    ->tooltip('Editar')
+                    ->size(Size::Medium),
+                DeleteAction::make()
+                    ->label('')
+                    ->icon(Heroicon::Trash)
+                    ->color('danger')
+                    ->tooltip('Eliminar')
+                    ->size(Size::Medium),
             ])
             ->headerActions([
                 ExportAction::make()->exporter(CandidateExporter::class),

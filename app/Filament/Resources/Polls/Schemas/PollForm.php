@@ -96,7 +96,6 @@ class PollForm
                     ->columns(12)
                     ->columnSpan(6)
                     ->schema([
-
                         Select::make('scope')
                             ->label('Ámbito')
                             ->options([
