@@ -634,7 +634,7 @@
         function pollChart() {
             return {
                 init() {
-                    console.log('Chart initialized');
+                    // console.log('Chart initialized');
                 }
             }
         }

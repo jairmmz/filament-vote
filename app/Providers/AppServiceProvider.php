@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(Role::class, RolePolicy::class); // Verificar
     }
 
     protected function configureDefaults(): void
