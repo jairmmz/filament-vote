@@ -27,7 +27,6 @@
 
                         <div class="flex items-start gap-5">
 
-                            {{-- Logo --}}
                             <div class="w-20 h-20 overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
                                 @if($party->logo)
                                     <img src="{{ Storage::disk('logos')->url($party->logo) }}" alt="{{ $party->name }}" class="w-full h-full object-cover">
@@ -68,10 +67,8 @@
             @endif
         </div>
 
-        {{-- Paginación --}}
         <div class="mt-12">
             {{ $this->politicalParties->links() }}
         </div>
-
     </div>
 </div>

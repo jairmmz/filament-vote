@@ -15,7 +15,6 @@
 
             <flux:input icon="magnifying-glass" wire:model.live.300ms="search" placeholder="Buscar encuesta por nombre..." clearable />
 
-            {{-- Scope --}}
             <flux:select wire:model.live="scope" variant="listbox" clearable placeholder="Ámbito de la encuesta">
                 <flux:select.option value="nacional">Nacional</flux:select.option>
                 <flux:select.option value="regional">Regional</flux:select.option>
@@ -23,7 +22,6 @@
                 <flux:select.option value="distrital">Distrital</flux:select.option>
             </flux:select>
 
-            {{-- Región --}}
             @if(in_array($scope, ['regional','provincial','distrital']))
                 <flux:select wire:model.live="regionId" variant="listbox" searchable clearable placeholder="Selecciona región">
                     @foreach($this->regions as $id => $name)
@@ -32,7 +30,6 @@
                 </flux:select>
             @endif
 
-            {{-- Provincia --}}
             @if(in_array($scope, ['provincial','distrital']) && $regionId)
                 <flux:select wire:model.live="provinceId" variant="listbox" searchable clearable placeholder="Selecciona provincia">
                     @foreach($this->provinces as $id => $name)
@@ -41,7 +38,6 @@
                 </flux:select>
             @endif
 
-            {{-- Distrito --}}
             @if($scope === 'distrital' && $provinceId)
                 <flux:select wire:model.live="districtId" variant="listbox" searchable clearable placeholder="Selecciona distrito">
                     @foreach($this->districts as $id => $name)
@@ -60,7 +56,6 @@
                 @forelse($this->polls as $poll)
                     <div class="group rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg flex flex-col">
                         <div class="h-40 relative overflow-hidden">
-
                             @if($poll->image)
                                 <img src="{{ Storage::disk('polls')->url($poll->image) }}"
                                     alt="{{ $poll->title }}"
@@ -131,7 +126,6 @@
                 @endforelse
             </div>
 
-            {{-- Paginación --}}
             <div class="mt-12">
                 {{ $this->polls->links() }}
             </div>

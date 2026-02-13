@@ -59,7 +59,7 @@
 
                                 <div class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg p-6 space-y-4">
                                     <div class="flex items-start">
-                                        <div class="flex-shrink-0 w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mr-3">
+                                        <div class="shrink-0 w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mr-3">
                                             <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                             </svg>
@@ -71,7 +71,7 @@
                                     </div>
 
                                     <div class="flex items-start">
-                                        <div class="flex-shrink-0 w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mr-3">
+                                        <div class="shrink-0 w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mr-3">
                                             <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                             </svg>
@@ -83,7 +83,7 @@
                                     </div>
 
                                     <div class="flex items-start">
-                                        <div class="flex-shrink-0 w-8 h-8 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mr-3">
+                                        <div class="shrink-0 w-8 h-8 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mr-3">
                                             <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                             </svg>
@@ -124,25 +124,25 @@
                                 </p>
                                 <ul class="space-y-2">
                                     <li class="flex items-start">
-                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                                         </svg>
                                         <span class="text-slate-700 dark:text-slate-300">Información completa de cada partido político</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                                         </svg>
                                         <span class="text-slate-700 dark:text-slate-300">Descripción de sus propuestas e ideología</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                                         </svg>
                                         <span class="text-slate-700 dark:text-slate-300">Información de contacto oficial</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                                         </svg>
                                         <span class="text-slate-700 dark:text-slate-300">Listado de candidatos por partido</span>
@@ -161,7 +161,7 @@
 
                                 <div class="space-y-4">
                                     <div class="flex">
-                                        <div class="flex-shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">1</div>
+                                        <div class="shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">1</div>
                                         <div class="flex-1 pt-1">
                                             <h4 class="font-semibold text-slate-900 dark:text-white mb-1">Selecciona una Encuesta</h4>
                                             <p class="text-slate-600 dark:text-slate-300">Navega por las encuestas activas y haz clic en la que deseas participar.</p>
@@ -169,7 +169,7 @@
                                     </div>
 
                                     <div class="flex">
-                                        <div class="flex-shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">2</div>
+                                        <div class="shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">2</div>
                                         <div class="flex-1 pt-1">
                                             <h4 class="font-semibold text-slate-900 dark:text-white mb-1">Revisa los Detalles</h4>
                                             <p class="text-slate-600 dark:text-slate-300">Lee la descripción de la encuesta, las fechas y los candidatos participantes.</p>
@@ -177,7 +177,7 @@
                                     </div>
 
                                     <div class="flex">
-                                        <div class="flex-shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">3</div>
+                                        <div class="shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">3</div>
                                         <div class="flex-1 pt-1">
                                             <h4 class="font-semibold text-slate-900 dark:text-white mb-1">Explora la Tabla de Candidatos</h4>
                                             <p class="text-slate-600 dark:text-slate-300 mb-2">La tabla muestra información de cada candidato:</p>
@@ -191,7 +191,7 @@
                                     </div>
 
                                     <div class="flex">
-                                        <div class="flex-shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">4</div>
+                                        <div class="shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">4</div>
                                         <div class="flex-1 pt-1">
                                             <h4 class="font-semibold text-slate-900 dark:text-white mb-1">Elige tu Opción de Voto</h4>
                                             <p class="text-slate-600 dark:text-slate-300 mb-2">Tienes varias opciones disponibles:</p>
@@ -213,7 +213,7 @@
                                     </div>
 
                                     <div class="flex">
-                                        <div class="flex-shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">5</div>
+                                        <div class="shrink-0 w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-4">5</div>
                                         <div class="flex-1 pt-1">
                                             <h4 class="font-semibold text-slate-900 dark:text-white mb-1">Confirma tu Voto</h4>
                                             <p class="text-slate-600 dark:text-slate-300">Haz clic en el botón "Marcar" de tu opción elegida. Se te pedirá confirmar tu decisión.</p>
@@ -221,7 +221,7 @@
                                     </div>
 
                                     <div class="flex">
-                                        <div class="flex-shrink-0 w-10 h-10 bg-green-600 dark:bg-green-500 text-white rounded-full flex items-center justify-center font-bold mr-4">✓</div>
+                                        <div class="shrink-0 w-10 h-10 bg-green-600 dark:bg-green-500 text-white rounded-full flex items-center justify-center font-bold mr-4">✓</div>
                                         <div class="flex-1 pt-1">
                                             <h4 class="font-semibold text-slate-900 dark:text-white mb-1">Voto Registrado</h4>
                                             <p class="text-slate-600 dark:text-slate-300">Recibirás un mensaje de confirmación y podrás ver los resultados actualizados inmediatamente.</p>
@@ -265,19 +265,19 @@
                                 </h3>
                                 <ul class="space-y-2 text-red-800 dark:text-red-300 text-sm">
                                     <li class="flex items-start">
-                                        <svg class="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="w-5 h-5 mr-2 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                                         </svg>
                                         Solo puedes votar UNA VEZ por encuesta
                                     </li>
                                     <li class="flex items-start">
-                                        <svg class="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="w-5 h-5 mr-2 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                                         </svg>
                                         No podrás cambiar tu voto una vez confirmado
                                     </li>
                                     <li class="flex items-start">
-                                        <svg class="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="w-5 h-5 mr-2 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                                         </svg>
                                         Tu voto es anónimo - no se asocia públicamente con tu identidad

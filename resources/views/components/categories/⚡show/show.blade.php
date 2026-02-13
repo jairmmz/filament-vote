@@ -97,12 +97,8 @@
             @endforelse
         </div>
 
-        {{-- Paginación --}}
-        @if ($this->polls->hasPages())
-            <div class="mt-12">
-                {{ $this->polls->links() }}
-            </div>
-        @endif
-
+        <div class="mt-12">
+            {{ $this->polls->links() }}
+        </div>
     </div>
 </div>

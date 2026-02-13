@@ -43,7 +43,6 @@ new class extends Component
         return $this->view()
             ->layout('layouts::app', [
                 'title' => 'Contacto' . ' - ' . SiteSettings::get('site_name', config('app.name')),
-                'description' => 'Página de contacto del sitio web',
             ]);
     }
 };

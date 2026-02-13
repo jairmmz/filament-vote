@@ -10,7 +10,7 @@
             </p>
         </div>
 
-        <form wire:submit.prevent="send" class="space-y-6 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm backdrop-blur">
+        <form wire:submit="send" class="space-y-6 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm backdrop-blur">
 
             <div class="grid md:grid-cols-2 gap-6">
                 <flux:input wire:model.defer="name" label="Nombre" placeholder="Tu nombre" />

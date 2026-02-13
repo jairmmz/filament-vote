@@ -1,12 +1,10 @@
 <div class="min-h-screen bg-white dark:bg-[#1D293D] py-12">
     <div class="container mx-auto px-4 max-w-6xl">
 
-        {{-- Header Partido --}}
         <div class="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-sm mb-12">
 
             <div class="flex flex-col md:flex-row md:items-center gap-6">
 
-                {{-- Logo --}}
                 <div class="w-28 h-28 overflow-hidden bg-gray-100 dark:bg-white/10 flex items-center justify-center shrink-0">
                     @if($politicalParty->logo)
                         <img src="{{ Storage::disk('logos')->url($politicalParty->logo) }}" alt="{{ $politicalParty->name }}" class="w-full h-full object-cover">
@@ -38,7 +36,6 @@
 
         </div>
 
-        {{-- Sección Candidatos --}}
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 Candidatos del partido
@@ -48,7 +45,6 @@
                 @forelse ($this->candidates as $candidate)
                     <div class="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-5 shadow-sm hover:shadow-lg transition">
 
-                        {{-- Foto --}}
                         <div class="w-full h-44 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/10 mb-4 flex items-center justify-center">
                             @if($candidate->photo)
                                 <img src="{{ Storage::disk('candidates_photos')->url($candidate->photo) }}" alt="{{ $candidate->name }}" class="w-full h-full object-cover">
@@ -69,11 +65,13 @@
 
                         <div class="mt-4 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                             <flux:button
+                                type="button"
+                                icon="user"
                                 class="w-full"
                                 href="{{ route('parties.candidate', [$politicalParty, $candidate]) }}"
                                 wire:navigate
                             >
-                                Ver perfil
+                                Ver candidato
                             </flux:button>
                         </div>
 
@@ -85,12 +83,9 @@
                 @endforelse
             </div>
 
-            {{-- Paginación --}}
-            @if ($this->candidates->hasPages())
-                <div class="mt-10">
-                    {{ $this->candidates->links() }}
-                </div>
-            @endif
+            <div class="mt-10">
+                {{ $this->candidates->links() }}
+            </div>
         </div>
 
     </div>

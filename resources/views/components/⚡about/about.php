@@ -11,7 +11,7 @@ new class extends Component
         return $this->view()
             ->layout('layouts::app', [
                 'title' => 'Nosotros' . ' - ' . SiteSettings::get('site_name', config('app.name')),
-                'description' => 'Página de información sobre nosotros del sitio web',
+                'description' => 'Este proyecto nace como una iniciativa personal para democratizar el acceso a las encuestas electorales en Perú.',
             ]);
     }
 };
