@@ -49,8 +49,8 @@
 
             <div class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/60 dark:bg-white/10 backdrop-blur border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none">
                 <flux:icon.users />
-                <span class="text-2xl sm:text-3xl font-bold">{{ $totalParticipants }}+</span>
-                <span class="text-sm text-slate-600 dark:text-white/70">Participantes</span>
+                <span class="text-2xl sm:text-3xl font-bold">{{ $totalVotes }}+</span>
+                <span class="text-sm text-slate-600 dark:text-white/70">Votos Emitidos</span>
             </div>
 
             <div class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/60 dark:bg-white/10 backdrop-blur border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none">
