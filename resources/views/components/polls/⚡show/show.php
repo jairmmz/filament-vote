@@ -284,7 +284,8 @@ new class extends Component
 
     public function getIsPollClosedProperty(): bool
     {
-        return $this->poll->ends_at && $this->poll->ends_at->isPast();
+        return ($this->poll->ends_at && $this->poll->ends_at->isPast())
+            || $this->poll->status === 'cerrado';
     }
 
     public function render(): View
