@@ -2,6 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Candidate;
+use App\Models\PoliticalParty;
 use App\Models\Poll;
 use App\Models\User;
 use App\Models\Vote;
@@ -22,34 +24,33 @@ class ElectoralStatsOverview extends BaseWidget
 
     protected function getStats(): array
     {
+        $totalPolls = Poll::count();
         $activePolls = Poll::where('status', 'activo')->count();
+        $totalPoliticalParties = PoliticalParty::count();
+        $totalCandidates = Candidate::count();
         $totalVotes = Vote::count();
         $todayVotes = Vote::whereDate('created_at', today())->count();
-        $registeredVotes = User::count();
 
         return [
-            Stat::make('Encuestas Activas', $activePolls)
-                ->description('En curso actualmente')
+            Stat::make('Total de Encuestas', $totalPolls)
+                ->description($activePolls . ' en curso')
                 ->descriptionIcon('heroicon-m-clipboard-document-list')
                 ->color('success'),
 
+            Stat::make('Total de Partidos Políticos', number_format($totalPoliticalParties))
+                ->description('Partidos políticos totales')
+                ->descriptionIcon('heroicon-m-document-text')
+                ->color('danger'),
 
-            Stat::make('Total de Votos', number_format($totalVotes))
-                ->description($todayVotes . ' votos hoy')
-                ->descriptionIcon('heroicon-m-hand-raised')
-                ->color('primary'),
-
-            Stat::make('Votantes Registrados', number_format($registeredVotes))
-                ->description('Usuarios totales')
+            Stat::make('Total de Candidatos', number_format($totalCandidates))
+                ->description('Candidatos totales')
                 ->descriptionIcon('heroicon-m-users')
                 ->color('info'),
 
-            Stat::make('Participación Hoy', $todayVotes)
-                ->description('Votos en las últimas 24 horas')
+            Stat::make('Total de Votos', number_format($totalVotes))
+                ->description($todayVotes . ' votos hoy')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('warning'),
-
-
+                ->color('primary'),
         ];
     }
 }

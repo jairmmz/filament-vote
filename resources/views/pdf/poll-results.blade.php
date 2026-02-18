@@ -171,9 +171,7 @@
             display: inline-block;
             width: 25px;
             height: 25px;
-            border-radius: 50%;
-            background-color: #2563eb;
-            color: white;
+            color: 000000;
             text-align: center;
             line-height: 25px;
             font-weight: bold;
@@ -254,15 +252,7 @@
             @foreach($candidatos as $index => $candidato)
                 <tr>
                     <td>
-                        @if($index === 0)
-                            <span class="rank-badge gold">{{ $index + 1 }}</span>
-                        @elseif($index === 1)
-                            <span class="rank-badge silver">{{ $index + 1 }}</span>
-                        @elseif($index === 2)
-                            <span class="rank-badge bronze">{{ $index + 1 }}</span>
-                        @else
-                            <span class="rank-badge">{{ $index + 1 }}</span>
-                        @endif
+                        <span class="rank-badge">{{ $index + 1 }}</span>
                     </td>
                     <td>
                         <div class="candidate-name">{{ $candidato['nombre'] }}</div>
