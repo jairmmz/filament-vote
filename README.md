@@ -129,7 +129,7 @@ DB_PASSWORD=tu_contraseña
 
 ---
 
-## 🗄️ Migraciones y Seeders
+## 📦 Migraciones y Seeders
 
 ### Ejecutar migraciones
 ```bash
