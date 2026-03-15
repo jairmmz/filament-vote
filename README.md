@@ -1,29 +1,168 @@
-# Laravel + Livewire Starter Kit
+# 🗳️ Sistema de Encuestas Electorales
 
-## Introduction
+Sistema de encuestas electorales, diseñado para registrar, gestionar y visualizar intención de voto a nivel nacional, regional, provincial y distrital.
 
-Our Laravel + [Livewire](https://livewire.laravel.com) starter kit provides a robust, modern starting point for building Laravel applications with a Livewire frontend.
+![Home](public/images/readme/home.png)
 
-Livewire is a powerful way of building dynamic, reactive, frontend UIs using just PHP. It's a great fit for teams that primarily use Blade templates and are looking for a simpler alternative to JavaScript-driven SPA frameworks like React and Vue.
+![Laravel](https://img.shields.io/badge/Laravel-12.x-red?logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2+-blue?logo=php)
+![Filament](https://img.shields.io/badge/Filament-5.x-orange)
+![Livewire](https://img.shields.io/badge/Livewire-4.x-purple)
+![MySQL](https://img.shields.io/badge/MySQL-8.x-blue?logo=mysql)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-This Livewire starter kit utilizes Livewire 4, TypeScript, Tailwind, and the [Flux UI](https://fluxui.dev) component library.
+---
 
-If you are looking for the alternate configurations of this starter kit, they can be found in the following branches:
+## 📋 Tabla de contenidos
 
-- [workos](https://github.com/laravel/livewire-starter-kit/tree/workos) - if WorkOS is selected for authentication
+- [Descripción](#-descripción)
+- [Módulos](#-módulos)
+- [Tecnologías](#-tecnologías)
+- [Requisitos](#-requisitos)
+- [Instalación](#-instalación)
+- [Migraciones y Seeders](#-migraciones-y-seeders)
+- [Estructura de la base de datos](#-estructura-de-la-base-de-datos)
+- [Contribuciones](#-contribuciones)
+- [Licencia](#-licencia)
 
-## Official Documentation
+---
 
-Documentation for all Laravel starter kits can be found on the [Laravel website](https://laravel.com/docs/starter-kits).
+## 📌 Descripción
 
-## Contributing
+**Sistema de encuestas electorales** es un sistema web para la gestión de encuestas electorales. Permite crear encuestas con alcance nacional, regional, provincial o distrital, registrar candidatos vinculados a partidos políticos, y recolectar votos con mecanismos de detección de duplicados y comportamiento sospechoso.
 
-Thank you for considering contributing to our starter kit! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🧩 Módulos
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 👤 Gestión de Usuarios
+- CRUD de usuarios con control de acceso.
+- Autenticación y control de acceso mediante Filament.
 
-## License
+### 🗂️ Categorías
+- Agrupación de encuestas por tipo: nacionales, regionales, distritales, municipales, etc.
+- Slugs únicos por categoría.
 
-The Laravel + Livewire starter kit is open-sourced software licensed under the MIT license.
+### 🏛️ Partidos Políticos
+- Registro de partidos con nombre, siglas, logotipo y color representativo.
+- Vinculación de candidatos a sus respectivos partidos.
+
+### 📊 Encuestas (Polls)
+- Creación de encuestas con alcance: `nacional`, `regional`, `provincial` o `distrital`.
+- Estados: `borrador`, `activo`, `cerrado`, `archivado`.
+- Fechas de inicio y cierre configurables.
+- Asignación a una categoría y a un ámbito geográfico específico.
+
+### 🧑‍💼 Candidatos
+- Registro de candidatos por encuesta.
+- Vinculación con los partidos políticos.
+- Foto, biografía y número de lista.
+
+### 🗳️ Votos
+- Registro de votos con tipos: `válido`, `no sabe`, `ninguno`.
+- Prevención de duplicados mediante:
+  - `fingerprint` del navegador
+  - `composite_hash` único
+  - `poll_token` por sesión
+  - Registro de IP y user agent
+- Marcado de votos sospechosos.
+
+### ⚙️ Configuración del Sitio
+- Módulo de ajustes globales del sistema.
+
+---
+
+## 🛠️ Tecnologías
+
+| Tecnología | Versión |
+|---|---|
+| PHP | 8.2 o superior |
+| Laravel | 12.x |
+| Filament | 5.x |
+| Livewire | 4.x |
+| MySQL | 8.x |
+| Composer | 2.x |
+| Node.js | 18.x o superior |
+
+---
+
+## ✅ Requisitos
+
+- PHP >= 8.2 con extensiones: `pdo`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`
+- Composer >= 2.x
+- Node.js >= 18.x y NPM
+- MySQL >= 8.x
+- Git
+
+---
+
+## 🚀 Instalación
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/tu-usuario/sistemapoll-peru.git
+cd sistemapoll-peru
+```
+
+### 2. Instalar dependencias PHP
+```bash
+composer install
+```
+
+### 3. Instalar dependencias frontend
+```bash
+npm install && npm run build
+```
+
+### 4. Configurar el entorno
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 5. Configurar la base de datos en `.env`
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sistemapoll_peru
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+```
+
+---
+
+## 🗄️ Migraciones y Seeders
+
+### Ejecutar migraciones
+```bash
+php artisan migrate
+```
+
+### Ejecutar seeders
+```bash
+php artisan db:seed
+```
+
+### Credenciales del administrador
+```
+Email:    admin@example.com
+Password: 123456789
+```
+
+### Levantar el servidor local
+```bash
+php artisan serve
+```
+
+Web principal: `http://localhost:8000`
+
+Panel administrador: `http://localhost:8000/admin`
+
+---
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la [MIT License](LICENSE).
+
+---
