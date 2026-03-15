@@ -21,9 +21,6 @@ Sistema de encuestas electorales, diseñado para registrar, gestionar y visualiz
 - [Requisitos](#-requisitos)
 - [Instalación](#-instalación)
 - [Migraciones y Seeders](#-migraciones-y-seeders)
-- [Estructura de la base de datos](#-estructura-de-la-base-de-datos)
-- [Contribuciones](#-contribuciones)
-- [Licencia](#-licencia)
 
 ---
 
