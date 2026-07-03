@@ -95,11 +95,7 @@ Sistema de encuestas electorales, diseñado para registrar, gestionar y visualiz
 
 ## 🚀 Instalación
 
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/jairmmz/filament-vote.git
-cd sistemapoll-peru
-```
+### 1. Descomprimir el archivo zip
 
 ### 2. Instalar dependencias PHP
 ```bash
@@ -155,11 +151,5 @@ php artisan serve
 Web principal: `http://localhost:8000`
 
 Panel administrador: `http://localhost:8000/admin`
-
----
-
-## 📄 Licencia
-
-Este proyecto está licenciado bajo la [MIT License](LICENSE).
 
 ---
