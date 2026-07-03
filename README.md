@@ -97,7 +97,7 @@ Sistema de encuestas electorales, diseñado para registrar, gestionar y visualiz
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/tu-usuario/sistemapoll-peru.git
+git clone https://github.com/jairmmz/filament-vote.git
 cd sistemapoll-peru
 ```
 
