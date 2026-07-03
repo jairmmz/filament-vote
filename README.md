@@ -97,23 +97,29 @@ Sistema de encuestas electorales, diseñado para registrar, gestionar y visualiz
 
 ### 1. Descomprimir el archivo zip
 
-### 2. Instalar dependencias PHP
+
+### 2. Ir al directorio del proyecto
+```bash
+cd filament-vote
+```
+
+### 3. Instalar dependencias PHP
 ```bash
 composer install
 ```
 
-### 3. Instalar dependencias frontend
+### 4. Instalar dependencias frontend
 ```bash
 npm install && npm run build
 ```
 
-### 4. Configurar el entorno
+### 5. Configurar el entorno
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-### 5. Configurar la base de datos en `.env`
+### 6. Configurar la base de datos en `.env`
 ```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
